@@ -1,0 +1,29 @@
+{
+  "name": "@opengmb/mcp",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=../../.env src/index.ts",
+    "start": "tsx --env-file-if-exists=../../.env src/index.ts",
+    "typecheck": "tsc -p tsconfig.json",
+    "token:create": "tsx --env-file-if-exists=../../.env src/token-create.ts",
+    "token:revoke": "tsx --env-file-if-exists=../../.env src/token-revoke.ts",
+    "dev:seed-google": "tsx --env-file-if-exists=../../.env src/dev-seed-google.ts",
+    "audit:checkpoint-backfill": "tsx --env-file-if-exists=../../.env src/audit-checkpoint-backfill.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "@opengmb/core": "workspace:*",
+    "@opengmb/db": "workspace:*",
+    "zod": "^4.6.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "drizzle-orm": "^0.45.4",
+    "otplib": "^13.5.0",
+    "tsx": "^4.23.15",
+    "typescript": "5.9.3"
+  }
+}

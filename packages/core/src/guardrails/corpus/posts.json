@@ -1,0 +1,963 @@
+{
+  "defaults": {
+    "contentType": "post",
+    "packs": [],
+    "profile": "general",
+    "rating": null,
+    "reviewText": null,
+    "reviewerDisplayName": null,
+    "locationName": "Riverside Family Clinic",
+    "phone": "(713) 555-0142",
+    "staffNames": [],
+    "skipPositiveReviews": false,
+    "recentReplies": [],
+    "recentFiller": 0,
+    "post": {
+      "topicType": "STANDARD",
+      "alertType": null,
+      "cta": null,
+      "event": null,
+      "offer": null,
+      "media": []
+    }
+  },
+  "entries": [
+    {
+      "id": "p-pass-plain",
+      "reply": "Our spring schedule is posted. Book online via the button below.",
+      "context": {
+        "post": {
+          "cta": {
+            "actionType": "BOOK",
+            "url": "https://riverside.example.com/book"
+          }
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-pass-call-button",
+      "reply": "Questions about hours? Tap Call and our front desk will help.",
+      "context": {
+        "post": {
+          "cta": {
+            "actionType": "CALL"
+          }
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-pass-hours-and-prices",
+      "reply": "Open 9-5 Monday through Saturday. Save $500 on installs before 2026-12-31. Ages 5-12 welcome. Suite 200, 1234 Main Street, 77002-1234.",
+      "context": {},
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-pass-reply-rules-not-applied",
+      "reply": "Thrilled to hear you love us! Get a 20% discount with our free consultation, limited time. Thanks for visiting Riverside Family Clinic.",
+      "context": {},
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-pass-emoji-codepoints",
+      "reply": "\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00",
+      "context": {},
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-pass-exactly-1500",
+      "reply": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "context": {},
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-pass-event-no-summary",
+      "reply": "",
+      "context": {
+        "post": {
+          "topicType": "EVENT",
+          "event": {
+            "title": "Open house",
+            "startDate": "2026-11-02",
+            "startTime": "10:00",
+            "endDate": "2026-11-02",
+            "endTime": "14:00"
+          }
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-pass-event",
+      "reply": "Join us for coffee and a tour.",
+      "context": {
+        "post": {
+          "topicType": "EVENT",
+          "event": {
+            "title": "Open house",
+            "startDate": "2026-11-02",
+            "startTime": "10:00",
+            "endDate": "2026-11-02",
+            "endTime": "14:00"
+          },
+          "media": [
+            {
+              "sourceUrl": "https://cdn.example.com/a.jpg"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-pass-offer",
+      "reply": "Fresh start for fall.",
+      "context": {
+        "post": {
+          "topicType": "OFFER",
+          "event": {
+            "title": "Open house",
+            "startDate": "2026-11-02",
+            "startTime": "10:00",
+            "endDate": "2026-11-02",
+            "endTime": "14:00"
+          },
+          "offer": {
+            "couponCode": "FALL26",
+            "redeemOnlineUrl": "https://riverside.example.com/fall",
+            "termsConditions": "New customers only."
+          }
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-pass-event-no-times",
+      "reply": "One day only.",
+      "context": {
+        "post": {
+          "topicType": "EVENT",
+          "event": {
+            "title": "Sale day",
+            "startDate": "2026-11-02",
+            "endDate": "2026-11-02"
+          }
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-pass-one-image",
+      "reply": "New waiting room.",
+      "context": {
+        "post": {
+          "media": [
+            {
+              "sourceUrl": "https://cdn.example.com/room.jpg"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-pass-cta-url-not-in-text",
+      "reply": "Our new patient forms are online.",
+      "context": {
+        "post": {
+          "cta": {
+            "actionType": "LEARN_MORE",
+            "url": "https://riverside.example.com/forms"
+          }
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-pass-no-recent-reply-rules",
+      "reply": "Same words as before.",
+      "context": {
+        "recentReplies": ["Same words as before."]
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-summary-empty",
+      "reply": "",
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.summary"]
+      }
+    },
+    {
+      "id": "p-summary-blank-alert",
+      "reply": "  ",
+      "context": {
+        "post": {
+          "topicType": "ALERT",
+          "alertType": "COVID_19"
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.summary", "P.alert"]
+      }
+    },
+    {
+      "id": "p-phone-parens",
+      "reply": "Call us at (713) 555-0142 today.",
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.phone"]
+      }
+    },
+    {
+      "id": "p-phone-dashes",
+      "reply": "Text 713-555-0142 to book.",
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.phone"]
+      }
+    },
+    {
+      "id": "p-phone-dots-plus1",
+      "reply": "Reach us on +1 713.555.0142 anytime.",
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.phone"]
+      }
+    },
+    {
+      "id": "p-phone-plain-digits",
+      "reply": "Call 7135550142 now.",
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.phone"]
+      }
+    },
+    {
+      "id": "p-phone-local",
+      "reply": "Call 555-0142 for details.",
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.phone"]
+      }
+    },
+    {
+      "id": "p-phone-vanity",
+      "reply": "Dial 1-800-FLOWERS for bouquets.",
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.phone"]
+      }
+    },
+    {
+      "id": "p-phone-international",
+      "reply": "Ring +44 20 7946 0958 for UK enquiries.",
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.phone"]
+      }
+    },
+    {
+      "id": "p-phone-in-event-title",
+      "reply": "Join us.",
+      "context": {
+        "post": {
+          "topicType": "EVENT",
+          "event": {
+            "title": "Call 713-555-0142 to RSVP",
+            "startDate": "2026-11-02",
+            "startTime": "10:00",
+            "endDate": "2026-11-02",
+            "endTime": "14:00"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.phone"]
+      }
+    },
+    {
+      "id": "p-phone-in-offer-terms",
+      "reply": "Fall savings.",
+      "context": {
+        "post": {
+          "topicType": "OFFER",
+          "event": {
+            "title": "Open house",
+            "startDate": "2026-11-02",
+            "startTime": "10:00",
+            "endDate": "2026-11-02",
+            "endTime": "14:00"
+          },
+          "offer": {
+            "termsConditions": "Call (713) 555-0142 to redeem."
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.phone"]
+      }
+    },
+    {
+      "id": "p-length-1501",
+      "reply": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.length"]
+      }
+    },
+    {
+      "id": "p-length-long",
+      "reply": "Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. Long post. ",
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.length"]
+      }
+    },
+    {
+      "id": "p-images-two",
+      "reply": "Two pictures.",
+      "context": {
+        "post": {
+          "media": [
+            {
+              "sourceUrl": "https://cdn.example.com/a.jpg"
+            },
+            {
+              "sourceUrl": "https://cdn.example.com/b.jpg"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.images"]
+      }
+    },
+    {
+      "id": "p-images-bad-url",
+      "reply": "A picture.",
+      "context": {
+        "post": {
+          "media": [
+            {
+              "sourceUrl": "ftp://cdn.example.com/a.jpg"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.images"]
+      }
+    },
+    {
+      "id": "p-images-not-a-url",
+      "reply": "A picture.",
+      "context": {
+        "post": {
+          "media": [
+            {
+              "sourceUrl": "my photo.jpg"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.images"]
+      }
+    },
+    {
+      "id": "p-cta-book-no-url",
+      "reply": "Book now.",
+      "context": {
+        "post": {
+          "cta": {
+            "actionType": "BOOK"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.cta"]
+      }
+    },
+    {
+      "id": "p-cta-call-with-url",
+      "reply": "Call us.",
+      "context": {
+        "post": {
+          "cta": {
+            "actionType": "CALL",
+            "url": "https://riverside.example.com"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.cta"]
+      }
+    },
+    {
+      "id": "p-cta-bad-url",
+      "reply": "Learn more.",
+      "context": {
+        "post": {
+          "cta": {
+            "actionType": "LEARN_MORE",
+            "url": "not a url"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.cta"]
+      }
+    },
+    {
+      "id": "p-cta-unknown-type",
+      "reply": "Buy now.",
+      "context": {
+        "post": {
+          "cta": {
+            "actionType": "BUY",
+            "url": "https://riverside.example.com"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.cta"]
+      }
+    },
+    {
+      "id": "p-cta-offer-ignored-warn",
+      "reply": "Fall savings.",
+      "context": {
+        "post": {
+          "topicType": "OFFER",
+          "event": {
+            "title": "Open house",
+            "startDate": "2026-11-02",
+            "startTime": "10:00",
+            "endDate": "2026-11-02",
+            "endTime": "14:00"
+          },
+          "cta": {
+            "actionType": "SHOP",
+            "url": "https://riverside.example.com/shop"
+          }
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": ["P.cta"]
+      }
+    },
+    {
+      "id": "p-alert-covid-warns",
+      "reply": "Updated hours while we adapt.",
+      "context": {
+        "post": {
+          "topicType": "ALERT",
+          "alertType": "COVID_19"
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": ["P.alert"]
+      }
+    },
+    {
+      "id": "p-alert-no-type",
+      "reply": "Updated hours.",
+      "context": {
+        "post": {
+          "topicType": "ALERT"
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.alert"]
+      }
+    },
+    {
+      "id": "p-alert-unknown-type",
+      "reply": "Updated hours.",
+      "context": {
+        "post": {
+          "topicType": "ALERT",
+          "alertType": "FLU"
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.alert"]
+      }
+    },
+    {
+      "id": "p-alert-with-media",
+      "reply": "Updated hours.",
+      "context": {
+        "post": {
+          "topicType": "ALERT",
+          "alertType": "COVID_19",
+          "media": [
+            {
+              "sourceUrl": "https://cdn.example.com/a.jpg"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.alert"]
+      }
+    },
+    {
+      "id": "p-alert-type-on-standard",
+      "reply": "Updated hours.",
+      "context": {
+        "post": {
+          "alertType": "COVID_19"
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.alert"]
+      }
+    },
+    {
+      "id": "p-event-missing",
+      "reply": "Join us.",
+      "context": {
+        "post": {
+          "topicType": "EVENT"
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.event"]
+      }
+    },
+    {
+      "id": "p-event-no-title",
+      "reply": "Join us.",
+      "context": {
+        "post": {
+          "topicType": "EVENT",
+          "event": {
+            "title": " ",
+            "startDate": "2026-11-02",
+            "startTime": "10:00",
+            "endDate": "2026-11-02",
+            "endTime": "14:00"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.event"]
+      }
+    },
+    {
+      "id": "p-event-bad-date",
+      "reply": "Join us.",
+      "context": {
+        "post": {
+          "topicType": "EVENT",
+          "event": {
+            "title": "Open house",
+            "startDate": "2026-02-30",
+            "startTime": "10:00",
+            "endDate": "2026-11-02",
+            "endTime": "14:00"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.event"]
+      }
+    },
+    {
+      "id": "p-event-end-before-start",
+      "reply": "Join us.",
+      "context": {
+        "post": {
+          "topicType": "EVENT",
+          "event": {
+            "title": "Open house",
+            "startDate": "2026-11-02",
+            "startTime": "10:00",
+            "endDate": "2026-11-01",
+            "endTime": "14:00"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.event"]
+      }
+    },
+    {
+      "id": "p-event-end-time-before-start",
+      "reply": "Join us.",
+      "context": {
+        "post": {
+          "topicType": "EVENT",
+          "event": {
+            "title": "Open house",
+            "startDate": "2026-11-02",
+            "startTime": "10:00",
+            "endDate": "2026-11-02",
+            "endTime": "09:00"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.event"]
+      }
+    },
+    {
+      "id": "p-event-bad-time",
+      "reply": "Join us.",
+      "context": {
+        "post": {
+          "topicType": "EVENT",
+          "event": {
+            "title": "Open house",
+            "startDate": "2026-11-02",
+            "startTime": "25:00",
+            "endDate": "2026-11-02",
+            "endTime": "14:00"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.event"]
+      }
+    },
+    {
+      "id": "p-event-on-standard",
+      "reply": "Join us.",
+      "context": {
+        "post": {
+          "event": {
+            "title": "Open house",
+            "startDate": "2026-11-02",
+            "startTime": "10:00",
+            "endDate": "2026-11-02",
+            "endTime": "14:00"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.event"]
+      }
+    },
+    {
+      "id": "p-event-offer-needs-event",
+      "reply": "Fall savings.",
+      "context": {
+        "post": {
+          "topicType": "OFFER",
+          "offer": {
+            "couponCode": "X"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.event"]
+      }
+    },
+    {
+      "id": "p-event-offer-on-standard",
+      "reply": "Fall savings.",
+      "context": {
+        "post": {
+          "offer": {
+            "couponCode": "X"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.event"]
+      }
+    },
+    {
+      "id": "p-event-offer-bad-url",
+      "reply": "Fall savings.",
+      "context": {
+        "post": {
+          "topicType": "OFFER",
+          "event": {
+            "title": "Open house",
+            "startDate": "2026-11-02",
+            "startTime": "10:00",
+            "endDate": "2026-11-02",
+            "endTime": "14:00"
+          },
+          "offer": {
+            "redeemOnlineUrl": "redeem later"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["P.event"]
+      }
+    },
+    {
+      "id": "p-u7-url-in-summary",
+      "reply": "Details at www.riverside-clinic.com today.",
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["U7.url"]
+      }
+    },
+    {
+      "id": "p-u7-email",
+      "reply": "Email front@riverside-clinic.com to book.",
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["U7.email"]
+      }
+    },
+    {
+      "id": "p-u7-hashtag",
+      "reply": "Fall is here #fallsale",
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["U7.hashtag"]
+      }
+    },
+    {
+      "id": "p-hc-pass-clinical-services-ok",
+      "reply": "We now offer chiropractic adjustments and x-ray imaging for back pain and sciatica. Insurance accepted.",
+      "context": {
+        "packs": ["hipaa"],
+        "profile": "healthcare",
+        "skipPositiveReviews": true,
+        "staffNames": ["Maria Lopez"]
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-hc-pass-skip-positive-not-applied",
+      "reply": "Welcome to our new location. Book online via the button below.",
+      "context": {
+        "packs": ["hipaa"],
+        "profile": "healthcare",
+        "skipPositiveReviews": true,
+        "staffNames": ["Maria Lopez"]
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-hc-pass-date-not-applied",
+      "reply": "Open Monday and Friday, closed 11/27.",
+      "context": {
+        "packs": ["hipaa"],
+        "profile": "healthcare",
+        "skipPositiveReviews": true,
+        "staffNames": ["Maria Lopez"]
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-hc-h1-your-appointment",
+      "reply": "Book your appointment online today.",
+      "context": {
+        "packs": ["hipaa"],
+        "profile": "healthcare",
+        "skipPositiveReviews": true,
+        "staffNames": ["Maria Lopez"]
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["H1"]
+      }
+    },
+    {
+      "id": "p-hc-h1-great-to-see-you",
+      "reply": "It was great to see you at the fair.",
+      "context": {
+        "packs": ["hipaa"],
+        "profile": "healthcare",
+        "skipPositiveReviews": true,
+        "staffNames": ["Maria Lopez"]
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["H1"]
+      }
+    },
+    {
+      "id": "p-hc-provider",
+      "reply": "Meet Dr. Pratt, joining our team.",
+      "context": {
+        "packs": ["hipaa"],
+        "profile": "healthcare",
+        "skipPositiveReviews": true,
+        "staffNames": ["Maria Lopez"]
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["H2.provider"]
+      }
+    },
+    {
+      "id": "p-hc-staff",
+      "reply": "Welcome Maria Lopez to the front desk.",
+      "context": {
+        "packs": ["hipaa"],
+        "profile": "healthcare",
+        "skipPositiveReviews": true,
+        "staffNames": ["Maria Lopez"]
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["H2.staff"]
+      }
+    },
+    {
+      "id": "p-hc-general-workspace-no-h1",
+      "reply": "Book your appointment online today.",
+      "context": {},
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-legal-guarantee",
+      "reply": "We guarantee the best results for every case.",
+      "context": {
+        "packs": ["legal_ethics"],
+        "profile": "legal"
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["LE3.guarantee"]
+      }
+    },
+    {
+      "id": "p-legal-testimonial",
+      "reply": "Tell your friends about our free workshop.",
+      "context": {
+        "packs": ["legal_ethics"],
+        "profile": "legal"
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": ["LE4.testimonial"]
+      }
+    },
+    {
+      "id": "p-legal-reply-only-rules-not-applied",
+      "reply": "Tell us about your case. Court dates fill fast.",
+      "context": {
+        "packs": ["legal_ethics"],
+        "profile": "legal"
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "p-u8-style-em-dash",
+      "reply": "Spring check-ups are open — book a time that suits you.",
+      "context": {},
+      "expect": {
+        "ok": true,
+        "ruleIds": ["U8.style"]
+      }
+    },
+    {
+      "id": "p-legal-pass",
+      "reply": "Join our community legal workshop next month.",
+      "context": {
+        "packs": ["legal_ethics"],
+        "profile": "legal"
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    }
+  ]
+}

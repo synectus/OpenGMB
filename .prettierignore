@@ -1,0 +1,9 @@
+node_modules
+.next
+.turbo
+pnpm-lock.yaml
+docs
+CLAUDE.md
+packages/db/drizzle
+apps/web/app/_generated/
+.claude/

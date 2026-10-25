@@ -1,0 +1,3 @@
+#!/bin/sh
+# Optional: git config core.hooksPath .githooks
+exec pnpm gate

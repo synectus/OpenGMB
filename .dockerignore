@@ -1,0 +1,12 @@
+.git
+.claude
+.env
+.env.*
+!.env.example
+**/node_modules
+**/.next
+**/.turbo
+**/dist
+**/coverage
+**/*.tsbuildinfo
+.DS_Store

@@ -1,0 +1,145 @@
+{
+  "locations": [
+    {
+      "name": "locations/200000000000000001",
+      "account": "accounts/100000000000000000001",
+      "title": "Harbourlight Dental - Riverside",
+      "storeCode": "HD-RIV",
+      "languageCode": "en",
+      "phoneNumbers": { "primaryPhone": "+1 555 010 0101" },
+      "categories": {
+        "primaryCategory": { "name": "categories/gcid:dentist", "displayName": "Dentist" }
+      },
+      "storefrontAddress": {
+        "regionCode": "US",
+        "postalCode": "00001",
+        "administrativeArea": "TX",
+        "locality": "Exampleville",
+        "addressLines": ["100 Sample Street"]
+      },
+      "websiteUri": "https://riverside.harbourlight.example",
+      "regularHours": {
+        "periods": [
+          {
+            "openDay": "MONDAY",
+            "openTime": { "hours": 8 },
+            "closeDay": "MONDAY",
+            "closeTime": { "hours": 17 }
+          },
+          {
+            "openDay": "TUESDAY",
+            "openTime": { "hours": 8 },
+            "closeDay": "TUESDAY",
+            "closeTime": { "hours": 17 }
+          }
+        ]
+      },
+      "latlng": { "latitude": 29.4241, "longitude": -98.4936 },
+      "metadata": { "placeId": "FAKE_PLACE_ID_0001", "mapsUri": "https://maps.example/?cid=1" }
+    },
+    {
+      "name": "locations/200000000000000002",
+      "account": "accounts/100000000000000000001",
+      "title": "Harbourlight Dental - Hillcrest",
+      "storeCode": "HD-HIL",
+      "languageCode": "en",
+      "phoneNumbers": { "primaryPhone": "+1 555 010 0102" },
+      "categories": {
+        "primaryCategory": { "name": "categories/gcid:dentist", "displayName": "Dentist" }
+      },
+      "storefrontAddress": {
+        "regionCode": "US",
+        "postalCode": "00002",
+        "administrativeArea": "TX",
+        "locality": "Exampleville",
+        "addressLines": ["22 Placeholder Avenue", "Suite 4"]
+      },
+      "websiteUri": "https://hillcrest.harbourlight.example",
+      "regularHours": {
+        "periods": [
+          {
+            "openDay": "MONDAY",
+            "openTime": { "hours": 9 },
+            "closeDay": "MONDAY",
+            "closeTime": { "hours": 18 }
+          }
+        ]
+      },
+      "metadata": { "placeId": "FAKE_PLACE_ID_0002", "mapsUri": "https://maps.example/?cid=2" }
+    },
+    {
+      "name": "locations/200000000000000003",
+      "account": "accounts/100000000000000000002",
+      "title": "Example Trades Collective - Workshop",
+      "storeCode": "ETC-01",
+      "languageCode": "en-AU",
+      "phoneNumbers": { "primaryPhone": "+61 2 5550 0103" },
+      "categories": {
+        "primaryCategory": { "name": "categories/gcid:plumber", "displayName": "Plumber" }
+      },
+      "storefrontAddress": {
+        "regionCode": "AU",
+        "postalCode": "2000",
+        "administrativeArea": "NSW",
+        "locality": "Sampletown",
+        "addressLines": ["7 Fixture Lane"]
+      },
+      "websiteUri": "https://trades.example",
+      "regularHours": {
+        "periods": [
+          {
+            "openDay": "MONDAY",
+            "openTime": { "hours": 7 },
+            "closeDay": "MONDAY",
+            "closeTime": { "hours": 16 }
+          }
+        ]
+      },
+      "metadata": { "placeId": "FAKE_PLACE_ID_0003", "mapsUri": "https://maps.example/?cid=3" }
+    },
+    {
+      "name": "locations/200000000000000004",
+      "account": "accounts/100000000000000000002",
+      "title": "Example Trades Collective - Yard",
+      "storeCode": "ETC-02",
+      "languageCode": "en-AU",
+      "phoneNumbers": {
+        "primaryPhone": "+61 2 5550 0104"
+      },
+      "categories": {
+        "primaryCategory": {
+          "name": "categories/gcid:plumber",
+          "displayName": "Plumber"
+        }
+      },
+      "storefrontAddress": {
+        "regionCode": "AU",
+        "postalCode": "2000",
+        "administrativeArea": "NSW",
+        "locality": "Sampletown",
+        "addressLines": [
+          "9 Fixture Lane"
+        ]
+      },
+      "websiteUri": "https://trades.example",
+      "regularHours": {
+        "periods": [
+          {
+            "openDay": "MONDAY",
+            "openTime": {
+              "hours": 7
+            },
+            "closeDay": "MONDAY",
+            "closeTime": {
+              "hours": 16
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "placeId": "FAKE_PLACE_ID_0004",
+        "mapsUri": "https://maps.example/?cid=4"
+      }
+    }
+  ]
+}

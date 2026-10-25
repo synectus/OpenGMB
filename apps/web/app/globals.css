@@ -1,0 +1,128 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* dark: follows data-theme (forced) or the system preference when no theme is forced. */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
+/* Token values come from lib/theme/tokens.ts, rendered by app/layout.tsx. This only maps names. */
+@theme inline {
+  --font-sans: var(--font-inter), var(--font-devanagari, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), var(--font-devanagari, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-text: var(--brand-text);
+  --color-brand-tint: var(--brand-tint);
+  --color-overlay: var(--overlay);
+  --color-chart-1: var(--chart-1);
+  --color-good: var(--good);
+  --color-good-bg: var(--good-bg);
+  --color-good-border: var(--good-border);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-border: var(--warn-border);
+  --color-info: var(--info);
+  --color-info-bg: var(--info-bg);
+  --color-info-border: var(--info-border);
+  --color-bad: var(--bad);
+  --color-bad-bg: var(--bad-bg);
+  --color-bad-border: var(--bad-border);
+  --color-agent: var(--agent);
+  --color-agent-bg: var(--agent-bg);
+  --color-agent-border: var(--agent-border);
+  --color-band-1: var(--band-1);
+  --color-band-1-foreground: var(--band-1-foreground);
+  --color-band-2: var(--band-2);
+  --color-band-2-foreground: var(--band-2-foreground);
+  --color-band-3: var(--band-3);
+  --color-band-3-foreground: var(--band-3-foreground);
+  --color-band-4: var(--band-4);
+  --color-band-4-foreground: var(--band-4-foreground);
+  --color-band-5: var(--band-5);
+  --color-band-5-foreground: var(--band-5-foreground);
+  /* JetBrains Mono is loaded by the (site) layout (next/font sets --font-jetbrains-mono on its wrapper); inline so the var is read where it is set. */
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, Menlo, monospace;
+}
+
+@theme {
+  --radius-control: 10px;
+  --radius-panel: 16px;
+  --shadow-card: 0 1px 2px rgb(26 43 71 / 0.06);
+  --shadow-popover: 0 20px 48px rgb(26 43 71 / 0.16), 0 4px 12px rgb(26 43 71 / 0.08);
+  /* Marketing site palette (OpenSEO-like look, round 2, 2026-10-23). Fixed: the marketing pages do not follow the app theme. Values mirror lib/marketing/look.ts. */
+  --color-site-ground: #f7f3ee;
+  --color-site-card: #ffffff;
+  --color-site-surface: #f1ece5;
+  --color-site-line: #ddd5cb;
+  --color-site-line-strong: #bdb6ab;
+  --color-site-ink: #141414;
+  --color-site-muted: #5e5953;
+  --color-site-accent: #f96535;
+  --color-site-accent-text: #c2410c;
+  --color-site-good: #166534;
+  --color-site-bad: #b42318;
+  --color-site-bad-soft: #fdeeed;
+  --color-site-term-ok: #8fe3b0;
+  --color-site-term-dim: #3a362f;
+}
+
+@layer base {
+  /* Density (spec §2). Compact is the root default; the app layout sets data-density per user. */
+  :root {
+    --control-h: 2.25rem;
+    --row-py: 0.5rem;
+    --panel-p: 1.25rem;
+  }
+  [data-density="comfortable"] {
+    --control-h: 2.75rem;
+    --row-py: 0.875rem;
+    --panel-p: 1.5rem;
+  }
+  html {
+    font-family: var(--font-sans);
+  }
+  /* The sticky Preview/Propose bar covers the bottom of the viewport; keep focused fields above it. */
+  html:has([data-editor-bar]) {
+    scroll-padding-bottom: 5rem;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    /* Spec §2: figures line up in tables, tiles and counters. */
+    font-variant-numeric: tabular-nums;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
+}

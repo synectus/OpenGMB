@@ -1,0 +1,407 @@
+{
+  "defaults": {
+    "packs": ["hipaa"],
+    "profile": "healthcare",
+    "rating": 5,
+    "reviewText": "Staff was friendly and the wait was short.",
+    "reviewerDisplayName": "Maria Gonzalez",
+    "locationName": "Riverside Family Clinic",
+    "phone": "(713) 555-0142",
+    "staffNames": ["Rosa Diaz", "Chen"],
+    "skipPositiveReviews": false,
+    "recentReplies": [],
+    "recentFiller": 0
+  },
+  "entries": [
+    {
+      "id": "h-pass-community",
+      "reply": "Thank you for sharing this. We care about our community and read every review.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-care-team-generic",
+      "reply": "Our care team is here during office hours and reads every review.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-privacy-statement",
+      "reply": "Our team takes privacy seriously and reviews every note we receive.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-location-name-with-lexicon-word",
+      "reply": "The team at Harbor Spine Clinic reads every review.",
+      "context": { "locationName": "Harbor Spine Clinic" },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-phone-number-not-a-date",
+      "reply": "Questions can go to the front desk at (713) 555-0142 or 1-800-555-0199.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-hours-range-not-a-date",
+      "reply": "Our office is open 9-5 on weekdays and the front desk answers the phone.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-word-boundaries-billboard-claimed",
+      "reply": "The billboard on Main Street is ours, and nobody has claimed the parking spot.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-doctors-generic-lowercase",
+      "reply": "Our doctors and nurses read every review. The doctor is always open to feedback.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-physical-therapy-team-not-session",
+      "reply": "Our physical therapy team keeps a regular schedule and welcomes questions.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-reviewer-name-prefix-word",
+      "reply": "Mariana from scheduling returns calls within a day.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-reviewer-single-letter-tokens-ignored",
+      "reply": "Thank you for the note, J. We read every review.",
+      "context": { "reviewerDisplayName": "J S" },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-anonymous-google-user",
+      "reply": "Google lets us reply to every review we receive.",
+      "context": { "reviewerDisplayName": "A Google User" },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-staff-role-not-name",
+      "reply": "Our front desk lead reads these notes every morning.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-review-has-clinical-term-reply-does-not",
+      "reply": "Thank you for the feedback. We have passed it to the manager.",
+      "context": { "reviewText": "I came in with lower back pain and left in worse pain." },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-pass-review-text-null",
+      "reply": "Thank you for the feedback. We have passed it to the manager.",
+      "context": { "reviewText": null },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h4-pass-compliant-smart-quotes",
+      "reply": "To protect everyone’s privacy we can’t discuss details here, but we’d like to hear from you. Please call us at (713) 555-0142.",
+      "context": { "rating": 2 },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h4-pass-compliant-punctuation-differs-phone-unformatted",
+      "reply": "To protect everyone's privacy, we can't discuss details here - but we'd like to hear from you. You can reach us on 713-555-0142.",
+      "context": { "rating": 1 },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h4-pass-compliant-e164-phone-on-card",
+      "reply": "To protect everyone's privacy we can't discuss details here, but we'd like to hear from you. Call (713) 555-0142.",
+      "context": { "rating": 3, "phone": "+17135550142" },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h4-pass-no-phone-on-card",
+      "reply": "To protect everyone's privacy we can't discuss details here, but we'd like to hear from you.",
+      "context": { "rating": 2, "phone": null },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h4-pass-rating-four-needs-no-privacy-line",
+      "reply": "Thank you for writing. We pass every note to the manager.",
+      "context": { "rating": 4 },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h4-pass-rating-unknown",
+      "reply": "Thank you for writing. We pass every note to the manager.",
+      "context": { "rating": null },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h4-pass-rebuttal-wording-ignored-above-three-stars",
+      "reply": "That never happened here, and this is a false review.",
+      "context": { "rating": 4 },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h1-thanks-for-visiting",
+      "reply": "Thanks for visiting us!",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H1"] }
+    },
+    {
+      "id": "h1-glad-feeling-better-smart-quote",
+      "reply": "We’re glad you’re feeling better.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H1"] }
+    },
+    {
+      "id": "h1-see-you-next-appointment",
+      "reply": "See you at your next appointment.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H1"] }
+    },
+    {
+      "id": "h1-welcome-to-the-family",
+      "reply": "Welcome to the family!",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H1"] }
+    },
+    {
+      "id": "h1-your-recovery",
+      "reply": "We hope your recovery goes smoothly.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H1"] }
+    },
+    {
+      "id": "h1-hope-you-feel-better",
+      "reply": "We hope you feel better soon.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H1"] }
+    },
+    {
+      "id": "h1-thank-you-for-choosing-us",
+      "reply": "Thank you for choosing us.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H1"] }
+    },
+    {
+      "id": "h1-thanks-for-coming-in",
+      "reply": "Thanks for coming in.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H1"] }
+    },
+    {
+      "id": "h1-your-visit",
+      "reply": "We hope your visit was smooth.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H1"] }
+    },
+    {
+      "id": "h1-your-care",
+      "reply": "We hope your care met expectations.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H1"] }
+    },
+    {
+      "id": "h1-your-treatment",
+      "reply": "Your treatment matters to us.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H1"] }
+    },
+    {
+      "id": "h1-your-accident-also-clinical",
+      "reply": "Your accident case is in good hands.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H1", "H2.clinical"] }
+    },
+    {
+      "id": "h2-reviewer-first-name",
+      "reply": "Hello Maria, we read your note.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.reviewer"] }
+    },
+    {
+      "id": "h2-reviewer-last-name-any-case",
+      "reply": "Ms. GONZALEZ, thank you for writing.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.reviewer"] }
+    },
+    {
+      "id": "h2-reviewer-name-with-apostrophe",
+      "reply": "Hi O'Brien, we read your note.",
+      "context": { "reviewerDisplayName": "Shaun O’Brien" },
+      "expect": { "ok": false, "ruleIds": ["H2.reviewer"] }
+    },
+    {
+      "id": "h2-provider-dr-pattern",
+      "reply": "Dr. Pratt is always happy to hear from the community.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.provider"] }
+    },
+    {
+      "id": "h2-provider-doctor-pattern",
+      "reply": "Doctor Kim and the staff read this.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.provider"] }
+    },
+    {
+      "id": "h2-staff-full-name",
+      "reply": "Rosa Diaz leads our front desk.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.staff"] }
+    },
+    {
+      "id": "h2-staff-single-name-entry",
+      "reply": "Chen reads these notes every morning.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.staff"] }
+    },
+    {
+      "id": "h2-clinical-conditions",
+      "reply": "We treat back pain and whiplash every week.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.clinical"] }
+    },
+    {
+      "id": "h2-clinical-insurance-billing",
+      "reply": "Questions about insurance or billing? Call the front desk.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.clinical"] }
+    },
+    {
+      "id": "h2-clinical-attorney",
+      "reply": "Our attorney referrals are handled separately.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.clinical"] }
+    },
+    {
+      "id": "h2-clinical-imaging",
+      "reply": "We keep the MRI and x-ray rooms spotless.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.clinical"] }
+    },
+    {
+      "id": "h2-clinical-adjustment-and-session",
+      "reply": "A chiropractic adjustment or a physical therapy session is never rushed.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.clinical"] }
+    },
+    {
+      "id": "h2-date-weekday",
+      "reply": "We were open Monday and the line was short.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.date"] }
+    },
+    {
+      "id": "h2-date-month-day-ordinal",
+      "reply": "Thank you for the note about March 3rd.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.date"] }
+    },
+    {
+      "id": "h2-date-slash-with-year",
+      "reply": "We looked at 3/14/2026 and have passed it on.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.date"] }
+    },
+    {
+      "id": "h2-date-iso",
+      "reply": "Noted for 2026-03-14 and shared with the manager.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["H2.date"] }
+    },
+    {
+      "id": "h2-echo-extends-lexicon-term",
+      "reply": "We are sorry about the lower back pain.",
+      "context": { "reviewText": "I came in with lower back pain and left in worse pain." },
+      "expect": { "ok": false, "ruleIds": ["H2.clinical", "H2.echo"] }
+    },
+    {
+      "id": "h4-missing-privacy-line",
+      "reply": "Please call us at (713) 555-0142 so we can talk.",
+      "context": { "rating": 2 },
+      "expect": { "ok": false, "ruleIds": ["H4.privacy-line"] }
+    },
+    {
+      "id": "h4-partial-privacy-line-not_enough",
+      "reply": "We can't discuss details here. Please call (713) 555-0142.",
+      "context": { "rating": 3 },
+      "expect": { "ok": false, "ruleIds": ["H4.privacy-line"] }
+    },
+    {
+      "id": "h4-missing-phone",
+      "reply": "To protect everyone's privacy we can't discuss details here, but we'd like to hear from you.",
+      "context": { "rating": 2 },
+      "expect": { "ok": false, "ruleIds": ["H4.phone"] }
+    },
+    {
+      "id": "h4-wrong-phone",
+      "reply": "To protect everyone's privacy we can't discuss details here, but we'd like to hear from you. Call (713) 555-9999.",
+      "context": { "rating": 1 },
+      "expect": { "ok": false, "ruleIds": ["H4.phone"] }
+    },
+    {
+      "id": "h4-missing-both",
+      "reply": "We are sorry to hear this.",
+      "context": { "rating": 1 },
+      "expect": { "ok": false, "ruleIds": ["H4.privacy-line", "H4.phone"] }
+    },
+    {
+      "id": "h4-rebuttal-never-happened",
+      "reply": "To protect everyone's privacy we can't discuss details here, but we'd like to hear from you. Call (713) 555-0142. That never happened.",
+      "context": { "rating": 2 },
+      "expect": { "ok": false, "ruleIds": ["H4.rebuttal"] }
+    },
+    {
+      "id": "h4-rebuttal-not-true-smart-quote",
+      "reply": "To protect everyone's privacy we can't discuss details here, but we'd like to hear from you. Call (713) 555-0142. That’s not true.",
+      "context": { "rating": 1 },
+      "expect": { "ok": false, "ruleIds": ["H4.rebuttal"] }
+    },
+    {
+      "id": "h4-rebuttal-lying-and-false-review",
+      "reply": "To protect everyone's privacy we can't discuss details here, but we'd like to hear from you. Call (713) 555-0142. You are lying and this is a false review.",
+      "context": { "rating": 2 },
+      "expect": { "ok": false, "ruleIds": ["H4.rebuttal"] }
+    },
+    {
+      "id": "h4-rebuttal-no-record-also-h1",
+      "reply": "To protect everyone's privacy we can't discuss details here, but we'd like to hear from you. Call (713) 555-0142. We have no record of your visit.",
+      "context": { "rating": 2 },
+      "expect": { "ok": false, "ruleIds": ["H1", "H4.rebuttal"] }
+    },
+    {
+      "id": "hs-skip-positive-five-star",
+      "reply": "Thank you for the review.",
+      "context": { "rating": 5, "skipPositiveReviews": true },
+      "expect": { "ok": false, "ruleIds": ["H.skip-positive"] }
+    },
+    {
+      "id": "hs-skip-positive-four-star",
+      "reply": "Thank you for the review.",
+      "context": { "rating": 4, "skipPositiveReviews": true },
+      "expect": { "ok": false, "ruleIds": ["H.skip-positive"] }
+    },
+    {
+      "id": "hs-pass-skip-on-but-three-star-compliant",
+      "reply": "To protect everyone's privacy we can't discuss details here, but we'd like to hear from you. Call (713) 555-0142.",
+      "context": { "rating": 3, "skipPositiveReviews": true },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "hs-pass-skip-on-rating-unknown",
+      "reply": "Thank you for the review.",
+      "context": { "rating": null, "skipPositiveReviews": true },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "h-universal-still-runs-with-hipaa",
+      "reply": "Thrilled to hear from you. See riverside.example.com for hours.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U4", "U7.url"] }
+    }
+  ]
+}

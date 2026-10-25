@@ -1,0 +1,53 @@
+{
+  "url": "https://mybusinessbusinessinformation.googleapis.com/v1/locations/1000000000000000001/attributes",
+  "status": 200,
+  "body": {
+    "name": "locations/1000000000000000001/attributes",
+    "attributes": [
+      {
+        "name": "attributes/has_onsite_parking",
+        "valueType": "BOOL",
+        "values": [true]
+      },
+      {
+        "name": "attributes/has_parking_lot_free",
+        "valueType": "BOOL",
+        "values": [true]
+      },
+      {
+        "name": "attributes/has_parking_garage_free",
+        "valueType": "BOOL",
+        "values": [true]
+      },
+      {
+        "name": "attributes/has_parking_street_free",
+        "valueType": "BOOL",
+        "values": [true]
+      },
+      {
+        "name": "attributes/requires_appointments",
+        "valueType": "BOOL",
+        "values": [true]
+      },
+      {
+        "name": "attributes/has_onsite_services",
+        "valueType": "BOOL",
+        "values": [true]
+      },
+      {
+        "name": "attributes/offers_online_appointments",
+        "valueType": "BOOL",
+        "values": [true]
+      },
+      {
+        "name": "attributes/url_whatsapp",
+        "valueType": "URL",
+        "uriValues": [
+          {
+            "uri": "https://example.test/uri"
+          }
+        ]
+      }
+    ]
+  }
+}

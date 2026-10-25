@@ -1,0 +1,167 @@
+{
+  "defaults": {
+    "packs": ["legal_ethics"],
+    "profile": "legal",
+    "rating": 2,
+    "reviewText": "They never called me back.",
+    "reviewerDisplayName": "Daniel Reyes",
+    "locationName": "Gonzalez & Pratt Law Firm",
+    "phone": "(713) 555-0142",
+    "staffNames": [],
+    "skipPositiveReviews": false,
+    "recentReplies": [],
+    "recentFiller": 0
+  },
+  "entries": [
+    {
+      "id": "le-pass-restrained",
+      "reply": "We take every concern seriously and our office is available during business hours. Please call (713) 555-0142.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "le-pass-our-clients-plural-generic",
+      "reply": "We care about our clients and their privacy, and we hold ourselves to professional standards.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "le-pass-location-name-with-court",
+      "reply": "The team at Fair Court Law reads every review.",
+      "context": { "locationName": "Fair Court Law" },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "le-pass-courtesy-not-court",
+      "reply": "We aim to treat everyone with courtesy, whatever the situation.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "le-pass-no-promises",
+      "reply": "We cannot make promises about outcomes and we do not discuss specifics online.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "le-pass-phone-number-is-not-a-dollar-amount",
+      "reply": "You can reach the office on 713-555-0142 or 1-800-555-0199.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "le1-thank-you-for-choosing-us-as-attorney",
+      "reply": "Thank you for choosing us as your attorney.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE1.relationship"] }
+    },
+    {
+      "id": "le1-we-represented-you",
+      "reply": "We represented you with care and are sorry you feel otherwise.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE1.relationship"] }
+    },
+    {
+      "id": "le1-as-your-lawyer",
+      "reply": "As your lawyer, I wanted to explain what happened.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE1.relationship"] }
+    },
+    {
+      "id": "le1-your-case",
+      "reply": "Your case was important to everyone here.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE1.relationship"] }
+    },
+    {
+      "id": "le1-our-client",
+      "reply": "Our client deserved a better experience.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE1.relationship"] }
+    },
+    {
+      "id": "le2-settlement-and-amount-and-trial",
+      "reply": "The settlement was $12,000 after the trial.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE2.case-facts"] }
+    },
+    {
+      "id": "le2-judge-and-court",
+      "reply": "The judge ruled in court last week.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE2.case-facts"] }
+    },
+    {
+      "id": "le2-verdict",
+      "reply": "The verdict speaks for itself.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE2.case-facts"] }
+    },
+    {
+      "id": "le2-dollar-amount-only",
+      "reply": "We recovered $2,500 in that matter.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE2.case-facts"] }
+    },
+    {
+      "id": "le2-lawsuit",
+      "reply": "A lawsuit like that takes time.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE2.case-facts"] }
+    },
+    {
+      "id": "le3-guarantee",
+      "reply": "We guarantee results for every person who calls.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE3.guarantee"] }
+    },
+    {
+      "id": "le3-we-always-win",
+      "reply": "We always win for people in your position.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE3.guarantee"] }
+    },
+    {
+      "id": "le3-one-hundred-percent",
+      "reply": "We give 100% to everyone who calls.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE3.guarantee"] }
+    },
+    {
+      "id": "le3-best-results",
+      "reply": "We deliver the best results in Texas.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE3.guarantee"] }
+    },
+    {
+      "id": "le3-never-lose",
+      "reply": "We never lose, so call the office.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["LE3.guarantee"] }
+    },
+    {
+      "id": "le4-recommend-us-warn-only",
+      "reply": "If you ever need help again, we hope you recommend us to your friends.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": ["LE4.testimonial"] }
+    },
+    {
+      "id": "le4-like-you-our-clients-warn-only",
+      "reply": "Like you, our clients tell us what to improve, and we listen.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": ["LE4.testimonial"] }
+    },
+    {
+      "id": "le4-satisfied-clients-warn-only",
+      "reply": "Many satisfied clients have written to us.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": ["LE4.testimonial"] }
+    },
+    {
+      "id": "le-universal-still-runs",
+      "reply": "Please see riverside.example.com for hours.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U7.url"] }
+    }
+  ]
+}

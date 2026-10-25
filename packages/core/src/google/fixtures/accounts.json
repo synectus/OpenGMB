@@ -1,0 +1,22 @@
+{
+  "accounts": [
+    {
+      "name": "accounts/100000000000000000001",
+      "accountName": "Harbourlight Dental Group",
+      "type": "ORGANIZATION",
+      "role": "OWNER",
+      "state": { "status": "VERIFIED" },
+      "verificationState": "VERIFIED",
+      "vettedState": "NOT_VETTED"
+    },
+    {
+      "name": "accounts/100000000000000000002",
+      "accountName": "Example Trades Collective",
+      "type": "LOCATION_GROUP",
+      "role": "MANAGER",
+      "state": { "status": "UNVERIFIED" },
+      "verificationState": "UNVERIFIED",
+      "vettedState": "NOT_VETTED"
+    }
+  ]
+}

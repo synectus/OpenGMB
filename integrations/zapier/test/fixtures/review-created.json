@@ -1,0 +1,21 @@
+{
+  "type": "review.created",
+  "test": false,
+  "createdAt": "2026-10-24T01:00:00.000Z",
+  "data": {
+    "review": {
+      "id": "5b0f6a1e-6b8e-4c1a-9a53-0d6c2c1f0a01",
+      "workspaceId": "00000000-0000-4000-8000-000000000001",
+      "workspaceName": "Acme Dental",
+      "locationId": "00000000-0000-4000-8000-000000000002",
+      "locationName": "Acme Dental Downtown",
+      "googleReviewName": "accounts/1/locations/2/reviews/abc",
+      "starRating": 2,
+      "comment": "Long wait.",
+      "reviewerName": "Sam",
+      "createTime": "2026-10-24T00:59:00.000Z",
+      "updateTime": "2026-10-24T00:59:00.000Z",
+      "appUrl": "https://opengmb.example.com/reviews?review=5b0f6a1e-6b8e-4c1a-9a53-0d6c2c1f0a01"
+    }
+  }
+}

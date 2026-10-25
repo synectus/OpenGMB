@@ -1,0 +1,18 @@
+{
+  "note": "Synthetic, not recorded from Google. Covers what the live profile fixture lacks: prices on free-form and structured items, in two categories.",
+  "body": {
+    "name": "locations/1000000000000000002",
+    "title": "Synthetic Priced Services",
+    "categories": {
+      "primaryCategory": { "name": "categories/gcid:dentist" },
+      "additionalCategories": [{ "name": "categories/gcid:cosmetic_dentist" }]
+    },
+    "serviceItems": [
+      { "structuredServiceItem": { "serviceTypeId": "job_type_id:teeth_whitening", "description": "In-chair whitening." }, "price": { "currencyCode": "USD", "units": "299" } },
+      { "structuredServiceItem": { "serviceTypeId": "job_type_id:cleaning", "description": "Hygiene visit." } },
+      { "freeFormServiceItem": { "category": "categories/gcid:dentist", "label": { "displayName": "Check-up", "description": "Exam and X-rays.", "languageCode": "en" } }, "price": { "currencyCode": "USD", "units": "80", "nanos": 500000000 } },
+      { "freeFormServiceItem": { "category": "categories/gcid:cosmetic_dentist", "label": { "displayName": "Veneers" } }, "price": { "currencyCode": "USD", "units": "1200" } },
+      { "freeFormServiceItem": { "category": "categories/gcid:cosmetic_dentist", "label": { "displayName": "Smile consult", "description": "Free first visit." } } }
+    ]
+  }
+}

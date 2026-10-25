@@ -1,0 +1,5 @@
+{
+  "url": "https://mybusiness.googleapis.com/v4/accounts/100000000000000000001/locations/1000000000000000001/media/customers",
+  "status": 200,
+  "body": {}
+}

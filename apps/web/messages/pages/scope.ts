@@ -1,0 +1,40 @@
+import { namespace } from "./define";
+
+export default namespace({
+  en: {
+    allClients: "All clients",
+    current: "(current)",
+    chooseScope: "Choose scope",
+    find: "Find a client or location",
+    scopes: "Scopes",
+    searching: "Searching...",
+    noMatch: "No client or location matches.",
+    clients: "Clients",
+    showMore: "Show more",
+    followsYou: "The choice follows you to every page until you change it.",
+  },
+  hi: {
+    allClients: "सभी ग्राहक",
+    current: "(चुना हुआ)",
+    chooseScope: "दायरा चुनें",
+    find: "ग्राहक या स्थान खोजें",
+    scopes: "दायरे",
+    searching: "खोज रहे हैं...",
+    noMatch: "कोई ग्राहक या स्थान नहीं मिला।",
+    clients: "ग्राहक",
+    showMore: "और दिखाएँ",
+    followsYou: "आपकी पसंद हर पेज पर तब तक रहती है जब तक आप उसे बदल न दें।",
+  },
+  es: {
+    allClients: "Todos los clientes",
+    current: "(actual)",
+    chooseScope: "Elegir ámbito",
+    find: "Buscar un cliente o ubicación",
+    scopes: "Ámbitos",
+    searching: "Buscando...",
+    noMatch: "Ningún cliente ni ubicación coincide.",
+    clients: "Clientes",
+    showMore: "Mostrar más",
+    followsYou: "Tu elección te acompaña en todas las páginas hasta que la cambies.",
+  },
+});

@@ -1,0 +1,3265 @@
+{
+  "url": "https://mybusinessbusinessinformation.googleapis.com/v1/locations/1000000000000000001:getGoogleUpdated",
+  "status": 200,
+  "body": {
+    "location": {
+      "name": "locations/1000000000000000001",
+      "title": "Example Business",
+      "phoneNumbers": {
+        "primaryPhone": "+1 555 010 0000"
+      },
+      "categories": {
+        "primaryCategory": {
+          "name": "categories/gcid:internet_marketing_service",
+          "displayName": "Internet marketing service",
+          "serviceTypes": [
+            {
+              "serviceTypeId": "job_type_id:affiliate_marketing",
+              "displayName": "Affiliate marketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:billboard_design_and_consulting",
+              "displayName": "Billboard design and consulting"
+            },
+            {
+              "serviceTypeId": "job_type_id:branding",
+              "displayName": "Branding"
+            },
+            {
+              "serviceTypeId": "job_type_id:business_to_business",
+              "displayName": "Business to Business"
+            },
+            {
+              "serviceTypeId": "job_type_id:content_management",
+              "displayName": "Content management"
+            },
+            {
+              "serviceTypeId": "job_type_id:digital_marketing",
+              "displayName": "Digital marketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:direct_mail",
+              "displayName": "Direct mail"
+            },
+            {
+              "serviceTypeId": "job_type_id:e_commerce",
+              "displayName": "E-commerce"
+            },
+            {
+              "serviceTypeId": "job_type_id:email_marketing",
+              "displayName": "Email marketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:graphic_design",
+              "displayName": "Graphic design"
+            },
+            {
+              "serviceTypeId": "job_type_id:lead_generation",
+              "displayName": "Lead generation"
+            },
+            {
+              "serviceTypeId": "job_type_id:link_building",
+              "displayName": "Link building"
+            },
+            {
+              "serviceTypeId": "job_type_id:logo_design",
+              "displayName": "Logo design"
+            },
+            {
+              "serviceTypeId": "job_type_id:marketing_strategy_consultation",
+              "displayName": "Marketing strategy consultation"
+            },
+            {
+              "serviceTypeId": "job_type_id:online_lead_generation",
+              "displayName": "Online lead generation"
+            },
+            {
+              "serviceTypeId": "job_type_id:outdoor_advertising",
+              "displayName": "Outdoor advertising"
+            },
+            {
+              "serviceTypeId": "job_type_id:paid_advertising",
+              "displayName": "Paid advertising"
+            },
+            {
+              "serviceTypeId": "job_type_id:pay_per_click_consulting",
+              "displayName": "Pay-per-click consulting"
+            },
+            {
+              "serviceTypeId": "job_type_id:print_ads",
+              "displayName": "Print ads"
+            },
+            {
+              "serviceTypeId": "job_type_id:radio",
+              "displayName": "Radio"
+            },
+            {
+              "serviceTypeId": "job_type_id:search_engine_optimization",
+              "displayName": "Search engine optimisation"
+            },
+            {
+              "serviceTypeId": "job_type_id:social_media_marketing",
+              "displayName": "Social media marketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:technical_audits",
+              "displayName": "Technical audits"
+            },
+            {
+              "serviceTypeId": "job_type_id:telemarketing",
+              "displayName": "Telemarketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:tv_and_video",
+              "displayName": "TV & video"
+            },
+            {
+              "serviceTypeId": "job_type_id:web_design",
+              "displayName": "Web design"
+            },
+            {
+              "serviceTypeId": "job_type_id:web_marketing",
+              "displayName": "Web marketing"
+            }
+          ],
+          "moreHoursTypes": [
+            {
+              "hoursTypeId": "ACCESS",
+              "displayName": "Access",
+              "localizedDisplayName": "Access"
+            },
+            {
+              "hoursTypeId": "BREAKFAST",
+              "displayName": "Breakfast",
+              "localizedDisplayName": "Breakfast"
+            },
+            {
+              "hoursTypeId": "BRUNCH",
+              "displayName": "Brunch",
+              "localizedDisplayName": "Brunch"
+            },
+            {
+              "hoursTypeId": "DELIVERY",
+              "displayName": "Delivery",
+              "localizedDisplayName": "Delivery"
+            },
+            {
+              "hoursTypeId": "DINNER",
+              "displayName": "Dinner",
+              "localizedDisplayName": "Dinner"
+            },
+            {
+              "hoursTypeId": "DRIVE_THROUGH",
+              "displayName": "Drive through",
+              "localizedDisplayName": "Drive-through"
+            },
+            {
+              "hoursTypeId": "HAPPY_HOUR",
+              "displayName": "Happy hours",
+              "localizedDisplayName": "Happy hours"
+            },
+            {
+              "hoursTypeId": "KITCHEN",
+              "displayName": "Kitchen",
+              "localizedDisplayName": "Kitchen"
+            },
+            {
+              "hoursTypeId": "LUNCH",
+              "displayName": "Lunch",
+              "localizedDisplayName": "Lunch"
+            },
+            {
+              "hoursTypeId": "ONLINE_SERVICE_HOURS",
+              "displayName": "Online service hours",
+              "localizedDisplayName": "Online operating hours"
+            },
+            {
+              "hoursTypeId": "PICKUP",
+              "displayName": "Pickup",
+              "localizedDisplayName": "Pick-up"
+            },
+            {
+              "hoursTypeId": "TAKEOUT",
+              "displayName": "Takeout",
+              "localizedDisplayName": "Takeaway"
+            },
+            {
+              "hoursTypeId": "SENIOR_HOURS",
+              "displayName": "Senior hours",
+              "localizedDisplayName": "Hours for the elderly"
+            }
+          ]
+        },
+        "additionalCategories": [
+          {
+            "name": "categories/gcid:back_office",
+            "displayName": "Back Office",
+            "moreHoursTypes": [
+              {
+                "hoursTypeId": "ACCESS",
+                "displayName": "Access",
+                "localizedDisplayName": "Access"
+              },
+              {
+                "hoursTypeId": "BREAKFAST",
+                "displayName": "Breakfast",
+                "localizedDisplayName": "Breakfast"
+              },
+              {
+                "hoursTypeId": "BRUNCH",
+                "displayName": "Brunch",
+                "localizedDisplayName": "Brunch"
+              },
+              {
+                "hoursTypeId": "DELIVERY",
+                "displayName": "Delivery",
+                "localizedDisplayName": "Delivery"
+              },
+              {
+                "hoursTypeId": "DINNER",
+                "displayName": "Dinner",
+                "localizedDisplayName": "Dinner"
+              },
+              {
+                "hoursTypeId": "DRIVE_THROUGH",
+                "displayName": "Drive through",
+                "localizedDisplayName": "Drive-through"
+              },
+              {
+                "hoursTypeId": "HAPPY_HOUR",
+                "displayName": "Happy hours",
+                "localizedDisplayName": "Happy hours"
+              },
+              {
+                "hoursTypeId": "KITCHEN",
+                "displayName": "Kitchen",
+                "localizedDisplayName": "Kitchen"
+              },
+              {
+                "hoursTypeId": "LUNCH",
+                "displayName": "Lunch",
+                "localizedDisplayName": "Lunch"
+              },
+              {
+                "hoursTypeId": "ONLINE_SERVICE_HOURS",
+                "displayName": "Online service hours",
+                "localizedDisplayName": "Online operating hours"
+              },
+              {
+                "hoursTypeId": "PICKUP",
+                "displayName": "Pickup",
+                "localizedDisplayName": "Pick-up"
+              },
+              {
+                "hoursTypeId": "TAKEOUT",
+                "displayName": "Takeout",
+                "localizedDisplayName": "Takeaway"
+              },
+              {
+                "hoursTypeId": "SENIOR_HOURS",
+                "displayName": "Senior hours",
+                "localizedDisplayName": "Hours for the elderly"
+              }
+            ]
+          },
+          {
+            "name": "categories/gcid:software_company",
+            "displayName": "Software company",
+            "serviceTypes": [
+              {
+                "serviceTypeId": "job_type_id:application_development",
+                "displayName": "Application development"
+              },
+              {
+                "serviceTypeId": "job_type_id:big_data_consulting_and_implementation",
+                "displayName": "Big data consulting & implementation"
+              },
+              {
+                "serviceTypeId": "job_type_id:business_to_business",
+                "displayName": "Business to Business"
+              },
+              {
+                "serviceTypeId": "job_type_id:cloud_services",
+                "displayName": "Cloud services"
+              },
+              {
+                "serviceTypeId": "job_type_id:computer_upgrades",
+                "displayName": "Computer upgrades"
+              },
+              {
+                "serviceTypeId": "job_type_id:data_center_management",
+                "displayName": "Data centre management"
+              },
+              {
+                "serviceTypeId": "job_type_id:data_quality_management",
+                "displayName": "Data quality management"
+              },
+              {
+                "serviceTypeId": "job_type_id:enterprise_software_development",
+                "displayName": "Enterprise software development"
+              },
+              {
+                "serviceTypeId": "job_type_id:it_consulting",
+                "displayName": "IT consulting"
+              },
+              {
+                "serviceTypeId": "job_type_id:mobile_app_development",
+                "displayName": "Mobile app development"
+              },
+              {
+                "serviceTypeId": "job_type_id:platform_consulting",
+                "displayName": "Platform consulting"
+              },
+              {
+                "serviceTypeId": "job_type_id:security_services_management",
+                "displayName": "Security services management"
+              },
+              {
+                "serviceTypeId": "job_type_id:software_consulting",
+                "displayName": "Software consulting"
+              },
+              {
+                "serviceTypeId": "job_type_id:software_development",
+                "displayName": "Software development"
+              },
+              {
+                "serviceTypeId": "job_type_id:software_development_outsourcing",
+                "displayName": "Software development outsourcing"
+              },
+              {
+                "serviceTypeId": "job_type_id:solution_consulting",
+                "displayName": "Solution consulting"
+              }
+            ],
+            "moreHoursTypes": [
+              {
+                "hoursTypeId": "ACCESS",
+                "displayName": "Access",
+                "localizedDisplayName": "Access"
+              },
+              {
+                "hoursTypeId": "BREAKFAST",
+                "displayName": "Breakfast",
+                "localizedDisplayName": "Breakfast"
+              },
+              {
+                "hoursTypeId": "BRUNCH",
+                "displayName": "Brunch",
+                "localizedDisplayName": "Brunch"
+              },
+              {
+                "hoursTypeId": "DELIVERY",
+                "displayName": "Delivery",
+                "localizedDisplayName": "Delivery"
+              },
+              {
+                "hoursTypeId": "DINNER",
+                "displayName": "Dinner",
+                "localizedDisplayName": "Dinner"
+              },
+              {
+                "hoursTypeId": "DRIVE_THROUGH",
+                "displayName": "Drive through",
+                "localizedDisplayName": "Drive-through"
+              },
+              {
+                "hoursTypeId": "HAPPY_HOUR",
+                "displayName": "Happy hours",
+                "localizedDisplayName": "Happy hours"
+              },
+              {
+                "hoursTypeId": "KITCHEN",
+                "displayName": "Kitchen",
+                "localizedDisplayName": "Kitchen"
+              },
+              {
+                "hoursTypeId": "LUNCH",
+                "displayName": "Lunch",
+                "localizedDisplayName": "Lunch"
+              },
+              {
+                "hoursTypeId": "ONLINE_SERVICE_HOURS",
+                "displayName": "Online service hours",
+                "localizedDisplayName": "Online operating hours"
+              },
+              {
+                "hoursTypeId": "PICKUP",
+                "displayName": "Pickup",
+                "localizedDisplayName": "Pick-up"
+              },
+              {
+                "hoursTypeId": "TAKEOUT",
+                "displayName": "Takeout",
+                "localizedDisplayName": "Takeaway"
+              },
+              {
+                "hoursTypeId": "SENIOR_HOURS",
+                "displayName": "Senior hours",
+                "localizedDisplayName": "Hours for the elderly"
+              }
+            ]
+          },
+          {
+            "name": "categories/gcid:website_designer",
+            "displayName": "Web Designer",
+            "serviceTypes": [
+              {
+                "serviceTypeId": "job_type_id:a_b_testing",
+                "displayName": "A/B testing"
+              },
+              {
+                "serviceTypeId": "job_type_id:application_development",
+                "displayName": "Application development"
+              },
+              {
+                "serviceTypeId": "job_type_id:business_card_design",
+                "displayName": "Business card design"
+              },
+              {
+                "serviceTypeId": "job_type_id:content_management",
+                "displayName": "Content management"
+              },
+              {
+                "serviceTypeId": "job_type_id:conversion_rate_optimization",
+                "displayName": "Conversion rate optimisation"
+              },
+              {
+                "serviceTypeId": "job_type_id:custom_software",
+                "displayName": "Custom software"
+              },
+              {
+                "serviceTypeId": "job_type_id:digital_marketing",
+                "displayName": "Digital marketing"
+              },
+              {
+                "serviceTypeId": "job_type_id:digital_pr",
+                "displayName": "Digital PR"
+              },
+              {
+                "serviceTypeId": "job_type_id:domain_hosting",
+                "displayName": "Domain hosting"
+              },
+              {
+                "serviceTypeId": "job_type_id:email_marketing",
+                "displayName": "Email marketing"
+              },
+              {
+                "serviceTypeId": "job_type_id:graphic_design",
+                "displayName": "Graphic design"
+              },
+              {
+                "serviceTypeId": "job_type_id:html",
+                "displayName": "HTML"
+              },
+              {
+                "serviceTypeId": "job_type_id:java",
+                "displayName": "Java"
+              },
+              {
+                "serviceTypeId": "job_type_id:link_building",
+                "displayName": "Link building"
+              },
+              {
+                "serviceTypeId": "job_type_id:local_search_analysis",
+                "displayName": "Local search analysis"
+              },
+              {
+                "serviceTypeId": "job_type_id:logo_and_branding_design",
+                "displayName": "Logo & branding design"
+              },
+              {
+                "serviceTypeId": "job_type_id:logo_design",
+                "displayName": "Logo design"
+              },
+              {
+                "serviceTypeId": "job_type_id:marketing_automation",
+                "displayName": "Marketing automation"
+              },
+              {
+                "serviceTypeId": "job_type_id:mobile_app_development",
+                "displayName": "Mobile app development"
+              },
+              {
+                "serviceTypeId": "job_type_id:online_video",
+                "displayName": "Online video"
+              },
+              {
+                "serviceTypeId": "job_type_id:ppc_marketing",
+                "displayName": "PPC marketing"
+              },
+              {
+                "serviceTypeId": "job_type_id:responsive_design",
+                "displayName": "Responsive design"
+              },
+              {
+                "serviceTypeId": "job_type_id:search_engine_optimization",
+                "displayName": "Search engine optimisation"
+              },
+              {
+                "serviceTypeId": "job_type_id:site_maintenance",
+                "displayName": "Site maintenance"
+              },
+              {
+                "serviceTypeId": "job_type_id:social_media_marketing",
+                "displayName": "Social media marketing"
+              },
+              {
+                "serviceTypeId": "job_type_id:software_development",
+                "displayName": "Software development"
+              },
+              {
+                "serviceTypeId": "job_type_id:web_design",
+                "displayName": "Web design"
+              },
+              {
+                "serviceTypeId": "job_type_id:web_development",
+                "displayName": "Web development"
+              },
+              {
+                "serviceTypeId": "job_type_id:web_hosting",
+                "displayName": "Web hosting"
+              }
+            ],
+            "moreHoursTypes": [
+              {
+                "hoursTypeId": "ACCESS",
+                "displayName": "Access",
+                "localizedDisplayName": "Access"
+              },
+              {
+                "hoursTypeId": "BREAKFAST",
+                "displayName": "Breakfast",
+                "localizedDisplayName": "Breakfast"
+              },
+              {
+                "hoursTypeId": "BRUNCH",
+                "displayName": "Brunch",
+                "localizedDisplayName": "Brunch"
+              },
+              {
+                "hoursTypeId": "DELIVERY",
+                "displayName": "Delivery",
+                "localizedDisplayName": "Delivery"
+              },
+              {
+                "hoursTypeId": "DINNER",
+                "displayName": "Dinner",
+                "localizedDisplayName": "Dinner"
+              },
+              {
+                "hoursTypeId": "DRIVE_THROUGH",
+                "displayName": "Drive through",
+                "localizedDisplayName": "Drive-through"
+              },
+              {
+                "hoursTypeId": "HAPPY_HOUR",
+                "displayName": "Happy hours",
+                "localizedDisplayName": "Happy hours"
+              },
+              {
+                "hoursTypeId": "KITCHEN",
+                "displayName": "Kitchen",
+                "localizedDisplayName": "Kitchen"
+              },
+              {
+                "hoursTypeId": "LUNCH",
+                "displayName": "Lunch",
+                "localizedDisplayName": "Lunch"
+              },
+              {
+                "hoursTypeId": "ONLINE_SERVICE_HOURS",
+                "displayName": "Online service hours",
+                "localizedDisplayName": "Online operating hours"
+              },
+              {
+                "hoursTypeId": "PICKUP",
+                "displayName": "Pickup",
+                "localizedDisplayName": "Pick-up"
+              },
+              {
+                "hoursTypeId": "TAKEOUT",
+                "displayName": "Takeout",
+                "localizedDisplayName": "Takeaway"
+              },
+              {
+                "hoursTypeId": "SENIOR_HOURS",
+                "displayName": "Senior hours",
+                "localizedDisplayName": "Hours for the elderly"
+              }
+            ]
+          },
+          {
+            "name": "categories/gcid:marketing_consultant",
+            "displayName": "Marketing consultant",
+            "serviceTypes": [
+              {
+                "serviceTypeId": "job_type_id:affiliate_marketing",
+                "displayName": "Affiliate marketing"
+              },
+              {
+                "serviceTypeId": "job_type_id:billboard_design_and_consulting",
+                "displayName": "Billboard design and consulting"
+              },
+              {
+                "serviceTypeId": "job_type_id:branding",
+                "displayName": "Branding"
+              },
+              {
+                "serviceTypeId": "job_type_id:business_to_business",
+                "displayName": "Business to Business"
+              },
+              {
+                "serviceTypeId": "job_type_id:content_management",
+                "displayName": "Content management"
+              },
+              {
+                "serviceTypeId": "job_type_id:digital_marketing",
+                "displayName": "Digital marketing"
+              },
+              {
+                "serviceTypeId": "job_type_id:direct_mail",
+                "displayName": "Direct mail"
+              },
+              {
+                "serviceTypeId": "job_type_id:email_marketing",
+                "displayName": "Email marketing"
+              },
+              {
+                "serviceTypeId": "job_type_id:graphic_design",
+                "displayName": "Graphic design"
+              },
+              {
+                "serviceTypeId": "job_type_id:international_service",
+                "displayName": "International service"
+              },
+              {
+                "serviceTypeId": "job_type_id:lead_generation",
+                "displayName": "Lead generation"
+              },
+              {
+                "serviceTypeId": "job_type_id:link_building",
+                "displayName": "Link building"
+              },
+              {
+                "serviceTypeId": "job_type_id:logo_design",
+                "displayName": "Logo design"
+              },
+              {
+                "serviceTypeId": "job_type_id:marketing_strategy_consultation",
+                "displayName": "Marketing strategy consultation"
+              },
+              {
+                "serviceTypeId": "job_type_id:outdoor_advertising",
+                "displayName": "Outdoor advertising"
+              },
+              {
+                "serviceTypeId": "job_type_id:paid_advertising",
+                "displayName": "Paid advertising"
+              },
+              {
+                "serviceTypeId": "job_type_id:pay_per_click_consulting",
+                "displayName": "Pay-per-click consulting"
+              },
+              {
+                "serviceTypeId": "job_type_id:print_ads",
+                "displayName": "Print ads"
+              },
+              {
+                "serviceTypeId": "job_type_id:radio",
+                "displayName": "Radio"
+              },
+              {
+                "serviceTypeId": "job_type_id:search_engine_optimization",
+                "displayName": "Search engine optimisation"
+              },
+              {
+                "serviceTypeId": "job_type_id:social_media_marketing",
+                "displayName": "Social media marketing"
+              },
+              {
+                "serviceTypeId": "job_type_id:technical_audits",
+                "displayName": "Technical audits"
+              },
+              {
+                "serviceTypeId": "job_type_id:telemarketing",
+                "displayName": "Telemarketing"
+              },
+              {
+                "serviceTypeId": "job_type_id:tv_and_video",
+                "displayName": "TV & video"
+              },
+              {
+                "serviceTypeId": "job_type_id:web_design",
+                "displayName": "Web design"
+              }
+            ],
+            "moreHoursTypes": [
+              {
+                "hoursTypeId": "ACCESS",
+                "displayName": "Access",
+                "localizedDisplayName": "Access"
+              },
+              {
+                "hoursTypeId": "BREAKFAST",
+                "displayName": "Breakfast",
+                "localizedDisplayName": "Breakfast"
+              },
+              {
+                "hoursTypeId": "BRUNCH",
+                "displayName": "Brunch",
+                "localizedDisplayName": "Brunch"
+              },
+              {
+                "hoursTypeId": "DELIVERY",
+                "displayName": "Delivery",
+                "localizedDisplayName": "Delivery"
+              },
+              {
+                "hoursTypeId": "DINNER",
+                "displayName": "Dinner",
+                "localizedDisplayName": "Dinner"
+              },
+              {
+                "hoursTypeId": "DRIVE_THROUGH",
+                "displayName": "Drive through",
+                "localizedDisplayName": "Drive-through"
+              },
+              {
+                "hoursTypeId": "HAPPY_HOUR",
+                "displayName": "Happy hours",
+                "localizedDisplayName": "Happy hours"
+              },
+              {
+                "hoursTypeId": "KITCHEN",
+                "displayName": "Kitchen",
+                "localizedDisplayName": "Kitchen"
+              },
+              {
+                "hoursTypeId": "LUNCH",
+                "displayName": "Lunch",
+                "localizedDisplayName": "Lunch"
+              },
+              {
+                "hoursTypeId": "ONLINE_SERVICE_HOURS",
+                "displayName": "Online service hours",
+                "localizedDisplayName": "Online operating hours"
+              },
+              {
+                "hoursTypeId": "PICKUP",
+                "displayName": "Pickup",
+                "localizedDisplayName": "Pick-up"
+              },
+              {
+                "hoursTypeId": "TAKEOUT",
+                "displayName": "Takeout",
+                "localizedDisplayName": "Takeaway"
+              },
+              {
+                "hoursTypeId": "SENIOR_HOURS",
+                "displayName": "Senior hours",
+                "localizedDisplayName": "Hours for the elderly"
+              }
+            ]
+          }
+        ]
+      },
+      "websiteUri": "https://example.test/websiteUri",
+      "regularHours": {
+        "periods": [
+          {
+            "openDay": "MONDAY",
+            "openTime": {
+              "hours": 10
+            },
+            "closeDay": "MONDAY",
+            "closeTime": {
+              "hours": 18
+            }
+          },
+          {
+            "openDay": "TUESDAY",
+            "openTime": {
+              "hours": 10
+            },
+            "closeDay": "TUESDAY",
+            "closeTime": {
+              "hours": 18
+            }
+          },
+          {
+            "openDay": "WEDNESDAY",
+            "openTime": {
+              "hours": 10
+            },
+            "closeDay": "WEDNESDAY",
+            "closeTime": {
+              "hours": 18
+            }
+          },
+          {
+            "openDay": "THURSDAY",
+            "openTime": {
+              "hours": 10
+            },
+            "closeDay": "THURSDAY",
+            "closeTime": {
+              "hours": 18
+            }
+          },
+          {
+            "openDay": "FRIDAY",
+            "openTime": {
+              "hours": 10
+            },
+            "closeDay": "FRIDAY",
+            "closeTime": {
+              "hours": 18
+            }
+          },
+          {
+            "openDay": "SATURDAY",
+            "openTime": {
+              "hours": 10
+            },
+            "closeDay": "SATURDAY",
+            "closeTime": {
+              "hours": 18
+            }
+          }
+        ]
+      },
+      "specialHours": {
+        "specialHourPeriods": [
+          {
+            "startDate": {
+              "year": 2025,
+              "month": 1,
+              "day": 26
+            },
+            "openTime": {
+              "hours": 10
+            },
+            "endDate": {
+              "year": 2025,
+              "month": 1,
+              "day": 26
+            },
+            "closeTime": {
+              "hours": 18
+            }
+          },
+          {
+            "startDate": {
+              "year": 2025,
+              "month": 2,
+              "day": 26
+            },
+            "openTime": {
+              "hours": 10
+            },
+            "endDate": {
+              "year": 2025,
+              "month": 2,
+              "day": 26
+            },
+            "closeTime": {
+              "hours": 18
+            }
+          }
+        ]
+      },
+      "serviceArea": {
+        "businessType": "CUSTOMER_LOCATION_ONLY",
+        "places": {
+          "placeInfos": [
+            {
+              "placeName": "Example Area 2",
+              "placeId": "PLACE_ID_3"
+            },
+            {
+              "placeName": "Example Area 4",
+              "placeId": "PLACE_ID_5"
+            },
+            {
+              "placeName": "Example Area 6",
+              "placeId": "PLACE_ID_7"
+            },
+            {
+              "placeName": "Example Area 8",
+              "placeId": "PLACE_ID_9"
+            },
+            {
+              "placeName": "Example Area 10",
+              "placeId": "PLACE_ID_11"
+            },
+            {
+              "placeName": "Example Area 12",
+              "placeId": "PLACE_ID_13"
+            },
+            {
+              "placeName": "Example Area 14",
+              "placeId": "PLACE_ID_15"
+            },
+            {
+              "placeName": "Example Area 16",
+              "placeId": "PLACE_ID_17"
+            },
+            {
+              "placeName": "Example Area 18",
+              "placeId": "PLACE_ID_19"
+            },
+            {
+              "placeName": "Example Area 20",
+              "placeId": "PLACE_ID_21"
+            },
+            {
+              "placeName": "Example Area 22",
+              "placeId": "PLACE_ID_23"
+            }
+          ]
+        },
+        "regionCode": "IN"
+      },
+      "openInfo": {
+        "status": "OPEN",
+        "canReopen": true,
+        "openingDate": {
+          "year": 2007,
+          "month": 6,
+          "day": 3
+        }
+      },
+      "profile": {
+        "description": "Sanitised description."
+      },
+      "serviceItems": [
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:affiliate_marketing",
+            "description": "Sanitised description."
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:it_consulting"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:e_commerce"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:email_marketing",
+            "description": "Sanitised description."
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:enterprise_software_development",
+            "description": "Sanitised description."
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:online_lead_generation"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:search_engine_optimization"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:graphic_design",
+            "description": "Sanitised description."
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:digital_marketing"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:technical_audits"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:business_to_business"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:branding"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:pay_per_click_consulting"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:marketing_strategy_consultation"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:link_building"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:content_management"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:lead_generation"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:logo_design",
+            "description": "Sanitised description."
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:paid_advertising"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:web_design"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:web_marketing"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:social_media_marketing"
+          }
+        },
+        {
+          "structuredServiceItem": {
+            "serviceTypeId": "job_type_id:direct_mail"
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "A/B Testing for Web Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "API Development and Integration",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "API Integration for Websites",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Accounts Payable and Receivable",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Advertising Campaign Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Affiliate Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Affiliate Program Setup and Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Agile Software Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "App Store Optimization (ASO)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Application Support and Maintenance",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Artificial Intelligence (AI) Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Asset Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Augmented Reality (AR) and Virtual Reality (VR) Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "B2B Internet Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "B2B Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "B2C Internet Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "B2C Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Benefits Administration",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Big Data Solutions",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Billing and Invoicing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Blockchain Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Blog Design and Integration",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Bookkeeping and Accounting",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Brand Awareness Campaigns",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Brand Identity Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Brand Strategy Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Brand Voice and Messaging Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Branding and Identity Consulting",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Business Growth Consulting",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Business Process Automation (BPA)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Business-to-Business (B2B) Sales Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "CRM Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "CRM Software Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Calendar and Appointment Scheduling",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Chatbot Development for Marketing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Cloud Migration and Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Cloud Solutions",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Cloud Storage Solutions",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Community Engagement Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Competitive Analysis",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Compliance Audits",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Compliance and Legal Support",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Content Calendar and Campaign Planning",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Content Creation and Blogging",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Content Management System (CMS) Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Content Marketing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Content Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Content Moderation",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Contract Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Conversion Rate Optimization (CRO)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Conversion Rate Optimization (CRO)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Conversion Rate Optimization (CRO) Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Copywriting and Content Creation",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Corporate Communication Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Corporate Social Responsibility (CSR) Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Crisis Management and Communication",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Crisis Management and Online Communication Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Cross-Platform App Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Custom APIs for Business Operations",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Custom Reporting and Dashboard Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Custom Software Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Custom Web Applications",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Custom Web Forms (Contact, Survey, etc.)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Custom Website Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Customer Acquisition Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Customer Experience (CX) Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Customer Journey Mapping",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Customer Retention Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Customer Segmentation and Targeting",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Customer Support Services",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Cybersecurity Services",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Data Analytics and Business Intelligence",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Data Backup and Recovery Solutions",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Data Cleansing and Validation",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Data Entry Services",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Data Mining and Analytics",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Data-Driven Marketing Campaigns",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Data-Driven Marketing Insights",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Database Development and Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Database Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "DevOps Services",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Digital Archiving",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Digital Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Digital Public Relations (PR)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Disaster Recovery Planning",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Display Advertising",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Document Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Domain Name Registration and Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "E-commerce Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "E-commerce Marketing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "E-commerce Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "E-commerce Web Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "ERP (Enterprise Resource Planning) Software Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Email Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Email Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Email Marketing Support",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Employee Onboarding",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Enterprise Mobility Solutions",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Event Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Event Promotion and Online Event Marketing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Event Website Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Financial Reporting",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Forum and Community Website Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Game Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Google Ads Management (Search, Display, Shopping)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Google Analytics Setup",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Google Maps Integration",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "HR and Recruitment Support",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Hotel and Restaurant Website Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "IT Consulting and Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "IT Helpdesk Services",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "IT Infrastructure Setup and Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "IT Support and Maintenance",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Image and Document Scanning",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Influencer Campaign Strategy and Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Influencer Marketing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Influencer Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Insurance Claims Processing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Interactive Content (Quizzes, Polls, Surveys)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Interactive Web Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Internet Security Solutions",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Inventory Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "IoT (Internet of Things) Solutions",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Landing Page Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Lead Generation Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Lead Generation and Nurturing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Legacy System Modernization",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Legal Document Preparation",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Link Building and Outreach",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Local Business Listings Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Local SEO",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Local SEO Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Logistics Support",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Loyalty and Reward Program Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Machine Learning Solutions",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Market Research Support",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Market Research and Analysis",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Market Segmentation and Targeting",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Marketing Automation",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Marketing Automation Consulting",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Marketing Budget Allocation Consulting",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Marketing Funnel Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Marketing Technology Integration",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Medical Billing and Coding",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Membership Website Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Micro-Interactions and Animations",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Mobile App Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Mobile App Development (iOS & Android)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Mobile App Marketing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Mobile Marketing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Mobile Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Multi-Channel Marketing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Multi-Channel Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Multi-Language Website Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Multi-Platform Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Multi-Regional Website Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Native Advertising",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Newsletter and Subscription Forms",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Online Contest and Giveaway Campaigns",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Online Reputation Management (ORM)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Online Reputation Monitoring",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Order Processing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Parallax Scrolling Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Pay-Per-Click (PPC) Campaign Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Pay-Per-Click (PPC) Campaign Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Payment Gateway Integration",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Payroll Processing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Performance Marketing and Analytics",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Performance Reporting",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Podcast Marketing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Pricing Strategy Consulting",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Procurement and Supply Chain Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Product Development and Prototyping",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Product Positioning and Messaging",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Programmatic Advertising",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Project Management Support",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Public Relations Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Quality Assurance and Testing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Real Estate Website Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Reputation Management Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Research and Analysis",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Responsive Web Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Retargeting/Remarketing Campaigns",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Risk Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "SEO Content Writing and Blogging",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "SMS Marketing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "SaaS (Software as a Service) Solutions",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "SaaS Implementation and Support",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Sales Funnel Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Search Engine Marketing (SEM)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Search Engine Optimization (SEO)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Search Engine Optimization (SEO) Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Search Engine Optimization (SEO) for Websites",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Shopping Cart Integration",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Social Media Advertising (Facebook, Instagram, LinkedIn, etc.)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Social Media Advertising Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Social Media Contest and Engagement Campaigns",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Social Media Integration",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Social Media Management Support",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Social Media Marketing (SMM)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Social Media Strategy and Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Social Proof and Testimonials Integration",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Software Consulting and Roadmap Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Software Integration Services",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Software Maintenance and Support",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Software Migration Services",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Software Testing and Quality Assurance",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "System Architecture Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Tax Preparation and Filing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Technical Support Services",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Technology Stack Evaluation and Recommendations",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Third-Party Integrations (CRM, Payment Processors, etc.)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Training and Development Support",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Transcription Services",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Translation and Localization",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Travel and Expense Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "UI/UX Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "UX/UI Design",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Vendor Management",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Video Embedding and Integration",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Video Marketing Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Video Marketing and YouTube Ads",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Video Production for Online Campaigns",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Video Streaming Platform Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:back_office",
+            "label": {
+              "displayName": "Virtual Assistance",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Virtualization Services",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Voice Recognition and NLP (Natural Language Processing)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Voice Search Optimization",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:marketing_consultant",
+            "label": {
+              "displayName": "Web Analytics and Tracking",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Web Design and Development for Marketing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:software_company",
+            "label": {
+              "displayName": "Web Development",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Web Development (Front-End and Back-End)",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Web Hosting Migration",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Website Accessibility and ADA Compliance",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Website Analytics and Reporting",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Website Backup and Disaster Recovery",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Website Content Strategy",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Website Hosting Setup",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Website Maintenance and Support",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:internet_marketing_service",
+            "label": {
+              "displayName": "Website Optimization for SEO and User Experience",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Website Prototyping and Wireframing",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Website Redesign",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Website Security and SSL Implementation",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Website Speed Optimization",
+              "description": "Sanitised description."
+            }
+          }
+        },
+        {
+          "freeFormServiceItem": {
+            "category": "categories/gcid:website_designer",
+            "label": {
+              "displayName": "Website Usability Testing",
+              "description": "Sanitised description."
+            }
+          }
+        }
+      ]
+    },
+    "diffMask": "metadata,serviceItems"
+  }
+}

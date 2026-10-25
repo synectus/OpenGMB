@@ -1,0 +1,133 @@
+{
+  "url": "https://mybusiness.googleapis.com/v4/accounts/100000000000000000001/locations/1000000000000000001/media",
+  "status": 200,
+  "body": {
+    "mediaItems": [
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID",
+        "mediaFormat": "PHOTO",
+        "locationAssociation": {
+          "category": "ADDITIONAL"
+        },
+        "googleUrl": "https://example.test/googleUrl",
+        "thumbnailUrl": "https://example.test/thumbnailUrl",
+        "createTime": "2025-04-15T07:25:57Z",
+        "dimensions": {
+          "widthPixels": 3024,
+          "heightPixels": 4032
+        }
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID",
+        "mediaFormat": "PHOTO",
+        "locationAssociation": {
+          "category": "ADDITIONAL"
+        },
+        "googleUrl": "https://example.test/googleUrl",
+        "thumbnailUrl": "https://example.test/thumbnailUrl",
+        "createTime": "2025-04-15T07:25:56Z",
+        "dimensions": {
+          "widthPixels": 3024,
+          "heightPixels": 4032
+        }
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID",
+        "mediaFormat": "PHOTO",
+        "locationAssociation": {
+          "category": "ADDITIONAL"
+        },
+        "googleUrl": "https://example.test/googleUrl",
+        "thumbnailUrl": "https://example.test/thumbnailUrl",
+        "createTime": "2025-04-15T06:59:53Z",
+        "dimensions": {
+          "widthPixels": 3024,
+          "heightPixels": 4032
+        }
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID",
+        "mediaFormat": "PHOTO",
+        "locationAssociation": {
+          "category": "ADDITIONAL"
+        },
+        "googleUrl": "https://example.test/googleUrl",
+        "thumbnailUrl": "https://example.test/thumbnailUrl",
+        "createTime": "2025-04-15T06:59:53Z",
+        "dimensions": {
+          "widthPixels": 3024,
+          "heightPixels": 4032
+        }
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID",
+        "mediaFormat": "PHOTO",
+        "locationAssociation": {
+          "category": "ADDITIONAL"
+        },
+        "googleUrl": "https://example.test/googleUrl",
+        "thumbnailUrl": "https://example.test/thumbnailUrl",
+        "createTime": "2025-04-15T06:59:52Z",
+        "dimensions": {
+          "widthPixels": 4032,
+          "heightPixels": 3024
+        }
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID",
+        "mediaFormat": "PHOTO",
+        "locationAssociation": {
+          "category": "ADDITIONAL"
+        },
+        "googleUrl": "https://example.test/googleUrl",
+        "thumbnailUrl": "https://example.test/thumbnailUrl",
+        "createTime": "2025-04-15T06:59:16Z",
+        "dimensions": {
+          "widthPixels": 4032,
+          "heightPixels": 3024
+        }
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID",
+        "mediaFormat": "PHOTO",
+        "locationAssociation": {
+          "category": "ADDITIONAL"
+        },
+        "googleUrl": "https://example.test/googleUrl",
+        "thumbnailUrl": "https://example.test/thumbnailUrl",
+        "createTime": "2025-04-15T06:59:15Z",
+        "dimensions": {
+          "widthPixels": 3024,
+          "heightPixels": 4032
+        }
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID",
+        "mediaFormat": "PHOTO",
+        "locationAssociation": {
+          "category": "ADDITIONAL"
+        },
+        "googleUrl": "https://example.test/googleUrl",
+        "thumbnailUrl": "https://example.test/thumbnailUrl",
+        "createTime": "2025-04-15T06:59:13Z",
+        "dimensions": {
+          "widthPixels": 3024,
+          "heightPixels": 4032
+        }
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID",
+        "sourceUrl": "https://example.test/sourceUrl",
+        "mediaFormat": "PHOTO",
+        "locationAssociation": {
+          "category": "PROFILE"
+        },
+        "googleUrl": "https://example.test/googleUrl",
+        "thumbnailUrl": "https://example.test/thumbnailUrl",
+        "createTime": "1970-01-01T00:00:00Z",
+        "dimensions": {}
+      }
+    ],
+    "totalMediaItemCount": 9
+  }
+}

@@ -1,0 +1,17 @@
+node_modules/
+.env
+.env.local
+.env.*.local
+.next/
+.turbo/
+dist/
+coverage/
+*.tsbuildinfo
+.DS_Store
+next-env.d.ts
+apps/web/e2e/.state/
+apps/web/test-results/
+apps/web/playwright-report/
+.claude/worktrees/
+apps/web/scripts/scale/.state/
+apps/web/e2e-community/.state/

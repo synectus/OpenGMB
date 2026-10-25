@@ -1,0 +1,18 @@
+{
+  "url": "https://mybusinessplaceactions.googleapis.com/v1/locations/1000000000000000001/placeActionLinks",
+  "status": 200,
+  "body": {
+    "placeActionLinks": [
+      {
+        "name": "locations/1000000000000000001/placeActionLinks/PLACEACTIONLINKS_ID",
+        "providerType": "MERCHANT",
+        "isEditable": true,
+        "uri": "https://example.test/uri",
+        "placeActionType": "APPOINTMENT",
+        "isPreferred": false,
+        "createTime": "2025-01-19T08:14:48.413974Z",
+        "updateTime": "2025-01-19T09:57:57.680037Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,577 @@
+{
+  "url": "https://mybusiness.googleapis.com/v4/accounts/100000000000000000001/locations/1000000000000000001/localPosts",
+  "status": 200,
+  "body": {
+    "localPosts": [
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "LEARN_MORE",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-10-17T05:38:10.109460Z",
+        "createTime": "2026-10-17T05:38:10.109460Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipMpIIncah3apqN1srEkuOsoqkMCTolr6lgpkoJs",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "LEARN_MORE",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-10-14T05:10:11.651246Z",
+        "createTime": "2026-10-14T05:10:11.651246Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPB2MZ6bBYkcX8VWZQaHaD6VpMUMBbVXSLtZYeY",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "LEARN_MORE",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-10-09T06:38:13.979922Z",
+        "createTime": "2026-10-09T06:38:13.979922Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipM-VFAuiip448BLMWrm8YwBd87OdxUWjQk7Ywri",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipMCss62YhWL98-7ZJeLv5geOZKxVGZyH246Zmc9",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPhIbFOb3iACRuQU4oOgIviQFsO0RN2iHpU34YG",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipMNhexyV2OOTTDe0orVR-QlHmIhIBM1ct76rydg",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipP10Ozq4WGpNCGM0v2iE0ohcNHazEMD2bDiAUGk",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPaD0ouQLP_vGzzubXTAzRGNXGSHcNhulNVZ4b0",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD",
+        "scheduledTime": "2026-10-10T04:30:00Z"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "CALL"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-10-07T06:17:00.198113Z",
+        "createTime": "2026-10-07T06:17:00.198113Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipONm-k_6UqLYshPDPeetJm6gBjq_dj09d4eUAyM",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "CALL"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-10-03T07:06:43.771986Z",
+        "createTime": "2026-10-03T07:06:43.771986Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipMfTETx03w4tvYciI-wHysiigDsyt6IuZOeEDF7",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "LEARN_MORE",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-09-30T10:16:48.251307Z",
+        "createTime": "2026-09-30T10:16:48.251307Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipMfAhaVDu5CYAwl9_c3dSNyRsuBSI-dxCidHKeS",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPoR1N2jLUM6rh7AB0p10tyWMgGcw3cOJcqILR3",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPDmSq2NvbLQ1Fy9MwFylKsJOjLaSaiOt6J_6FR",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPlM3dKvOddd2peUJ9DFeBJVgauUoYw3LN6LniS",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipOtK4xeTwrup_-zKVt7XWADhykRkbuDNIBD7exA",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipOJPWiQSQIdr-W0pEyBMgg8EM3HjJoNGMB99xUB",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "LEARN_MORE",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-09-25T06:15:44.029246Z",
+        "createTime": "2026-09-25T06:15:44.029246Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipO6m8t17xA175GvTWEOuQNkRSiez8g_LQL7yL8c",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD",
+        "scheduledTime": "2026-09-26T04:30:00Z"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "LEARN_MORE",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-09-23T08:42:34.300242Z",
+        "createTime": "2026-09-23T08:42:34.300242Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPABu3OOvzH_TvqsI8XkXWZ9QDbyrQF4__2QUu2",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "BOOK",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-09-19T06:05:44.674292Z",
+        "createTime": "2026-09-19T06:05:44.674292Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipNZ6J71v4RYPK_VJmOPcs1T02JHluHXlrpuLprG",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "LEARN_MORE",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-09-16T09:59:55.235987Z",
+        "createTime": "2026-09-16T09:59:55.235987Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipO3FJIOJTZKK3iNjj3Qh1_vsWZDzshwurJ2jrN6",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPofXTczm_um3pk_VI0OQIRe9rufHFBBUJUZLOK",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipNkDxIoyZzwSIiohrCVPXI2UcSUBN6unlEAThB8",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPAn2XLFe7r5O2MmxpvGiwjCXf1W_Pl9nU2si35",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipNJUouYrjD8Pw9lTQ4Wh_akcnzrrJ51iR-s4h4J",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipOo4H3n_IN6QEfcFEMA3Fy-FMQOYKlCzluAZmaC",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "BOOK",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-09-11T10:12:11.060202Z",
+        "createTime": "2026-09-11T10:12:11.060202Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipNhqu6bCij3tmDXKKmhzUP5KqheUQw5pasbKdfa",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD",
+        "scheduledTime": "2026-09-12T04:30:00Z"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "CALL"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-09-09T08:45:35.793601Z",
+        "createTime": "2026-09-09T08:45:35.793601Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipP9N-1XoO97Q2DI__n8V27ox4MhZRh8TL3_lRq_",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "LEARN_MORE",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-09-05T04:50:48.356834Z",
+        "createTime": "2026-09-05T04:50:48.356834Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipMNUgoYlfzX-1krkTAf_l-xcSSDyXoC8cE0QwRr",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipNRzSA7D8SiMgjA9BhTPWOs7O8HwV9nbwTt6ySX",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPHJ4O4l5hUCoFNtsRqrG7LB6qKYkr_0UDi35bc",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPXt1Gdxyy7ue8_V4Ku2HpMZJRmsLYc5JJ4w1qN",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPPKu7EvYdgpiaTZU0ehYAc0skOzzc3S5KdJHAR",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPoaIikNuOnsEEkiL3Ts-yS80y_gbehsm7XkD6u",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "CALL"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-09-02T05:11:43.013038Z",
+        "createTime": "2026-09-02T05:11:43.013038Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipNbID4SDl1BPoYJMJvELyV4HuePH-8ZoskmxeO-",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "LEARN_MORE",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-08-29T08:43:00.610339Z",
+        "createTime": "2026-08-29T08:43:00.610339Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipOyXj2eetbEQTLEK5znn0c2veVqJT2OQGV6Aylt",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "CALL"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-08-27T05:16:55.149038Z",
+        "createTime": "2026-08-27T05:16:55.149038Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipNoiz89KWvImbLDWtlc_TvBxltCtKgaGA9-wSB3",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipNqoZHQMSyIzmzXQTXk2gGTrrdwjPpmulNJEeah",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipN9Ln9EG_9SE6MxaOrG1I27l8VdMOhmoLErAotm",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPjHZwPetDMZk3pSYjlbaOxhTvuLuzK7DOLjmVy",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipOBbFGD8XC0Qgl3-Fn0RD4QoFbeDszxMoH3FbUm",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipN2CKJ3UiVHCPn3F8a5yoB6wHGqJ_dO_j-pxe9y",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "LEARN_MORE",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-08-21T06:58:30.330404Z",
+        "createTime": "2026-08-21T06:58:30.330404Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipOx2Z4GGkg12Q4UsGSbAnhUS3mYc0vGcCMA9C5A",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "LEARN_MORE",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-08-19T06:32:01.181748Z",
+        "createTime": "2026-08-19T06:32:01.181748Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipN82m1dTKRw1gXcVmbelLa0Q5t9AOVHql3UUiJu",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "LEARN_MORE",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-08-15T07:15:26.501681Z",
+        "createTime": "2026-08-15T07:15:26.501681Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipPsKD-G3gB5sQuC0TpMfoeqckG_2XSsFLaqV2Vv",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipNoY62IO2O1KmktJxTsdYfpkFlM8TeQxNpBEwmh",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipM0yzmO_qnUpiAgGseVWeBtlc7H31XG27nDyhEw",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipOoDIpGYn-Jdy4yaImS422Ouh-oI7_vdUhlYn2X",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipOlFEzwBSLXKw1sFhde5UMywD-yPHc7s-fa128b",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          },
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipMFXZQ9SU5G7hNiREtgwaVDzo_DCqM2HOTUvRO5",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      },
+      {
+        "name": "accounts/100000000000000000001/locations/1000000000000000001/localPosts/LOCALPOSTS_ID",
+        "languageCode": "en",
+        "summary": "Sanitised post summary.",
+        "callToAction": {
+          "actionType": "LEARN_MORE",
+          "url": "https://example.test/url"
+        },
+        "state": "LIVE",
+        "updateTime": "2026-08-12T09:28:30.546523Z",
+        "createTime": "2026-08-12T09:28:30.546523Z",
+        "searchUrl": "https://example.test/searchUrl",
+        "media": [
+          {
+            "name": "accounts/100000000000000000001/locations/1000000000000000001/media/MEDIA_ID/AF1QipN_2W0--BgkiFdyLQaZ8lGLd9JNvVYVgaPLL-4q",
+            "mediaFormat": "PHOTO",
+            "googleUrl": "https://example.test/googleUrl"
+          }
+        ],
+        "topicType": "STANDARD"
+      }
+    ],
+    "nextPageToken": "NEXT_PAGE_TOKEN"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "syngmb-zapier",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OpenGMB private Zapier integration",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive test",
+    "validate": "zapier-platform validate"
+  },
+  "engines": { "node": ">=18.20", "npm": ">=5.6.0" },
+  "dependencies": { "zapier-platform-core": "19.2.1" },
+  "devDependencies": { "zapier-platform-cli": "19.2.1", "mocha": "12.0.3", "nock": "15.0.5" }
+}

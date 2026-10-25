@@ -1,0 +1,87 @@
+{
+ "config": {},
+ "suites": [
+  {
+   "title": "smoke.spec.ts",
+   "specs": [
+    {
+     "title": "a",
+     "ok": true,
+     "tests": [
+      {
+       "status": "expected",
+       "results": [
+        {
+         "status": "passed",
+         "stdout": [
+          {
+           "text": "[seo] FAIL /x h1: 2 h1 elements\n"
+          },
+          {
+           "text": "[seo-sitemap] 6 sitemap URLs, 6 live HTML routes\n[seo] 6 URLs checked, 0 failed, 3 waived\n"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "suites": [
+    {
+     "title": "signed in",
+     "specs": [
+      {
+       "title": "b",
+       "ok": true,
+       "tests": [
+        {
+         "status": "expected",
+         "results": [
+          {
+           "status": "passed"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "title": "c",
+       "ok": false,
+       "tests": [
+        {
+         "status": "unexpected",
+         "results": [
+          {
+           "status": "failed"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "title": "d",
+       "ok": true,
+       "tests": [
+        {
+         "status": "skipped",
+         "results": [
+          {
+           "status": "skipped"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "expected": 2,
+  "unexpected": 1,
+  "skipped": 1,
+  "flaky": 0
+ }
+}

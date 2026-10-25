@@ -1,0 +1,1063 @@
+{
+  "url": "https://businessprofileperformance.googleapis.com/v1/locations/1000000000000000001:fetchMultiDailyMetricsTimeSeries",
+  "status": 200,
+  "body": {
+    "multiDailyMetricTimeSeries": [
+      {
+        "dailyMetricTimeSeries": [
+          {
+            "dailyMetric": "BUSINESS_IMPRESSIONS_DESKTOP_MAPS",
+            "timeSeries": {
+              "datedValues": [
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 20
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 21
+                  },
+                  "value": "2"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 22
+                  },
+                  "value": "6"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 23
+                  },
+                  "value": "3"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 24
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 25
+                  },
+                  "value": "5"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 26
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 27
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 28
+                  },
+                  "value": "1"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 29
+                  },
+                  "value": "2"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 30
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 31
+                  },
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          {
+            "dailyMetric": "BUSINESS_CONVERSATIONS",
+            "timeSeries": {
+              "datedValues": [
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 20
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 21
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 22
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 23
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 24
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 25
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 26
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 27
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 28
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 29
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 30
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 31
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "dailyMetric": "BUSINESS_DIRECTION_REQUESTS",
+            "timeSeries": {
+              "datedValues": [
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 20
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 21
+                  },
+                  "value": "2"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 22
+                  },
+                  "value": "3"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 23
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 24
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 25
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 26
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 27
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 28
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 29
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 30
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 31
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "dailyMetric": "WEBSITE_CLICKS",
+            "timeSeries": {
+              "datedValues": [
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 20
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 21
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 22
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 23
+                  },
+                  "value": "2"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 24
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 25
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 26
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 27
+                  },
+                  "value": "2"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 28
+                  },
+                  "value": "2"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 29
+                  },
+                  "value": "1"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 30
+                  },
+                  "value": "1"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 31
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "dailyMetric": "BUSINESS_IMPRESSIONS_MOBILE_MAPS",
+            "timeSeries": {
+              "datedValues": [
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 20
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 21
+                  },
+                  "value": "3"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 22
+                  },
+                  "value": "4"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 23
+                  },
+                  "value": "2"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 24
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 25
+                  },
+                  "value": "2"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 26
+                  },
+                  "value": "2"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 27
+                  },
+                  "value": "1"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 28
+                  },
+                  "value": "8"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 29
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 30
+                  },
+                  "value": "7"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 31
+                  },
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          {
+            "dailyMetric": "BUSINESS_BOOKINGS",
+            "timeSeries": {
+              "datedValues": [
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 20
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 21
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 22
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 23
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 24
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 25
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 26
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 27
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 28
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 29
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 30
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 31
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "dailyMetric": "BUSINESS_IMPRESSIONS_MOBILE_SEARCH",
+            "timeSeries": {
+              "datedValues": [
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 20
+                  },
+                  "value": "6"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 21
+                  },
+                  "value": "10"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 22
+                  },
+                  "value": "2"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 23
+                  },
+                  "value": "8"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 24
+                  },
+                  "value": "4"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 25
+                  },
+                  "value": "14"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 26
+                  },
+                  "value": "4"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 27
+                  },
+                  "value": "11"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 28
+                  },
+                  "value": "10"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 29
+                  },
+                  "value": "10"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 30
+                  },
+                  "value": "11"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 31
+                  },
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          {
+            "dailyMetric": "CALL_CLICKS",
+            "timeSeries": {
+              "datedValues": [
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 20
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 21
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 22
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 23
+                  },
+                  "value": "1"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 24
+                  },
+                  "value": "1"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 25
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 26
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 27
+                  },
+                  "value": "1"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 28
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 29
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 30
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 31
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "dailyMetric": "BUSINESS_FOOD_ORDERS",
+            "timeSeries": {
+              "datedValues": [
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 20
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 21
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 22
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 23
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 24
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 25
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 26
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 27
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 28
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 29
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 30
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 31
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "dailyMetric": "BUSINESS_FOOD_MENU_CLICKS",
+            "timeSeries": {
+              "datedValues": [
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 20
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 21
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 22
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 23
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 24
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 25
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 26
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 27
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 28
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 29
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 30
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 31
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "dailyMetric": "BUSINESS_IMPRESSIONS_DESKTOP_SEARCH",
+            "timeSeries": {
+              "datedValues": [
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 20
+                  },
+                  "value": "12"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 21
+                  },
+                  "value": "12"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 22
+                  },
+                  "value": "12"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 23
+                  },
+                  "value": "9"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 24
+                  },
+                  "value": "8"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 25
+                  },
+                  "value": "4"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 26
+                  },
+                  "value": "1"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 27
+                  },
+                  "value": "11"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 28
+                  },
+                  "value": "7"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 29
+                  },
+                  "value": "7"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 30
+                  },
+                  "value": "8"
+                },
+                {
+                  "date": {
+                    "year": 2026,
+                    "month": 7,
+                    "day": 31
+                  },
+                  "value": "11"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

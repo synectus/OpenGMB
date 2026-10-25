@@ -1,0 +1,14 @@
+{
+  "url": "https://mybusinessverifications.googleapis.com/v1/locations/1000000000000000001/verifications",
+  "status": 200,
+  "body": {
+    "verifications": [
+      {
+        "name": "locations/1000000000000000001/verifications/VERIFICATIONS_ID",
+        "method": "AUTO",
+        "state": "COMPLETED",
+        "createTime": "2025-01-08T10:47:29.956Z"
+      }
+    ]
+  }
+}

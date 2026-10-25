@@ -1,0 +1,31 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": [
+    "DATABASE_URL",
+    "DATABASE_URL_TEST",
+    "BETTER_AUTH_SECRET",
+    "BETTER_AUTH_URL",
+    "ENCRYPTION_KEY",
+    "AUDIT_CHECKPOINT_KEY",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "GOOGLE_BUSINESS_API_MODE",
+    "GOOGLE_BUSINESS_WRITES",
+    "MCP_PORT",
+    "WORKER_PORT",
+    "WORKER_PUBLIC_URL",
+    "PUBSUB_AUDIENCE",
+    "PUBSUB_SERVICE_ACCOUNT_EMAIL",
+    "RESEND_API_KEY",
+    "EMAIL_FROM",
+    "VAPID_PUBLIC_KEY",
+    "VAPID_PRIVATE_KEY",
+    "VAPID_SUBJECT",
+    "GOOGLE_MAPS_BROWSER_KEY"
+  ],
+  "tasks": {
+    "dev": { "cache": false, "persistent": true },
+    "build": { "dependsOn": ["^build"], "outputs": [".next/**", "!.next/cache/**"] },
+    "typecheck": { "dependsOn": ["^typecheck"] }
+  }
+}

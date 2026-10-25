@@ -1,0 +1,8 @@
+{
+  "url": "https://mybusinessverifications.googleapis.com/v1/locations/1000000000000000001/VoiceOfMerchantState",
+  "status": 200,
+  "body": {
+    "hasVoiceOfMerchant": true,
+    "hasBusinessAuthority": true
+  }
+}

@@ -1,0 +1,40 @@
+import { namespace } from "./define";
+
+export default namespace({
+  en: {
+    buttonLabel: "Notifications, {count} unread",
+    title: "Notifications",
+    markAllRead: "Mark all read",
+    empty: "No notifications yet.",
+    unread: "Unread:",
+    all: "All notifications",
+    justNow: "just now",
+    minutesAgo: "{count} min ago",
+    hoursAgo: "{count} h ago",
+    daysAgo: "{count} d ago",
+  },
+  hi: {
+    buttonLabel: "सूचनाएँ, {count} अपठित",
+    title: "सूचनाएँ",
+    markAllRead: "सभी पढ़ी हुई करें",
+    empty: "अभी कोई सूचना नहीं।",
+    unread: "अपठित:",
+    all: "सभी सूचनाएँ",
+    justNow: "अभी",
+    minutesAgo: "{count} मिनट पहले",
+    hoursAgo: "{count} घंटे पहले",
+    daysAgo: "{count} दिन पहले",
+  },
+  es: {
+    buttonLabel: "Notificaciones, {count} sin leer",
+    title: "Notificaciones",
+    markAllRead: "Marcar todo como leído",
+    empty: "Aún no hay notificaciones.",
+    unread: "Sin leer:",
+    all: "Todas las notificaciones",
+    justNow: "justo ahora",
+    minutesAgo: "hace {count} min",
+    hoursAgo: "hace {count} h",
+    daysAgo: "hace {count} d",
+  },
+});

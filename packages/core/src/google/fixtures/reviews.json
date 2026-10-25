@@ -1,0 +1,334 @@
+{
+  "locations/200000000000000001": [
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000001/reviews/AbFake0001",
+      "reviewId": "AbFake0001",
+      "reviewer": {
+        "displayName": "Maya Fernsby",
+        "profilePhotoUrl": "https://photos.example/AbFake0001.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FIVE",
+      "createTime": "2026-10-09T14:20:00Z",
+      "updateTime": "2026-10-09T14:20:00Z",
+      "comment": "Friendly front desk and the hygienist explained everything. Parking was easy too."
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000001/reviews/AbFake0002",
+      "reviewId": "AbFake0002",
+      "reviewer": {
+        "displayName": "Tomas Reedley",
+        "profilePhotoUrl": "https://photos.example/AbFake0002.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "ONE",
+      "createTime": "2026-10-07T09:05:00Z",
+      "updateTime": "2026-10-07T09:05:00Z",
+      "comment": "Waited 50 minutes past my appointment time and nobody told me why. My back pain flared up sitting in that chair."
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000001/reviews/AbFake0003",
+      "reviewId": "AbFake0003",
+      "reviewer": {
+        "displayName": "Priya Lindqvist",
+        "profilePhotoUrl": "https://photos.example/AbFake0003.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FIVE",
+      "createTime": "2026-10-05T18:45:00Z",
+      "updateTime": "2026-10-05T18:45:00Z"
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000001/reviews/AbFake0004",
+      "reviewId": "AbFake0004",
+      "reviewer": {
+        "displayName": "Dana Okoro",
+        "profilePhotoUrl": "https://photos.example/AbFake0004.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FOUR",
+      "createTime": "2026-09-28T12:00:00Z",
+      "updateTime": "2026-09-29T12:00:00Z",
+      "comment": "Good cleaning, a bit pricey for what it was. Insurance paperwork took a while.",
+      "reviewReply": {
+        "comment": "Thank you for the feedback, Dana. We are reviewing how we handle paperwork at the desk.",
+        "updateTime": "2026-09-29T12:00:00Z"
+      }
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000001/reviews/AbFake0005",
+      "reviewId": "AbFake0005",
+      "reviewer": {
+        "displayName": "A Google User",
+        "isAnonymous": true
+      },
+      "starRating": "TWO",
+      "createTime": "2026-09-21T16:30:00Z",
+      "updateTime": "2026-09-21T16:30:00Z",
+      "comment": "Billing mix-up with my insurance and nobody called back."
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000001/reviews/AbFake0006",
+      "reviewId": "AbFake0006",
+      "reviewer": {
+        "displayName": "Colm Hartwright",
+        "profilePhotoUrl": "https://photos.example/AbFake0006.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FIVE",
+      "createTime": "2026-09-15T10:10:00Z",
+      "updateTime": "2026-09-16T10:10:00Z",
+      "comment": "Best dentist visit I have had. My diabetes check was handled gently and with care.",
+      "reviewReply": {
+        "comment": "We are glad the visit went smoothly.",
+        "updateTime": "2026-09-16T10:10:00Z"
+      }
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000001/reviews/AbFake0007",
+      "reviewId": "AbFake0007",
+      "reviewer": {
+        "displayName": "Beatrix Quill",
+        "profilePhotoUrl": "https://photos.example/AbFake0007.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "THREE",
+      "createTime": "2026-09-08T15:55:00Z",
+      "updateTime": "2026-09-08T15:55:00Z",
+      "comment": "Fine, nothing special. Office was cold."
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000001/reviews/AbFake0008",
+      "reviewId": "AbFake0008",
+      "reviewer": {
+        "displayName": "Ravi Annand",
+        "profilePhotoUrl": "https://photos.example/AbFake0008.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FIVE",
+      "createTime": "2026-09-01T08:40:00Z",
+      "updateTime": "2026-09-01T08:40:00Z",
+      "comment": "Dr. Mallory was quick and kind."
+    }
+  ],
+  "locations/200000000000000002": [
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000002/reviews/AbFake0009",
+      "reviewId": "AbFake0009",
+      "reviewer": {
+        "displayName": "Elsie Warbeck",
+        "profilePhotoUrl": "https://photos.example/AbFake0009.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FIVE",
+      "createTime": "2026-10-10T11:15:00Z",
+      "updateTime": "2026-10-10T11:15:00Z",
+      "comment": "Brought my kids here and they were not scared at all. Thank you!"
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000002/reviews/AbFake0010",
+      "reviewId": "AbFake0010",
+      "reviewer": {
+        "displayName": "Jonas Pettibone",
+        "profilePhotoUrl": "https://photos.example/AbFake0010.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "TWO",
+      "createTime": "2026-10-06T13:00:00Z",
+      "updateTime": "2026-10-06T13:00:00Z",
+      "comment": "My knee injury from the accident made it hard to climb the stairs and there is no ramp."
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000002/reviews/AbFake0011",
+      "reviewId": "AbFake0011",
+      "reviewer": {
+        "displayName": "Noor Haddad",
+        "profilePhotoUrl": "https://photos.example/AbFake0011.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FOUR",
+      "createTime": "2026-10-02T17:20:00Z",
+      "updateTime": "2026-10-02T17:20:00Z",
+      "comment": "Short wait, polite staff."
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000002/reviews/AbFake0012",
+      "reviewId": "AbFake0012",
+      "reviewer": {
+        "displayName": "Francesca Dole",
+        "profilePhotoUrl": "https://photos.example/AbFake0012.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "ONE",
+      "createTime": "2026-09-26T09:50:00Z",
+      "updateTime": "2026-09-27T09:50:00Z",
+      "comment": "Rude receptionist. Will not return.",
+      "reviewReply": {
+        "comment": "We are sorry to hear this. Please call us so we can look into it.",
+        "updateTime": "2026-09-27T09:50:00Z"
+      }
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000002/reviews/AbFake0013",
+      "reviewId": "AbFake0013",
+      "reviewer": {
+        "displayName": "A Google User",
+        "isAnonymous": true
+      },
+      "starRating": "FIVE",
+      "createTime": "2026-09-19T19:05:00Z",
+      "updateTime": "2026-09-19T19:05:00Z"
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000002/reviews/AbFake0014",
+      "reviewId": "AbFake0014",
+      "reviewer": {
+        "displayName": "Wendell Strand",
+        "profilePhotoUrl": "https://photos.example/AbFake0014.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "THREE",
+      "createTime": "2026-09-12T14:40:00Z",
+      "updateTime": "2026-09-12T14:40:00Z",
+      "comment": "Treatment was ok, the whitening was uneven and my lawyer suggested I write this."
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000002/reviews/AbFake0015",
+      "reviewId": "AbFake0015",
+      "reviewer": {
+        "displayName": "Ines Calloway",
+        "profilePhotoUrl": "https://photos.example/AbFake0015.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FIVE",
+      "createTime": "2026-09-05T10:30:00Z",
+      "updateTime": "2026-09-05T10:30:00Z",
+      "comment": "Great with nervous patients. Zero pain during my filling."
+    },
+    {
+      "name": "accounts/100000000000000000001/locations/200000000000000002/reviews/AbFake0016",
+      "reviewId": "AbFake0016",
+      "reviewer": {
+        "displayName": "Gideon Marsh",
+        "profilePhotoUrl": "https://photos.example/AbFake0016.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FOUR",
+      "createTime": "2026-08-30T08:15:00Z",
+      "updateTime": "2026-08-31T08:15:00Z",
+      "comment": "Clean, modern, on time.",
+      "reviewReply": {
+        "comment": "Thanks for stopping by.",
+        "updateTime": "2026-08-31T08:15:00Z"
+      }
+    }
+  ],
+  "locations/200000000000000003": [
+    {
+      "name": "accounts/100000000000000000002/locations/200000000000000003/reviews/AbFake0017",
+      "reviewId": "AbFake0017",
+      "reviewer": {
+        "displayName": "Harriet Boone",
+        "profilePhotoUrl": "https://photos.example/AbFake0017.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FIVE",
+      "createTime": "2026-10-11T07:30:00Z",
+      "updateTime": "2026-10-11T07:30:00Z",
+      "comment": "Fixed our leaking kitchen tap in under an hour. Fair price."
+    },
+    {
+      "name": "accounts/100000000000000000002/locations/200000000000000003/reviews/AbFake0018",
+      "reviewId": "AbFake0018",
+      "reviewer": {
+        "displayName": "Lionel Pask",
+        "profilePhotoUrl": "https://photos.example/AbFake0018.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "ONE",
+      "createTime": "2026-10-08T15:10:00Z",
+      "updateTime": "2026-10-08T15:10:00Z",
+      "comment": "Showed up three hours late and left a mess in the hallway."
+    },
+    {
+      "name": "accounts/100000000000000000002/locations/200000000000000003/reviews/AbFake0019",
+      "reviewId": "AbFake0019",
+      "reviewer": {
+        "displayName": "Sunita Verma",
+        "profilePhotoUrl": "https://photos.example/AbFake0019.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FIVE",
+      "createTime": "2026-10-03T12:25:00Z",
+      "updateTime": "2026-10-03T12:25:00Z"
+    },
+    {
+      "name": "accounts/100000000000000000002/locations/200000000000000003/reviews/AbFake0020",
+      "reviewId": "AbFake0020",
+      "reviewer": {
+        "displayName": "Declan Rourke",
+        "profilePhotoUrl": "https://photos.example/AbFake0020.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "TWO",
+      "createTime": "2026-09-27T18:00:00Z",
+      "updateTime": "2026-09-27T18:00:00Z",
+      "comment": "Quote doubled after the work started."
+    },
+    {
+      "name": "accounts/100000000000000000002/locations/200000000000000003/reviews/AbFake0021",
+      "reviewId": "AbFake0021",
+      "reviewer": {
+        "displayName": "Oksana Brandt",
+        "profilePhotoUrl": "https://photos.example/AbFake0021.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FOUR",
+      "createTime": "2026-09-20T09:00:00Z",
+      "updateTime": "2026-09-21T09:00:00Z",
+      "comment": "Solid work on the water heater. Could communicate better about timing.",
+      "reviewReply": {
+        "comment": "Appreciate the note on timing; we have changed how we send arrival windows.",
+        "updateTime": "2026-09-21T09:00:00Z"
+      }
+    },
+    {
+      "name": "accounts/100000000000000000002/locations/200000000000000003/reviews/AbFake0022",
+      "reviewId": "AbFake0022",
+      "reviewer": {
+        "displayName": "A Google User",
+        "isAnonymous": true
+      },
+      "starRating": "THREE",
+      "createTime": "2026-09-13T11:45:00Z",
+      "updateTime": "2026-09-13T11:45:00Z",
+      "comment": "Okay job, took two visits."
+    },
+    {
+      "name": "accounts/100000000000000000002/locations/200000000000000003/reviews/AbFake0023",
+      "reviewId": "AbFake0023",
+      "reviewer": {
+        "displayName": "Mateus Oyelaran",
+        "profilePhotoUrl": "https://photos.example/AbFake0023.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FIVE",
+      "createTime": "2026-09-06T16:20:00Z",
+      "updateTime": "2026-09-06T16:20:00Z",
+      "comment": "Honest, tidy, and explained what was wrong."
+    },
+    {
+      "name": "accounts/100000000000000000002/locations/200000000000000003/reviews/AbFake0024",
+      "reviewId": "AbFake0024",
+      "reviewer": {
+        "displayName": "Greta Holm",
+        "profilePhotoUrl": "https://photos.example/AbFake0024.jpg",
+        "isAnonymous": false
+      },
+      "starRating": "FIVE",
+      "createTime": "2026-08-29T13:10:00Z",
+      "updateTime": "2026-08-29T13:10:00Z",
+      "comment": "Called out on a Sunday for a burst pipe. Lifesavers."
+    }
+  ]
+}

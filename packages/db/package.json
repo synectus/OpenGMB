@@ -1,0 +1,26 @@
+{
+  "name": "@opengmb/db",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "db:generate": "drizzle-kit generate",
+    "db:generate:public": "drizzle-kit generate --config drizzle.public.config.ts",
+    "db:migrate": "tsx src/migrate-cli.ts"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.4",
+    "postgres": "^3.4.9"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.11",
+    "typescript": "5.9.3",
+    "@types/node": "^22",
+    "tsx": "^4.23.15"
+  }
+}

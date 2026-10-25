@@ -1,0 +1,44 @@
+{
+  "name": "opengmb",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@10.15.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "typecheck": "turbo run typecheck",
+    "test": "vitest run",
+    "gate": "node scripts/gate.mjs",
+    "check:repo-ready": "node scripts/repo-ready.mjs",
+    "export:public": "node scripts/export-public/export.mjs",
+    "oss:check": "node scripts/export-public/oss-check.mjs",
+    "check:seo": "pnpm --filter @opengmb/web exec playwright test e2e/seo-check.spec.ts",
+    "scale": "pnpm --filter @opengmb/web scale",
+    "db:generate": "pnpm --filter @opengmb/db db:generate",
+    "db:generate:public": "pnpm --filter @opengmb/db db:generate:public",
+    "db:migrate": "pnpm --filter @opengmb/db db:migrate",
+    "token:create": "pnpm --filter @opengmb/mcp token:create",
+    "token:revoke": "pnpm --filter @opengmb/mcp token:revoke",
+    "dev:seed-google": "pnpm --filter @opengmb/mcp dev:seed-google",
+    "audit:checkpoint-backfill": "pnpm --filter @opengmb/mcp audit:checkpoint-backfill",
+    "gen:actions": "pnpm --filter @opengmb/core gen:actions",
+    "zapier:test": "npm --prefix integrations/zapier test"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "eslint-config-next": "^16.4.1",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.10",
+    "turbo": "^2.11.7",
+    "typescript": "5.9.3",
+    "typescript-eslint": "^8.71.1",
+    "vitest": "^5.0.3"
+  }
+}

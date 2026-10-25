@@ -1,0 +1,3 @@
+{"config":{},"suites":[{"title":"smoke.spec.ts","specs":[{"title":"a","ok":true,"tests":[{"status":"expected","results":[{"status":"passed"}]}]}],
+"suites":[{"title":"signed in","specs":[{"title":"b","ok":true,"tests":[{"status":"expected","results":[{"status":"passed"}]}]},{"title":"c","ok":false,"tests":[{"status":"unexpected","results":[{"status":"failed"}]}]},{"title":"d","ok":true,"tests":[{"status":"skipped","results":[{"status":"skipped"}]}]}]}]}],
+"stats":{"expected":2,"unexpected":1,"skipped":1,"flaky":0}}

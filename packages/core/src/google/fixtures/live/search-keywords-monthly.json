@@ -1,0 +1,134 @@
+{
+  "url": "https://businessprofileperformance.googleapis.com/v1/locations/1000000000000000001/searchkeywords/impressions/monthly",
+  "status": 200,
+  "body": {
+    "searchKeywordsCounts": [
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "value": "32"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "value": "23"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "value": "18"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "value": "18"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "value": "16"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      },
+      {
+        "searchKeyword": "example keyword",
+        "insightsValue": {
+          "threshold": "15"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,771 @@
+{
+  "apiTokens.current": {
+    "kind": "read",
+    "approval": null,
+    "input": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {}
+    },
+    "output": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        "user": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "email"
+          ],
+          "additionalProperties": false
+        },
+        "role": {
+          "type": "string"
+        },
+        "token": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "scopes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "read",
+                      "write"
+                    ]
+                  }
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "human_in_the_loop",
+                    "full_autonomy"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "scopes",
+                "mode"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "organization",
+        "user",
+        "role",
+        "token"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "reviews.list": {
+    "kind": "read",
+    "approval": null,
+    "input": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "workspaceId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "locationIds": {
+          "minItems": 1,
+          "maxItems": 100,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "groupId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "ratings": {
+          "minItems": 1,
+          "maxItems": 5,
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          }
+        },
+        "replied": {
+          "type": "boolean"
+        },
+        "from": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+        },
+        "q": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "topic": {
+          "type": "string",
+          "enum": [
+            "staff",
+            "wait_time",
+            "price_value",
+            "cleanliness",
+            "results_quality",
+            "communication",
+            "booking",
+            "location_parking",
+            "other"
+          ]
+        },
+        "sentiment": {
+          "type": "string",
+          "enum": [
+            "positive",
+            "negative",
+            "mixed"
+          ]
+        },
+        "sort": {
+          "default": "newest",
+          "type": "string",
+          "enum": [
+            "newest",
+            "oldest",
+            "rating_high",
+            "rating_low"
+          ]
+        },
+        "cursor": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "limit": {
+          "default": 25,
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "assignedToMe": {
+          "type": "boolean"
+        },
+        "overdue": {
+          "type": "boolean"
+        }
+      }
+    },
+    "output": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "replyStage": {
+                "type": "string",
+                "enum": [
+                  "needs_reply",
+                  "draft",
+                  "blocked",
+                  "failed",
+                  "waiting_approval",
+                  "waiting_publish",
+                  "replied",
+                  "not_wanted"
+                ]
+              },
+              "googleReviewName": {
+                "type": "string"
+              },
+              "location": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name"
+                ],
+                "additionalProperties": false
+              },
+              "reviewer": {
+                "type": "object",
+                "properties": {
+                  "displayName": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "isAnonymous": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "displayName",
+                  "isAnonymous"
+                ],
+                "additionalProperties": false
+              },
+              "rating": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "comment": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "createTime": {
+                "type": "string"
+              },
+              "updateTime": {
+                "type": "string"
+              },
+              "reply": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "comment": {
+                        "type": "string"
+                      },
+                      "updateTime": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "state": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "policyViolation": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "comment",
+                      "updateTime",
+                      "state",
+                      "policyViolation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "replyStage",
+              "googleReviewName",
+              "location",
+              "reviewer",
+              "rating",
+              "comment",
+              "createTime",
+              "updateTime",
+              "reply"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "workspaces.list": {
+    "kind": "read",
+    "approval": null,
+    "input": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {}
+    },
+    "output": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "workspaces": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "defaultPostLanguage": {
+                "type": "string",
+                "enum": [
+                  "en",
+                  "es",
+                  "fr",
+                  "de",
+                  "it",
+                  "pt",
+                  "nl",
+                  "vi",
+                  "zh",
+                  "ko",
+                  "ja",
+                  "ar",
+                  "hi",
+                  "gu"
+                ]
+              },
+              "timeZone": {
+                "type": "string"
+              },
+              "timeZoneSource": {
+                "type": "string",
+                "enum": [
+                  "default",
+                  "derived",
+                  "manual"
+                ]
+              },
+              "dateFormat": {
+                "type": "string",
+                "enum": [
+                  "YYYY-MM-DD",
+                  "DD/MM/YYYY",
+                  "MM/DD/YYYY"
+                ]
+              },
+              "senderLegalName": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "senderPostalAddress": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "senderCompanyNumber": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "senderPhone": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "senderWebsite": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "hipaaCoveredEntity": {
+                "type": "boolean"
+              },
+              "createdAt": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "defaultPostLanguage",
+              "timeZone",
+              "timeZoneSource",
+              "dateFormat",
+              "senderLegalName",
+              "senderPostalAddress",
+              "senderCompanyNumber",
+              "senderPhone",
+              "senderWebsite",
+              "hipaaCoveredEntity",
+              "createdAt"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "workspaces"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "webhooks.subscribe": {
+    "kind": "write",
+    "approval": "own_flow",
+    "input": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "events": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "review.created"
+            ]
+          }
+        },
+        "workspaceId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "url"
+      ]
+    },
+    "output": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "subscription": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "workspaceId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "description": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "disabled"
+              ]
+            },
+            "disabledReason": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "consecutiveFailures": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "createdAt": {
+              "type": "string"
+            },
+            "lastDelivery": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "statusCode": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "at": {
+                      "type": "string"
+                    },
+                    "test": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "statusCode",
+                    "at",
+                    "test"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "url",
+            "events",
+            "workspaceId",
+            "description",
+            "status",
+            "disabledReason",
+            "consecutiveFailures",
+            "createdAt",
+            "lastDelivery"
+          ],
+          "additionalProperties": false
+        },
+        "secret": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "subscription",
+        "secret"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "webhooks.unsubscribe": {
+    "kind": "write",
+    "approval": "own_flow",
+    "input": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "output": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "review.created payload": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "const": "review.created"
+      },
+      "test": {
+        "type": "boolean"
+      },
+      "createdAt": {
+        "type": "string"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "review": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "workspaceId": {
+                "type": "string"
+              },
+              "workspaceName": {
+                "type": "string"
+              },
+              "locationId": {
+                "type": "string"
+              },
+              "locationName": {
+                "type": "string"
+              },
+              "googleReviewName": {
+                "type": "string"
+              },
+              "starRating": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "comment": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reviewerName": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "createTime": {
+                "type": "string"
+              },
+              "updateTime": {
+                "type": "string"
+              },
+              "appUrl": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "workspaceId",
+              "workspaceName",
+              "locationId",
+              "locationName",
+              "googleReviewName",
+              "starRating",
+              "comment",
+              "reviewerName",
+              "createTime",
+              "updateTime",
+              "appUrl"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "review"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "type",
+      "test",
+      "createdAt",
+      "data"
+    ],
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,3 @@
+# Trademarks
+
+The open-source licence covers the code, not the OpenGMB name or logo, which are trademarks of Synectus Private Limited. You may fork, change and share the code. If you distribute or host a changed version, give it a name and logo that are not confusingly similar to OpenGMB. You may make accurate statements such as "works with OpenGMB", "compatible with OpenGMB" or "based on OpenGMB", in plain text, without our logo and without suggesting we endorse you. You may not use "OpenGMB" in a product, company or domain name, or bid on it in search ads, without our written permission. You may share unchanged copies under the OpenGMB name. Questions: info@synectus.com.

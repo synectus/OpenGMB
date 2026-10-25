@@ -1,0 +1,15 @@
+{
+  "url": "https://mybusinessaccountmanagement.googleapis.com/v1/accounts",
+  "status": 200,
+  "body": {
+    "accounts": [
+      {
+        "name": "accounts/100000000000000000001",
+        "accountName": "Example Account",
+        "type": "PERSONAL",
+        "verificationState": "UNVERIFIED",
+        "vettedState": "NOT_VETTED"
+      }
+    ]
+  }
+}

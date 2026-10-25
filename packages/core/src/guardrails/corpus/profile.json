@@ -1,0 +1,697 @@
+{
+  "defaults": {
+    "contentType": "profile",
+    "packs": [],
+    "profile": "general",
+    "rating": null,
+    "reviewText": null,
+    "reviewerDisplayName": null,
+    "locationName": "Riverside Family Clinic",
+    "phone": "(713) 555-0142",
+    "staffNames": [],
+    "skipPositiveReviews": false,
+    "recentReplies": [],
+    "recentFiller": 0,
+    "profileFields": {}
+  },
+  "entries": [
+    {
+      "id": "pr-pass-description",
+      "reply": "We are a family practice serving the Riverside area with preventive and restorative care.",
+      "context": {
+        "profileFields": {}
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "pr-pass-hours",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "regularHours": {
+            "periods": [
+              {
+                "openDay": "MONDAY",
+                "openTime": {
+                  "hours": 8
+                },
+                "closeDay": "MONDAY",
+                "closeTime": {
+                  "hours": 17
+                }
+              },
+              {
+                "openDay": "TUESDAY",
+                "openTime": {
+                  "hours": 8
+                },
+                "closeDay": "TUESDAY",
+                "closeTime": {
+                  "hours": 17
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "pr-pass-24h",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "regularHours": {
+            "periods": [
+              {
+                "openDay": "SATURDAY",
+                "openTime": {},
+                "closeDay": "SATURDAY",
+                "closeTime": {
+                  "hours": 24
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "pr-pass-weekwrap",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "regularHours": {
+            "periods": [
+              {
+                "openDay": "SATURDAY",
+                "openTime": {
+                  "hours": 18
+                },
+                "closeDay": "SUNDAY",
+                "closeTime": {
+                  "hours": 2
+                }
+              },
+              {
+                "openDay": "MONDAY",
+                "openTime": {
+                  "hours": 9
+                },
+                "closeDay": "MONDAY",
+                "closeTime": {
+                  "hours": 17
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "pr-pass-special",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "specialHours": {
+            "specialHourPeriods": [
+              {
+                "startDate": {
+                  "year": 2026,
+                  "month": 12,
+                  "day": 25
+                },
+                "closed": true
+              },
+              {
+                "startDate": {
+                  "year": 2026,
+                  "month": 12,
+                  "day": 31
+                },
+                "openTime": {
+                  "hours": 9
+                },
+                "closeTime": {
+                  "hours": 13
+                }
+              },
+              {
+                "startDate": {
+                  "year": 2027,
+                  "month": 1,
+                  "day": 1
+                },
+                "endDate": {
+                  "year": 2027,
+                  "month": 1,
+                  "day": 2
+                },
+                "openTime": {
+                  "hours": 20
+                },
+                "closeTime": {
+                  "hours": 2
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "pr-pass-phone",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "phoneNumbers": {
+            "primaryPhone": "+1 415 555 0132",
+            "additionalPhones": ["+1 415 555 0133"]
+          }
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "pr-description-length",
+      "reply": {
+        "repeat": "a",
+        "times": 751
+      },
+      "context": {},
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.description-length"]
+      }
+    },
+    {
+      "id": "pr-description-at-limit",
+      "reply": {
+        "repeat": "a",
+        "times": 750
+      },
+      "context": {},
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    },
+    {
+      "id": "pr-description-url",
+      "reply": "Visit https://riverside.example.com for details.",
+      "context": {
+        "profileFields": {}
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["U7.url"]
+      }
+    },
+    {
+      "id": "pr-description-email",
+      "reply": "Write to hello@riverside.example.com anytime.",
+      "context": {
+        "profileFields": {}
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["U7.email"]
+      }
+    },
+    {
+      "id": "pr-description-hashtag",
+      "reply": "Proudly local #riverside care.",
+      "context": {
+        "profileFields": {}
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["U7.hashtag"]
+      }
+    },
+    {
+      "id": "pr-hours-close-before-open",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "regularHours": {
+            "periods": [
+              {
+                "openDay": "MONDAY",
+                "openTime": {
+                  "hours": 17
+                },
+                "closeDay": "MONDAY",
+                "closeTime": {
+                  "hours": 8
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.hours-valid"]
+      }
+    },
+    {
+      "id": "pr-hours-overlap",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "regularHours": {
+            "periods": [
+              {
+                "openDay": "MONDAY",
+                "openTime": {
+                  "hours": 8
+                },
+                "closeDay": "MONDAY",
+                "closeTime": {
+                  "hours": 17
+                }
+              },
+              {
+                "openDay": "MONDAY",
+                "openTime": {
+                  "hours": 16
+                },
+                "closeDay": "MONDAY",
+                "closeTime": {
+                  "hours": 20
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.hours-valid"]
+      }
+    },
+    {
+      "id": "pr-hours-wrap-overlap",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "regularHours": {
+            "periods": [
+              {
+                "openDay": "SUNDAY",
+                "openTime": {
+                  "hours": 20
+                },
+                "closeDay": "MONDAY",
+                "closeTime": {
+                  "hours": 9
+                }
+              },
+              {
+                "openDay": "MONDAY",
+                "openTime": {
+                  "hours": 8
+                },
+                "closeDay": "MONDAY",
+                "closeTime": {
+                  "hours": 17
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.hours-valid"]
+      }
+    },
+    {
+      "id": "pr-hours-bad-day",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "regularHours": {
+            "periods": [
+              {
+                "openDay": "FUNDAY",
+                "openTime": {
+                  "hours": 8
+                },
+                "closeDay": "FUNDAY",
+                "closeTime": {
+                  "hours": 17
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.hours-valid"]
+      }
+    },
+    {
+      "id": "pr-hours-bad-time",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "regularHours": {
+            "periods": [
+              {
+                "openDay": "MONDAY",
+                "openTime": {
+                  "hours": 8
+                },
+                "closeDay": "MONDAY",
+                "closeTime": {
+                  "hours": 25
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.hours-valid"]
+      }
+    },
+    {
+      "id": "pr-hours-open-2400",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "regularHours": {
+            "periods": [
+              {
+                "openDay": "MONDAY",
+                "openTime": {
+                  "hours": 24
+                },
+                "closeDay": "TUESDAY",
+                "closeTime": {
+                  "hours": 6
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.hours-valid"]
+      }
+    },
+    {
+      "id": "pr-special-bad-date",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "specialHours": {
+            "specialHourPeriods": [
+              {
+                "startDate": {
+                  "year": 2026,
+                  "month": 2,
+                  "day": 30
+                },
+                "closed": true
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.special-hours-valid"]
+      }
+    },
+    {
+      "id": "pr-special-missing-times",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "specialHours": {
+            "specialHourPeriods": [
+              {
+                "startDate": {
+                  "year": 2026,
+                  "month": 12,
+                  "day": 24
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.special-hours-valid"]
+      }
+    },
+    {
+      "id": "pr-special-too-long",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "specialHours": {
+            "specialHourPeriods": [
+              {
+                "startDate": {
+                  "year": 2026,
+                  "month": 12,
+                  "day": 24
+                },
+                "endDate": {
+                  "year": 2026,
+                  "month": 12,
+                  "day": 25
+                },
+                "openTime": {
+                  "hours": 8
+                },
+                "closeTime": {
+                  "hours": 9
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.special-hours-valid"]
+      }
+    },
+    {
+      "id": "pr-special-end-too-late",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "specialHours": {
+            "specialHourPeriods": [
+              {
+                "startDate": {
+                  "year": 2026,
+                  "month": 12,
+                  "day": 24
+                },
+                "endDate": {
+                  "year": 2026,
+                  "month": 12,
+                  "day": 27
+                },
+                "openTime": {
+                  "hours": 8
+                },
+                "closeTime": {
+                  "hours": 9
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.special-hours-valid"]
+      }
+    },
+    {
+      "id": "pr-special-duplicate-date",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "specialHours": {
+            "specialHourPeriods": [
+              {
+                "startDate": {
+                  "year": 2026,
+                  "month": 12,
+                  "day": 25
+                },
+                "closed": true
+              },
+              {
+                "startDate": {
+                  "year": 2026,
+                  "month": 12,
+                  "day": 25
+                },
+                "closed": true
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.special-hours-valid"]
+      }
+    },
+    {
+      "id": "pr-phone-letters",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "phoneNumbers": {
+            "primaryPhone": "call us"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.phone-format"]
+      }
+    },
+    {
+      "id": "pr-phone-too-short",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "phoneNumbers": {
+            "primaryPhone": "+1 555"
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.phone-format"]
+      }
+    },
+    {
+      "id": "pr-phone-no-primary",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "phoneNumbers": {
+            "additionalPhones": ["+1 415 555 0132"]
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.phone-format"]
+      }
+    },
+    {
+      "id": "pr-phone-too-many-additional",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "phoneNumbers": {
+            "primaryPhone": "+1 415 555 0132",
+            "additionalPhones": ["+1 415 555 0133", "+1 415 555 0134", "+1 415 555 0135"]
+          }
+        }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.phone-format"]
+      }
+    },
+    {
+      "id": "pr-phone-national-warns",
+      "reply": "",
+      "context": {
+        "profileFields": {
+          "phoneNumbers": {
+            "primaryPhone": "(713) 555-0142"
+          }
+        }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": ["PR.phone-format"]
+      }
+    },
+    {
+      "id": "pr-address-change-warns",
+      "reply": "",
+      "context": {
+        "profileFields": { "storefrontAddress": { "regionCode": "US", "postalCode": "75940", "administrativeArea": "TX", "locality": "Rivermoor", "addressLines": ["100 Main St"] } }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": ["PR.address-reverification"]
+      }
+    },
+    {
+      "id": "pr-address-no-line-or-city",
+      "reply": "",
+      "context": {
+        "profileFields": { "storefrontAddress": { "regionCode": "US", "postalCode": "75940" } }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.address-reverification", "PR.address-valid"]
+      }
+    },
+    {
+      "id": "pr-store-code-too-long",
+      "reply": "",
+      "context": {
+        "profileFields": { "storeCode": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" }
+      },
+      "expect": {
+        "ok": false,
+        "ruleIds": ["PR.store-code-length"]
+      }
+    },
+    {
+      "id": "pr-pass-store-code",
+      "reply": "",
+      "context": {
+        "profileFields": { "storeCode": "LPC-001" }
+      },
+      "expect": {
+        "ok": true,
+        "ruleIds": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "categories": [
+    {
+      "name": "categories/gcid:pain_control_clinic",
+      "displayName": "Pain control clinic",
+      "serviceTypes": [
+        {
+          "serviceTypeId": "job_type_id:pain_management_consultation",
+          "displayName": "Pain management consultation"
+        },
+        {
+          "serviceTypeId": "job_type_id:physical_therapy_evaluation",
+          "displayName": "Physical therapy evaluation"
+        },
+        {
+          "serviceTypeId": "job_type_id:injury_rehabilitation",
+          "displayName": "Injury rehabilitation"
+        }
+      ]
+    },
+    {
+      "name": "categories/gcid:pain_management_physician",
+      "displayName": "Pain management physician",
+      "serviceTypes": []
+    },
+    {
+      "name": "categories/gcid:physical_therapy_clinic",
+      "displayName": "Physical therapy clinic",
+      "serviceTypes": [
+        {
+          "serviceTypeId": "job_type_id:physical_therapy_evaluation",
+          "displayName": "Physical therapy evaluation"
+        },
+        {
+          "serviceTypeId": "job_type_id:sports_injury_therapy",
+          "displayName": "Sports injury therapy"
+        }
+      ]
+    },
+    {
+      "name": "categories/gcid:physiotherapist",
+      "displayName": "Physiotherapist",
+      "serviceTypes": []
+    },
+    {
+      "name": "categories/gcid:medical_clinic",
+      "displayName": "Medical clinic",
+      "serviceTypes": []
+    },
+    {
+      "name": "categories/gcid:dentist",
+      "displayName": "Dentist",
+      "serviceTypes": [
+        { "serviceTypeId": "job_type_id:teeth_cleaning", "displayName": "Teeth cleaning" },
+        { "serviceTypeId": "job_type_id:dental_implants", "displayName": "Dental implants" }
+      ]
+    },
+    { "name": "categories/gcid:orthodontist", "displayName": "Orthodontist", "serviceTypes": [] },
+    { "name": "categories/gcid:emergency_dental_service", "displayName": "Emergency dental service", "serviceTypes": [] },
+    { "name": "categories/gcid:cosmetic_dentist", "displayName": "Cosmetic dentist", "serviceTypes": [] },
+    { "name": "categories/gcid:teeth_whitening_service", "displayName": "Teeth whitening service", "serviceTypes": [] },
+    { "name": "categories/gcid:dental_clinic", "displayName": "Dental clinic", "serviceTypes": [] },
+    { "name": "categories/gcid:pediatric_dentist", "displayName": "Pediatric dentist", "serviceTypes": [] },
+    {
+      "name": "categories/gcid:plumber",
+      "displayName": "Plumber",
+      "serviceTypes": [
+        { "serviceTypeId": "job_type_id:drain_cleaning", "displayName": "Drain cleaning" }
+      ]
+    },
+    {
+      "name": "categories/gcid:internet_marketing_service",
+      "displayName": "Internet marketing service",
+      "serviceTypes": []
+    }
+  ],
+  "attributes": {
+    "default": [
+      {
+        "parent": "attributes/wheelchair_accessible_entrance",
+        "valueType": "BOOL",
+        "displayName": "Wheelchair accessible entrance",
+        "groupDisplayName": "Accessibility",
+        "repeatable": false,
+        "valueMetadata": [{ "value": true, "displayName": "Wheelchair accessible entrance" }]
+      },
+      {
+        "parent": "attributes/wheelchair_accessible_parking_lot",
+        "valueType": "BOOL",
+        "displayName": "Wheelchair accessible parking lot",
+        "groupDisplayName": "Accessibility",
+        "repeatable": false
+      },
+      {
+        "parent": "attributes/wheelchair_accessible_restroom",
+        "valueType": "BOOL",
+        "displayName": "Wheelchair accessible restroom",
+        "groupDisplayName": "Accessibility",
+        "repeatable": false
+      },
+      {
+        "parent": "attributes/has_wifi",
+        "valueType": "BOOL",
+        "displayName": "Wi-Fi",
+        "groupDisplayName": "Amenities",
+        "repeatable": false
+      },
+      {
+        "parent": "attributes/restroom",
+        "valueType": "BOOL",
+        "displayName": "Restroom",
+        "groupDisplayName": "Amenities",
+        "repeatable": false
+      },
+      {
+        "parent": "attributes/requires_appointments",
+        "valueType": "BOOL",
+        "displayName": "Appointment required",
+        "groupDisplayName": "Planning",
+        "repeatable": false
+      },
+      {
+        "parent": "attributes/url_appointment",
+        "valueType": "URL",
+        "displayName": "Appointment link",
+        "groupDisplayName": "Planning",
+        "repeatable": false
+      },
+      {
+        "parent": "attributes/pay_credit_card_types_accepted",
+        "valueType": "REPEATED_ENUM",
+        "displayName": "Credit cards accepted",
+        "groupDisplayName": "Payments",
+        "repeatable": true,
+        "valueMetadata": [
+          { "value": "visa", "displayName": "Visa" },
+          { "value": "mastercard", "displayName": "Mastercard" },
+          { "value": "american_express", "displayName": "American Express" }
+        ]
+      },
+      {
+        "parent": "attributes/wi_fi",
+        "valueType": "ENUM",
+        "displayName": "Wi-Fi type",
+        "groupDisplayName": "Amenities",
+        "repeatable": false,
+        "valueMetadata": [
+          { "value": "free_wi_fi", "displayName": "Free Wi-Fi" },
+          { "value": "paid_wi_fi", "displayName": "Paid Wi-Fi" }
+        ]
+      },
+      {
+        "parent": "attributes/url_facebook",
+        "valueType": "URL",
+        "displayName": "Facebook",
+        "groupDisplayName": "Social profiles",
+        "repeatable": false
+      },
+      {
+        "parent": "attributes/url_instagram",
+        "valueType": "URL",
+        "displayName": "Instagram",
+        "groupDisplayName": "Social profiles",
+        "repeatable": false
+      },
+      {
+        "parent": "attributes/has_fax",
+        "valueType": "BOOL",
+        "displayName": "Fax",
+        "groupDisplayName": "Amenities",
+        "repeatable": false,
+        "deprecated": true
+      }
+    ],
+    "categories/gcid:plumber": [
+      {
+        "parent": "attributes/has_onsite_services",
+        "valueType": "BOOL",
+        "displayName": "Onsite services",
+        "groupDisplayName": "Service options",
+        "repeatable": false
+      },
+      {
+        "parent": "attributes/url_appointment",
+        "valueType": "URL",
+        "displayName": "Appointment link",
+        "groupDisplayName": "Planning",
+        "repeatable": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,850 @@
+{
+  "url": "https://mybusinessbusinessinformation.googleapis.com/v1/locations/1000000000000000001",
+  "status": 200,
+  "body": {
+    "name": "locations/1000000000000000001",
+    "languageCode": "en-GB",
+    "storeCode": "05822709983217206523",
+    "title": "Example Business",
+    "phoneNumbers": {
+      "primaryPhone": "+1 555 010 0000"
+    },
+    "categories": {
+      "primaryCategory": {
+        "name": "categories/gcid:internet_marketing_service",
+        "displayName": "Internet marketing service",
+        "serviceTypes": [
+          {
+            "serviceTypeId": "job_type_id:affiliate_marketing",
+            "displayName": "Affiliate marketing"
+          },
+          {
+            "serviceTypeId": "job_type_id:billboard_design_and_consulting",
+            "displayName": "Billboard design and consulting"
+          },
+          {
+            "serviceTypeId": "job_type_id:branding",
+            "displayName": "Branding"
+          },
+          {
+            "serviceTypeId": "job_type_id:business_to_business",
+            "displayName": "Business to Business"
+          },
+          {
+            "serviceTypeId": "job_type_id:content_management",
+            "displayName": "Content management"
+          },
+          {
+            "serviceTypeId": "job_type_id:digital_marketing",
+            "displayName": "Digital marketing"
+          },
+          {
+            "serviceTypeId": "job_type_id:direct_mail",
+            "displayName": "Direct mail"
+          },
+          {
+            "serviceTypeId": "job_type_id:e_commerce",
+            "displayName": "E-commerce"
+          },
+          {
+            "serviceTypeId": "job_type_id:email_marketing",
+            "displayName": "Email marketing"
+          },
+          {
+            "serviceTypeId": "job_type_id:graphic_design",
+            "displayName": "Graphic design"
+          },
+          {
+            "serviceTypeId": "job_type_id:lead_generation",
+            "displayName": "Lead generation"
+          },
+          {
+            "serviceTypeId": "job_type_id:link_building",
+            "displayName": "Link building"
+          },
+          {
+            "serviceTypeId": "job_type_id:logo_design",
+            "displayName": "Logo design"
+          },
+          {
+            "serviceTypeId": "job_type_id:marketing_strategy_consultation",
+            "displayName": "Marketing strategy consultation"
+          },
+          {
+            "serviceTypeId": "job_type_id:online_lead_generation",
+            "displayName": "Online lead generation"
+          },
+          {
+            "serviceTypeId": "job_type_id:outdoor_advertising",
+            "displayName": "Outdoor advertising"
+          },
+          {
+            "serviceTypeId": "job_type_id:paid_advertising",
+            "displayName": "Paid advertising"
+          },
+          {
+            "serviceTypeId": "job_type_id:pay_per_click_consulting",
+            "displayName": "Pay-per-click consulting"
+          },
+          {
+            "serviceTypeId": "job_type_id:print_ads",
+            "displayName": "Print ads"
+          },
+          {
+            "serviceTypeId": "job_type_id:radio",
+            "displayName": "Radio"
+          },
+          {
+            "serviceTypeId": "job_type_id:search_engine_optimization",
+            "displayName": "Search engine optimisation"
+          },
+          {
+            "serviceTypeId": "job_type_id:social_media_marketing",
+            "displayName": "Social media marketing"
+          },
+          {
+            "serviceTypeId": "job_type_id:technical_audits",
+            "displayName": "Technical audits"
+          },
+          {
+            "serviceTypeId": "job_type_id:telemarketing",
+            "displayName": "Telemarketing"
+          },
+          {
+            "serviceTypeId": "job_type_id:tv_and_video",
+            "displayName": "TV & video"
+          },
+          {
+            "serviceTypeId": "job_type_id:web_design",
+            "displayName": "Web design"
+          },
+          {
+            "serviceTypeId": "job_type_id:web_marketing",
+            "displayName": "Web marketing"
+          }
+        ],
+        "moreHoursTypes": [
+          {
+            "hoursTypeId": "ACCESS",
+            "displayName": "Access",
+            "localizedDisplayName": "Access"
+          },
+          {
+            "hoursTypeId": "BREAKFAST",
+            "displayName": "Breakfast",
+            "localizedDisplayName": "Breakfast"
+          },
+          {
+            "hoursTypeId": "BRUNCH",
+            "displayName": "Brunch",
+            "localizedDisplayName": "Brunch"
+          },
+          {
+            "hoursTypeId": "DELIVERY",
+            "displayName": "Delivery",
+            "localizedDisplayName": "Delivery"
+          },
+          {
+            "hoursTypeId": "DINNER",
+            "displayName": "Dinner",
+            "localizedDisplayName": "Dinner"
+          },
+          {
+            "hoursTypeId": "DRIVE_THROUGH",
+            "displayName": "Drive through",
+            "localizedDisplayName": "Drive-through"
+          },
+          {
+            "hoursTypeId": "HAPPY_HOUR",
+            "displayName": "Happy hours",
+            "localizedDisplayName": "Happy hours"
+          },
+          {
+            "hoursTypeId": "KITCHEN",
+            "displayName": "Kitchen",
+            "localizedDisplayName": "Kitchen"
+          },
+          {
+            "hoursTypeId": "LUNCH",
+            "displayName": "Lunch",
+            "localizedDisplayName": "Lunch"
+          },
+          {
+            "hoursTypeId": "ONLINE_SERVICE_HOURS",
+            "displayName": "Online service hours",
+            "localizedDisplayName": "Online operating hours"
+          },
+          {
+            "hoursTypeId": "PICKUP",
+            "displayName": "Pickup",
+            "localizedDisplayName": "Pick-up"
+          },
+          {
+            "hoursTypeId": "TAKEOUT",
+            "displayName": "Takeout",
+            "localizedDisplayName": "Takeaway"
+          },
+          {
+            "hoursTypeId": "SENIOR_HOURS",
+            "displayName": "Senior hours",
+            "localizedDisplayName": "Hours for the elderly"
+          }
+        ]
+      },
+      "additionalCategories": [
+        {
+          "name": "categories/gcid:back_office",
+          "displayName": "Back Office",
+          "moreHoursTypes": [
+            {
+              "hoursTypeId": "ACCESS",
+              "displayName": "Access",
+              "localizedDisplayName": "Access"
+            },
+            {
+              "hoursTypeId": "BREAKFAST",
+              "displayName": "Breakfast",
+              "localizedDisplayName": "Breakfast"
+            },
+            {
+              "hoursTypeId": "BRUNCH",
+              "displayName": "Brunch",
+              "localizedDisplayName": "Brunch"
+            },
+            {
+              "hoursTypeId": "DELIVERY",
+              "displayName": "Delivery",
+              "localizedDisplayName": "Delivery"
+            },
+            {
+              "hoursTypeId": "DINNER",
+              "displayName": "Dinner",
+              "localizedDisplayName": "Dinner"
+            },
+            {
+              "hoursTypeId": "DRIVE_THROUGH",
+              "displayName": "Drive through",
+              "localizedDisplayName": "Drive-through"
+            },
+            {
+              "hoursTypeId": "HAPPY_HOUR",
+              "displayName": "Happy hours",
+              "localizedDisplayName": "Happy hours"
+            },
+            {
+              "hoursTypeId": "KITCHEN",
+              "displayName": "Kitchen",
+              "localizedDisplayName": "Kitchen"
+            },
+            {
+              "hoursTypeId": "LUNCH",
+              "displayName": "Lunch",
+              "localizedDisplayName": "Lunch"
+            },
+            {
+              "hoursTypeId": "ONLINE_SERVICE_HOURS",
+              "displayName": "Online service hours",
+              "localizedDisplayName": "Online operating hours"
+            },
+            {
+              "hoursTypeId": "PICKUP",
+              "displayName": "Pickup",
+              "localizedDisplayName": "Pick-up"
+            },
+            {
+              "hoursTypeId": "TAKEOUT",
+              "displayName": "Takeout",
+              "localizedDisplayName": "Takeaway"
+            },
+            {
+              "hoursTypeId": "SENIOR_HOURS",
+              "displayName": "Senior hours",
+              "localizedDisplayName": "Hours for the elderly"
+            }
+          ]
+        },
+        {
+          "name": "categories/gcid:software_company",
+          "displayName": "Software company",
+          "serviceTypes": [
+            {
+              "serviceTypeId": "job_type_id:application_development",
+              "displayName": "Application development"
+            },
+            {
+              "serviceTypeId": "job_type_id:big_data_consulting_and_implementation",
+              "displayName": "Big data consulting & implementation"
+            },
+            {
+              "serviceTypeId": "job_type_id:business_to_business",
+              "displayName": "Business to Business"
+            },
+            {
+              "serviceTypeId": "job_type_id:cloud_services",
+              "displayName": "Cloud services"
+            },
+            {
+              "serviceTypeId": "job_type_id:computer_upgrades",
+              "displayName": "Computer upgrades"
+            },
+            {
+              "serviceTypeId": "job_type_id:data_center_management",
+              "displayName": "Data centre management"
+            },
+            {
+              "serviceTypeId": "job_type_id:data_quality_management",
+              "displayName": "Data quality management"
+            },
+            {
+              "serviceTypeId": "job_type_id:enterprise_software_development",
+              "displayName": "Enterprise software development"
+            },
+            {
+              "serviceTypeId": "job_type_id:it_consulting",
+              "displayName": "IT consulting"
+            },
+            {
+              "serviceTypeId": "job_type_id:mobile_app_development",
+              "displayName": "Mobile app development"
+            },
+            {
+              "serviceTypeId": "job_type_id:platform_consulting",
+              "displayName": "Platform consulting"
+            },
+            {
+              "serviceTypeId": "job_type_id:security_services_management",
+              "displayName": "Security services management"
+            },
+            {
+              "serviceTypeId": "job_type_id:software_consulting",
+              "displayName": "Software consulting"
+            },
+            {
+              "serviceTypeId": "job_type_id:software_development",
+              "displayName": "Software development"
+            },
+            {
+              "serviceTypeId": "job_type_id:software_development_outsourcing",
+              "displayName": "Software development outsourcing"
+            },
+            {
+              "serviceTypeId": "job_type_id:solution_consulting",
+              "displayName": "Solution consulting"
+            }
+          ],
+          "moreHoursTypes": [
+            {
+              "hoursTypeId": "ACCESS",
+              "displayName": "Access",
+              "localizedDisplayName": "Access"
+            },
+            {
+              "hoursTypeId": "BREAKFAST",
+              "displayName": "Breakfast",
+              "localizedDisplayName": "Breakfast"
+            },
+            {
+              "hoursTypeId": "BRUNCH",
+              "displayName": "Brunch",
+              "localizedDisplayName": "Brunch"
+            },
+            {
+              "hoursTypeId": "DELIVERY",
+              "displayName": "Delivery",
+              "localizedDisplayName": "Delivery"
+            },
+            {
+              "hoursTypeId": "DINNER",
+              "displayName": "Dinner",
+              "localizedDisplayName": "Dinner"
+            },
+            {
+              "hoursTypeId": "DRIVE_THROUGH",
+              "displayName": "Drive through",
+              "localizedDisplayName": "Drive-through"
+            },
+            {
+              "hoursTypeId": "HAPPY_HOUR",
+              "displayName": "Happy hours",
+              "localizedDisplayName": "Happy hours"
+            },
+            {
+              "hoursTypeId": "KITCHEN",
+              "displayName": "Kitchen",
+              "localizedDisplayName": "Kitchen"
+            },
+            {
+              "hoursTypeId": "LUNCH",
+              "displayName": "Lunch",
+              "localizedDisplayName": "Lunch"
+            },
+            {
+              "hoursTypeId": "ONLINE_SERVICE_HOURS",
+              "displayName": "Online service hours",
+              "localizedDisplayName": "Online operating hours"
+            },
+            {
+              "hoursTypeId": "PICKUP",
+              "displayName": "Pickup",
+              "localizedDisplayName": "Pick-up"
+            },
+            {
+              "hoursTypeId": "TAKEOUT",
+              "displayName": "Takeout",
+              "localizedDisplayName": "Takeaway"
+            },
+            {
+              "hoursTypeId": "SENIOR_HOURS",
+              "displayName": "Senior hours",
+              "localizedDisplayName": "Hours for the elderly"
+            }
+          ]
+        },
+        {
+          "name": "categories/gcid:website_designer",
+          "displayName": "Web Designer",
+          "serviceTypes": [
+            {
+              "serviceTypeId": "job_type_id:a_b_testing",
+              "displayName": "A/B testing"
+            },
+            {
+              "serviceTypeId": "job_type_id:application_development",
+              "displayName": "Application development"
+            },
+            {
+              "serviceTypeId": "job_type_id:business_card_design",
+              "displayName": "Business card design"
+            },
+            {
+              "serviceTypeId": "job_type_id:content_management",
+              "displayName": "Content management"
+            },
+            {
+              "serviceTypeId": "job_type_id:conversion_rate_optimization",
+              "displayName": "Conversion rate optimisation"
+            },
+            {
+              "serviceTypeId": "job_type_id:custom_software",
+              "displayName": "Custom software"
+            },
+            {
+              "serviceTypeId": "job_type_id:digital_marketing",
+              "displayName": "Digital marketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:digital_pr",
+              "displayName": "Digital PR"
+            },
+            {
+              "serviceTypeId": "job_type_id:domain_hosting",
+              "displayName": "Domain hosting"
+            },
+            {
+              "serviceTypeId": "job_type_id:email_marketing",
+              "displayName": "Email marketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:graphic_design",
+              "displayName": "Graphic design"
+            },
+            {
+              "serviceTypeId": "job_type_id:html",
+              "displayName": "HTML"
+            },
+            {
+              "serviceTypeId": "job_type_id:java",
+              "displayName": "Java"
+            },
+            {
+              "serviceTypeId": "job_type_id:link_building",
+              "displayName": "Link building"
+            },
+            {
+              "serviceTypeId": "job_type_id:local_search_analysis",
+              "displayName": "Local search analysis"
+            },
+            {
+              "serviceTypeId": "job_type_id:logo_and_branding_design",
+              "displayName": "Logo & branding design"
+            },
+            {
+              "serviceTypeId": "job_type_id:logo_design",
+              "displayName": "Logo design"
+            },
+            {
+              "serviceTypeId": "job_type_id:marketing_automation",
+              "displayName": "Marketing automation"
+            },
+            {
+              "serviceTypeId": "job_type_id:mobile_app_development",
+              "displayName": "Mobile app development"
+            },
+            {
+              "serviceTypeId": "job_type_id:online_video",
+              "displayName": "Online video"
+            },
+            {
+              "serviceTypeId": "job_type_id:ppc_marketing",
+              "displayName": "PPC marketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:responsive_design",
+              "displayName": "Responsive design"
+            },
+            {
+              "serviceTypeId": "job_type_id:search_engine_optimization",
+              "displayName": "Search engine optimisation"
+            },
+            {
+              "serviceTypeId": "job_type_id:site_maintenance",
+              "displayName": "Site maintenance"
+            },
+            {
+              "serviceTypeId": "job_type_id:social_media_marketing",
+              "displayName": "Social media marketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:software_development",
+              "displayName": "Software development"
+            },
+            {
+              "serviceTypeId": "job_type_id:web_design",
+              "displayName": "Web design"
+            },
+            {
+              "serviceTypeId": "job_type_id:web_development",
+              "displayName": "Web development"
+            },
+            {
+              "serviceTypeId": "job_type_id:web_hosting",
+              "displayName": "Web hosting"
+            }
+          ],
+          "moreHoursTypes": [
+            {
+              "hoursTypeId": "ACCESS",
+              "displayName": "Access",
+              "localizedDisplayName": "Access"
+            },
+            {
+              "hoursTypeId": "BREAKFAST",
+              "displayName": "Breakfast",
+              "localizedDisplayName": "Breakfast"
+            },
+            {
+              "hoursTypeId": "BRUNCH",
+              "displayName": "Brunch",
+              "localizedDisplayName": "Brunch"
+            },
+            {
+              "hoursTypeId": "DELIVERY",
+              "displayName": "Delivery",
+              "localizedDisplayName": "Delivery"
+            },
+            {
+              "hoursTypeId": "DINNER",
+              "displayName": "Dinner",
+              "localizedDisplayName": "Dinner"
+            },
+            {
+              "hoursTypeId": "DRIVE_THROUGH",
+              "displayName": "Drive through",
+              "localizedDisplayName": "Drive-through"
+            },
+            {
+              "hoursTypeId": "HAPPY_HOUR",
+              "displayName": "Happy hours",
+              "localizedDisplayName": "Happy hours"
+            },
+            {
+              "hoursTypeId": "KITCHEN",
+              "displayName": "Kitchen",
+              "localizedDisplayName": "Kitchen"
+            },
+            {
+              "hoursTypeId": "LUNCH",
+              "displayName": "Lunch",
+              "localizedDisplayName": "Lunch"
+            },
+            {
+              "hoursTypeId": "ONLINE_SERVICE_HOURS",
+              "displayName": "Online service hours",
+              "localizedDisplayName": "Online operating hours"
+            },
+            {
+              "hoursTypeId": "PICKUP",
+              "displayName": "Pickup",
+              "localizedDisplayName": "Pick-up"
+            },
+            {
+              "hoursTypeId": "TAKEOUT",
+              "displayName": "Takeout",
+              "localizedDisplayName": "Takeaway"
+            },
+            {
+              "hoursTypeId": "SENIOR_HOURS",
+              "displayName": "Senior hours",
+              "localizedDisplayName": "Hours for the elderly"
+            }
+          ]
+        },
+        {
+          "name": "categories/gcid:marketing_consultant",
+          "displayName": "Marketing consultant",
+          "serviceTypes": [
+            {
+              "serviceTypeId": "job_type_id:affiliate_marketing",
+              "displayName": "Affiliate marketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:billboard_design_and_consulting",
+              "displayName": "Billboard design and consulting"
+            },
+            {
+              "serviceTypeId": "job_type_id:branding",
+              "displayName": "Branding"
+            },
+            {
+              "serviceTypeId": "job_type_id:business_to_business",
+              "displayName": "Business to Business"
+            },
+            {
+              "serviceTypeId": "job_type_id:content_management",
+              "displayName": "Content management"
+            },
+            {
+              "serviceTypeId": "job_type_id:digital_marketing",
+              "displayName": "Digital marketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:direct_mail",
+              "displayName": "Direct mail"
+            },
+            {
+              "serviceTypeId": "job_type_id:email_marketing",
+              "displayName": "Email marketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:graphic_design",
+              "displayName": "Graphic design"
+            },
+            {
+              "serviceTypeId": "job_type_id:international_service",
+              "displayName": "International service"
+            },
+            {
+              "serviceTypeId": "job_type_id:lead_generation",
+              "displayName": "Lead generation"
+            },
+            {
+              "serviceTypeId": "job_type_id:link_building",
+              "displayName": "Link building"
+            },
+            {
+              "serviceTypeId": "job_type_id:logo_design",
+              "displayName": "Logo design"
+            },
+            {
+              "serviceTypeId": "job_type_id:marketing_strategy_consultation",
+              "displayName": "Marketing strategy consultation"
+            },
+            {
+              "serviceTypeId": "job_type_id:outdoor_advertising",
+              "displayName": "Outdoor advertising"
+            },
+            {
+              "serviceTypeId": "job_type_id:paid_advertising",
+              "displayName": "Paid advertising"
+            },
+            {
+              "serviceTypeId": "job_type_id:pay_per_click_consulting",
+              "displayName": "Pay-per-click consulting"
+            },
+            {
+              "serviceTypeId": "job_type_id:print_ads",
+              "displayName": "Print ads"
+            },
+            {
+              "serviceTypeId": "job_type_id:radio",
+              "displayName": "Radio"
+            },
+            {
+              "serviceTypeId": "job_type_id:search_engine_optimization",
+              "displayName": "Search engine optimisation"
+            },
+            {
+              "serviceTypeId": "job_type_id:social_media_marketing",
+              "displayName": "Social media marketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:technical_audits",
+              "displayName": "Technical audits"
+            },
+            {
+              "serviceTypeId": "job_type_id:telemarketing",
+              "displayName": "Telemarketing"
+            },
+            {
+              "serviceTypeId": "job_type_id:tv_and_video",
+              "displayName": "TV & video"
+            },
+            {
+              "serviceTypeId": "job_type_id:web_design",
+              "displayName": "Web design"
+            }
+          ],
+          "moreHoursTypes": [
+            {
+              "hoursTypeId": "ACCESS",
+              "displayName": "Access",
+              "localizedDisplayName": "Access"
+            },
+            {
+              "hoursTypeId": "BREAKFAST",
+              "displayName": "Breakfast",
+              "localizedDisplayName": "Breakfast"
+            },
+            {
+              "hoursTypeId": "BRUNCH",
+              "displayName": "Brunch",
+              "localizedDisplayName": "Brunch"
+            },
+            {
+              "hoursTypeId": "DELIVERY",
+              "displayName": "Delivery",
+              "localizedDisplayName": "Delivery"
+            },
+            {
+              "hoursTypeId": "DINNER",
+              "displayName": "Dinner",
+              "localizedDisplayName": "Dinner"
+            },
+            {
+              "hoursTypeId": "DRIVE_THROUGH",
+              "displayName": "Drive through",
+              "localizedDisplayName": "Drive-through"
+            },
+            {
+              "hoursTypeId": "HAPPY_HOUR",
+              "displayName": "Happy hours",
+              "localizedDisplayName": "Happy hours"
+            },
+            {
+              "hoursTypeId": "KITCHEN",
+              "displayName": "Kitchen",
+              "localizedDisplayName": "Kitchen"
+            },
+            {
+              "hoursTypeId": "LUNCH",
+              "displayName": "Lunch",
+              "localizedDisplayName": "Lunch"
+            },
+            {
+              "hoursTypeId": "ONLINE_SERVICE_HOURS",
+              "displayName": "Online service hours",
+              "localizedDisplayName": "Online operating hours"
+            },
+            {
+              "hoursTypeId": "PICKUP",
+              "displayName": "Pickup",
+              "localizedDisplayName": "Pick-up"
+            },
+            {
+              "hoursTypeId": "TAKEOUT",
+              "displayName": "Takeout",
+              "localizedDisplayName": "Takeaway"
+            },
+            {
+              "hoursTypeId": "SENIOR_HOURS",
+              "displayName": "Senior hours",
+              "localizedDisplayName": "Hours for the elderly"
+            }
+          ]
+        }
+      ]
+    },
+    "storefrontAddress": {
+      "regionCode": "IN",
+      "languageCode": "en",
+      "postalCode": "00000",
+      "administrativeArea": "EX",
+      "locality": "Example City",
+      "addressLines": ["1 Example Street"]
+    },
+    "websiteUri": "https://example.test/websiteUri",
+    "regularHours": {
+      "periods": [
+        {
+          "openDay": "MONDAY",
+          "openTime": {
+            "hours": 10
+          },
+          "closeDay": "MONDAY",
+          "closeTime": {
+            "hours": 18
+          }
+        },
+        {
+          "openDay": "TUESDAY",
+          "openTime": {
+            "hours": 10
+          },
+          "closeDay": "TUESDAY",
+          "closeTime": {
+            "hours": 18
+          }
+        },
+        {
+          "openDay": "WEDNESDAY",
+          "openTime": {
+            "hours": 10
+          },
+          "closeDay": "WEDNESDAY",
+          "closeTime": {
+            "hours": 18
+          }
+        },
+        {
+          "openDay": "THURSDAY",
+          "openTime": {
+            "hours": 10
+          },
+          "closeDay": "THURSDAY",
+          "closeTime": {
+            "hours": 18
+          }
+        },
+        {
+          "openDay": "FRIDAY",
+          "openTime": {
+            "hours": 10
+          },
+          "closeDay": "FRIDAY",
+          "closeTime": {
+            "hours": 18
+          }
+        },
+        {
+          "openDay": "SATURDAY",
+          "openTime": {
+            "hours": 10
+          },
+          "closeDay": "SATURDAY",
+          "closeTime": {
+            "hours": 18
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "hasGoogleUpdated": true,
+      "canDelete": true,
+      "canModifyServiceList": true,
+      "placeId": "PLACE_ID_1",
+      "mapsUri": "https://example.test/mapsUri",
+      "newReviewUri": "https://example.test/newReviewUri",
+      "hasVoiceOfMerchant": true
+    }
+  }
+}

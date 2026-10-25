@@ -1,0 +1,108 @@
+name: opengmb
+
+# Self-host stack: postgres, a one-shot migrate, then web, mcp and worker from one image.
+# Copy .env.example to .env (same folder) and fill it in; see SETUP.md at the repository root.
+# Host ports are set in .env (WEB_HOST_PORT, MCP_HOST_PORT, WORKER_HOST_PORT; defaults 8080, 8081, 8082).
+# Inside the containers the apps always listen on 3000 / 3100 / 3200.
+# Only `migrate` has a build section: web, mcp and worker reuse its image (pull_policy: never), so a single
+# `docker compose up -d --build` builds the image once. Several services building one tag in parallel fail with
+# "image already exists".
+
+x-app: &app
+  image: opengmb-selfhost:local
+  pull_policy: never
+  env_file: .env
+  restart: unless-stopped
+  environment:
+    DATABASE_URL: postgres://syngmb:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@postgres:5432/syngmb
+    BETTER_AUTH_URL: ${WEB_URL:?set WEB_URL in .env}
+    MCP_PORT: "3100"
+    MCP_INTERNAL_URL: http://mcp:3100
+    WORKER_PORT: "3200"
+  depends_on:
+    migrate:
+      condition: service_completed_successfully
+
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: syngmb
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: syngmb
+    volumes:
+      - opengmb_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U syngmb -d syngmb"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  migrate:
+    <<: *app
+    build:
+      context: ../..
+      dockerfile: deploy/selfhost/Dockerfile
+    restart: "no"
+    command: ["pnpm", "db:migrate"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    <<: *app
+    command: ["pnpm", "--filter", "@opengmb/web", "start"]
+    ports:
+      - "${WEB_HOST_PORT:-8080}:3000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000/sign-in').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  mcp:
+    <<: *app
+    command: ["pnpm", "--filter", "@opengmb/mcp", "start"]
+    ports:
+      - "${MCP_HOST_PORT:-8081}:3100"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3100/healthz').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  worker:
+    <<: *app
+    command: ["pnpm", "--filter", "@opengmb/worker", "start"]
+    ports:
+      - "${WORKER_HOST_PORT:-8082}:3200"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3200/healthz').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  opengmb_pgdata:

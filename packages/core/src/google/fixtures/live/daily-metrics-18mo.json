@@ -1,0 +1,107 @@
+{
+  "url": "https://businessprofileperformance.googleapis.com/v1/locations/1000000000000000001:fetchMultiDailyMetricsTimeSeries",
+  "status": 200,
+  "body": {
+    "multiDailyMetricTimeSeries": [
+      {
+        "dailyMetricTimeSeries": [
+          {
+            "dailyMetric": "WEBSITE_CLICKS",
+            "timeSeries": {
+              "datedValues": [
+                {
+                  "date": {
+                    "year": 2025,
+                    "month": 4,
+                    "day": 17
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2025,
+                    "month": 4,
+                    "day": 18
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2025,
+                    "month": 4,
+                    "day": 19
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2025,
+                    "month": 4,
+                    "day": 20
+                  },
+                  "value": "1"
+                },
+                {
+                  "date": {
+                    "year": 2025,
+                    "month": 4,
+                    "day": 21
+                  },
+                  "value": "1"
+                },
+                {
+                  "date": {
+                    "year": 2025,
+                    "month": 4,
+                    "day": 22
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2025,
+                    "month": 4,
+                    "day": 23
+                  },
+                  "value": "1"
+                },
+                {
+                  "date": {
+                    "year": 2025,
+                    "month": 4,
+                    "day": 24
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2025,
+                    "month": 4,
+                    "day": 25
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2025,
+                    "month": 4,
+                    "day": 26
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2025,
+                    "month": 4,
+                    "day": 27
+                  }
+                },
+                {
+                  "date": {
+                    "year": 2025,
+                    "month": 4,
+                    "day": 28
+                  },
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

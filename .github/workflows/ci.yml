@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DATABASE_URL: postgres://syngmb:syngmb@localhost:54329/syngmb
+  DATABASE_URL_TEST: postgres://syngmb:syngmb@localhost:54329/syngmb_test
+  BETTER_AUTH_SECRET: ci-only-secret
+  BETTER_AUTH_URL: http://localhost:3000
+  ENCRYPTION_KEY: Y2ktb25seS1rZXktMzItYnl0ZXMtbG9uZy1wYWRkZWQ=
+  AUDIT_CHECKPOINT_KEY: Y2ktb25seS1hdWRpdC1jaGVja3BvaW50LWtleS0zMmJ5dGVz
+  # Empty on purpose: no live Google in CI; tests inject a fake OAuth server.
+  GOOGLE_CLIENT_ID: ""
+  GOOGLE_CLIENT_SECRET: ""
+  GOOGLE_BUSINESS_API_MODE: mock
+  MCP_PORT: "3100"
+  WORKER_PORT: "3200"
+  WORKER_PUBLIC_URL: http://localhost:3200
+  # Placeholders: tests inject their own JWKS, audience and service account.
+  PUBSUB_AUDIENCE: https://worker.ci.invalid/webhooks/google-pubsub
+  PUBSUB_SERVICE_ACCOUNT_EMAIL: pubsub-push@ci.invalid
+  # Empty on purpose: no real email in CI; tests inject a fake sendEmail.
+  RESEND_API_KEY: ""
+  EMAIL_FROM: OpenGMB <notifications@ci.invalid>
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: syngmb
+          POSTGRES_PASSWORD: syngmb
+          POSTGRES_DB: syngmb
+        ports:
+          - 54329:5432
+        options: >-
+          --health-cmd "pg_isready -U syngmb -d syngmb"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Create test database
+        run: PGPASSWORD=syngmb psql -h localhost -p 54329 -U syngmb -d syngmb -c "CREATE DATABASE syngmb_test"
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm db:migrate
+      # The community tests: the same list the export runs before every sync (scripts/export-public/config.mjs, COMMUNITY_TESTS).
+      - name: Community tests
+        run: >-
+          pnpm exec vitest run
+          packages/core/src/owner-bootstrap.test.ts
+          packages/core/src/community-auth.test.ts
+          packages/core/src/isolation.test.ts
+          packages/core/src/tenancy.test.ts
+          apps/mcp/src/parity.test.ts
+          apps/web/lib/client-core-imports.test.ts
+          packages/core/src/attention.test.ts
+          packages/core/src/auth.test.ts
+          packages/core/src/draftOnArrival.test.ts
+          packages/core/src/notificationRegistration.test.ts
+          packages/core/src/postImageSources.test.ts
+          packages/core/src/privacy/engine.test.ts
+          packages/core/src/reportSummary.test.ts
+          packages/core/src/reviewRequests.test.ts
+          apps/web/lib/public-paths.test.ts
+          apps/web/lib/rank-live-badge.test.ts

@@ -1,0 +1,172 @@
+import { PRIVATE_EXTERNAL_EFFECT_ACTIONS, PRIVATE_INTERNAL_ACTIONS } from "./external-effects-private";
+
+/**
+ * Which write actions have a side effect outside OpenGMB, decided 2026-10-25 from the legal review
+ * (Q33d, Google Business Profile policy "Automated use"): Google wants end users to sign in and a
+ * person to be behind every write to Google. Anything that changes Google, sends an email or
+ * message, moves money, or publishes a link or consent that reaches third parties is EXTERNAL.
+ *
+ * An API token (MCP or REST, any token mode) may PROPOSE an external action but never apply or run
+ * it: a signed-in person does that in the web app (/agents for proposals, /approvals for review
+ * items). Everything in INTERNAL (drafts, notes, tags, settings, reads of third parties) keeps working
+ * for tokens as before. `external-effects.test.ts` fails when a write action is in neither set.
+ */
+export const EXTERNAL_EFFECT_ACTIONS: ReadonlySet<string> = new Set([
+  ...PRIVATE_EXTERNAL_EFFECT_ACTIONS,
+  "foodMenus.update",
+  "googleConnections.connect",
+  "googleConnections.disconnect",
+  "googleNotifications.registerAll",
+  "locations.import",
+  "locations.setStatus",
+  "media.add",
+  "media.cancelScheduled",
+  "media.delete",
+  "media.upload",
+  "media.uploadMany",
+  "placeActions.create",
+  "placeActions.delete",
+  "placeActions.update",
+  "posts.approve",
+  "posts.approveEdit",
+  "posts.deletePublished",
+  "posts.schedule",
+  "profile.apply",
+  "profile.approve",
+  "profile.autoRevert.set",
+  "reports.definitions.create",
+  "reports.definitions.update",
+  "reports.share",
+  "reviewReplies.approve",
+  "reviewReplies.deletePublished",
+  "reviewReplies.publish",
+  "reviewRequests.start",
+  "webhooks.sendTest",
+  "workspaceSettings.update",
+]);
+
+/** Write actions that stay inside OpenGMB. A new write action must be added to one of the two sets. */
+export const INTERNAL_ACTIONS: ReadonlySet<string> = new Set([
+  ...PRIVATE_INTERNAL_ACTIONS,
+  "workspaces.setHipaa",
+  "workspaces.setSenderIdentity",
+  "ai.draftBusinessDescription",
+  "ai.draftPost",
+  "ai.draftPostVariants",
+  "ai.draftReplies",
+  "ai.draftReply",
+  "ai.draftServiceDescription",
+  "ai.draftText",
+  "ai.postIdeas",
+  "aiUsage.setClientCap",
+  "aiVisibility.runNow",
+  "aiVisibility.update",
+  "aiVoice.update",
+  "aiSwitch.update",
+  "aiNotice.acknowledge",
+  "apiTokens.create",
+  "apiTokens.revoke",
+  "branding.removeLogo",
+  "branding.update",
+  "citations.addCustom",
+  "citations.check",
+  "citations.checkAll",
+  "citations.deleteCustom",
+  "citations.save",
+  "geogrid.byoKey.delete",
+  "geogrid.byoKey.set",
+  "geogrid.byoKey.verify",
+  "geogrid.configs.create",
+  "geogrid.configs.delete",
+  "geogrid.configs.update",
+  "geogrid.quickScans.create",
+  "geogrid.run",
+  "geogrid.settings.update",
+  "locationGroups.create",
+  "locationGroups.delete",
+  "locationGroups.rename",
+  "locationGroups.setMembers",
+  "locationPages.set",
+  "locations.center.clearManual",
+  "locations.center.set",
+  "locations.healthcheckSkip",
+  "mcp.proposals.apply",
+  "mcp.proposals.cancel",
+  "members.remove",
+  "members.resetTwoFactor",
+  "notifications.markRead",
+  "onboarding.update",
+  "performance.backfill",
+  "postImages.addStock",
+  "postImages.delete",
+  "postImages.generate",
+  "postImages.rename",
+  "postImages.renderBranded",
+  "posts.bulkCreateDrafts",
+  "posts.cancel",
+  "posts.cancelEdit",
+  "posts.createDraft",
+  "posts.proposeEdit",
+  "posts.reject",
+  "posts.rejectEdit",
+  "posts.submit",
+  "posts.updateDraft",
+  "postTemplates.create",
+  "postTemplates.delete",
+  "postTemplates.update",
+  "profile.cancel",
+  "profile.changes.accept",
+  "profile.changes.dismiss",
+  "profile.changes.revert",
+  "profile.propose",
+  "profile.reject",
+  "rankings.setFavorite",
+  "rankings.track",
+  "rankings.untrack",
+  "replyTemplates.create",
+  "replyTemplates.delete",
+  "replyTemplates.update",
+  "reports.definitions.delete",
+  "reports.generate",
+  "reports.share.revoke",
+  "reviewLinks.save",
+  "reviewNotes.add",
+  "reviewReplies.createDraft",
+  "reviewReplies.reject",
+  "reviewReplies.submit",
+  "reviewReplies.updateDraft",
+  "reviewRequests.addRecipients",
+  "reviewRequests.cancel",
+  "reviewRequests.create",
+  "reviewRequests.importCsv",
+  "reviewRequests.update",
+  "reviews.assign",
+  "reviews.classifyTopics",
+  "reviews.sync",
+  "reviewTopics.setAuto",
+  "suspension.cases.create",
+  "suspension.cases.update",
+  "webhooks.setStatus",
+  "webhooks.subscribe",
+  "webhooks.unsubscribe",
+  "workspaces.create",
+  "workspaces.delete",
+  "workspaces.erase_data",
+  "workspaces.rename",
+  "workspaces.setPostLanguage",
+  "workspaces.setTimeSettings",
+]);
+
+export const isExternalEffect = (actionName: string): boolean => EXTERNAL_EFFECT_ACTIONS.has(actionName);
+
+/** The message an agent gets when it tries to apply or run an external action. */
+export const PERSON_MUST_APPROVE = "A person must approve this in OpenGMB";
+
+/** Where the person approves: proposals under /agents, everything else under /approvals. */
+export function approvalLink(kind: "proposal" | "approval", baseUrl = process.env.BETTER_AUTH_URL ?? ""): string {
+  return `${baseUrl.replace(/\/$/, "")}${kind === "proposal" ? "/agents" : "/approvals"}`;
+}
+
+export function personMustApproveMessage(kind: "proposal" | "approval", actionName: string): string {
+  return `${PERSON_MUST_APPROVE}: ${actionName} changes something outside OpenGMB. Open ${approvalLink(kind)} and approve it there. Leave it pending; an API token cannot apply it, in any token mode.`;
+}

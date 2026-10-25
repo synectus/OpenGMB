@@ -1,0 +1,4 @@
+{"numTotalTestSuites":3,"numPassedTests":6,"numFailedTests":1,"numPendingTests":0,"numTotalTests":7,"success":false,"testResults":[
+{"name":"/r/a.test.ts","status":"passed","assertionResults":[{"status":"passed"},{"status":"passed"},{"status":"passed"}]},
+{"name":"/r/b.test.ts","status":"passed","assertionResults":[{"status":"passed"},{"status":"passed"}]},
+{"name":"/r/c.test.ts","status":"failed","assertionResults":[{"status":"passed"},{"status":"failed"}]}]}

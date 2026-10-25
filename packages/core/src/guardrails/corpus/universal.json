@@ -1,0 +1,266 @@
+{
+  "defaults": {
+    "packs": [],
+    "profile": "general",
+    "rating": 5,
+    "reviewText": "Great service, very friendly team.",
+    "reviewerDisplayName": "Jordan Lee",
+    "locationName": "Riverside Family Clinic",
+    "phone": "(713) 555-0142",
+    "staffNames": [],
+    "skipPositiveReviews": false,
+    "recentReplies": [],
+    "recentFiller": 0
+  },
+  "entries": [
+    {
+      "id": "u-pass-plain",
+      "reply": "Thanks for taking the time to write. Our front desk team keeps the hours posted on our Google listing.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "u-pass-phone-number-allowed",
+      "reply": "Sorry the wait ran long. Please call us at (713) 555-0142 so we can look into it.",
+      "context": { "rating": 2 },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "u-pass-location-name",
+      "reply": "Everyone at Riverside Family Clinic read your note and passed it along.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "u-pass-kind-of-you",
+      "reply": "That was kind of you to write. We read every review and share it with the team.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "u-pass-rated-number-one",
+      "reply": "We are proud to be rated #1 by our neighbours, and we work to keep it that way.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "u-pass-free-parking",
+      "reply": "Free parking is available behind the building, so come by whenever suits you.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "u-pass-opening-hours-times",
+      "reply": "We are open 9.30 to 5.00 on weekdays and close at 5 p.m. Come see us.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "u-fail-empty-blank",
+      "reply": "   \n  ",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U.empty"] }
+    },
+    {
+      "id": "u-fail-empty-punctuation-only",
+      "reply": "...",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U.empty"] }
+    },
+    {
+      "id": "u-fail-length-over-by-one-byte",
+      "reply": { "repeat": "a", "times": 4097 },
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U.length"] }
+    },
+    {
+      "id": "u-pass-length-exactly-limit",
+      "reply": { "repeat": "a", "times": 4096 },
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "u-fail-length-counts-bytes-not-characters",
+      "reply": { "repeat": "é", "times": 2049 },
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U.length"] }
+    },
+    {
+      "id": "u-pass-length-multibyte-at-limit",
+      "reply": { "repeat": "é", "times": 2048 },
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "u4-warn-thrilled-to-hear",
+      "reply": "Thrilled to hear you stopped by. Our team is glad to help.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": ["U4"] }
+    },
+    {
+      "id": "u4-warn-appreciate-feedback",
+      "reply": "We appreciate your feedback and have shared it with the manager.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": ["U4"] }
+    },
+    {
+      "id": "u4-warn-it-was-a-pleasure-mixed-case",
+      "reply": "IT WAS A PLEASURE meeting you. Come back whenever you like.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": ["U4"] }
+    },
+    {
+      "id": "u4-warn-means-the-world-line-break",
+      "reply": "Your note means\nthe world to everyone here.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": ["U4"] }
+    },
+    {
+      "id": "u7-url-https",
+      "reply": "Full details are at https://riverside.example.com/hours if that helps.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U7.url"] }
+    },
+    {
+      "id": "u7-url-bare-domain",
+      "reply": "Please see riversideclinic.com for opening hours.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U7.url"] }
+    },
+    {
+      "id": "u7-url-www",
+      "reply": "Our hours are listed at www.riverside.example.org/visit, thanks.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U7.url"] }
+    },
+    {
+      "id": "u7-email-only-not-also-url",
+      "reply": "Email us at frontdesk@riverside.example.com whenever you like.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U7.email"] }
+    },
+    {
+      "id": "u7-hashtag",
+      "reply": "Thanks again for the kind note. #blessed",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U7.hashtag"] }
+    },
+    {
+      "id": "u7-offer-percent-off",
+      "reply": "Come back soon and ask about our 20% off special.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U7.offer"] }
+    },
+    {
+      "id": "u7-offer-free-consultation",
+      "reply": "We would be glad to offer a free consultation next time.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U7.offer"] }
+    },
+    {
+      "id": "u7-offer-discount",
+      "reply": "Mention this reply for a discount on your next purchase.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U7.offer"] }
+    },
+    {
+      "id": "u7-offer-coupon-and-url",
+      "reply": "Grab a coupon at www.riverside.example.com today.",
+      "context": {},
+      "expect": { "ok": false, "ruleIds": ["U7.offer", "U7.url"] }
+    },
+    {
+      "id": "r6-duplicate-identical-after-normalisation",
+      "reply": "Sorry about the wait.  Please call (713) 555-0142!",
+      "context": {
+        "recentReplies": [
+          "Another reply entirely, about parking. Nothing else to say.",
+          "sorry about the wait. please call (713) 555-0142."
+        ]
+      },
+      "expect": { "ok": false, "ruleIds": ["R6.duplicate"] }
+    },
+    {
+      "id": "r6-duplicate-smart-quote-vs-straight",
+      "reply": "We can’t wait to hear more. Please call us.",
+      "context": { "recentReplies": ["We can't wait to hear more. Please call us."] },
+      "expect": { "ok": false, "ruleIds": ["R6.duplicate"] }
+    },
+    {
+      "id": "r6-duplicate-at-window-edge-index-29",
+      "reply": "Duplicate of the thirtieth newest reply.",
+      "context": {
+        "recentFiller": 29,
+        "recentReplies": ["Duplicate of the thirtieth newest reply."]
+      },
+      "expect": { "ok": false, "ruleIds": ["R6.duplicate"] }
+    },
+    {
+      "id": "r6-pass-duplicate-outside-window-index-30",
+      "reply": "Duplicate of the thirty-first newest reply.",
+      "context": {
+        "recentFiller": 30,
+        "recentReplies": ["Duplicate of the thirty-first newest reply."]
+      },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "r6-opening-warn-shared-first-sentence",
+      "reply": "Thanks for the feedback, we hear you! Please ring the front desk.",
+      "context": {
+        "recentReplies": ["Thanks for the feedback, we hear you. Our manager will call."]
+      },
+      "expect": { "ok": true, "ruleIds": ["R6.opening"] }
+    },
+    {
+      "id": "r6-pass-same-second-sentence-different-opening",
+      "reply": "Appreciate you writing in. Please ring the front desk.",
+      "context": {
+        "recentReplies": ["Thanks for the feedback, we hear you. Please ring the front desk."]
+      },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "r6-pass-no-history",
+      "reply": "Thanks for writing, we have passed this to the team.",
+      "context": { "recentReplies": [] },
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "u8-style-em-dash",
+      "reply": "Thanks for stopping by — we appreciate it.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": ["U8.style"] }
+    },
+    {
+      "id": "u8-style-banned-adjective",
+      "reply": "Thanks for the note. We aim for a seamless visit every time.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": ["U8.style"] }
+    },
+    {
+      "id": "u8-style-inflected-verb",
+      "reply": "Thanks for the note. We are leveraging your feedback with the team.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": ["U8.style"] }
+    },
+    {
+      "id": "u8-style-opener",
+      "reply": "Certainly, we are sorry the wait ran long.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": ["U8.style"] }
+    },
+    {
+      "id": "u8-pass-plain-wording",
+      "reply": "Thanks for the review. We are glad the visit went well and we will pass your note to the team. See you next time.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    },
+    {
+      "id": "u8-pass-opener-only-at-start",
+      "reply": "Thanks for the note. Of course the team wants to hear more, so please call the front desk.",
+      "context": {},
+      "expect": { "ok": true, "ruleIds": [] }
+    }
+  ]
+}

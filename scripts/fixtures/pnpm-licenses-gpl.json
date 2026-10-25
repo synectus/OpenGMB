@@ -1,0 +1,150 @@
+{
+  "MIT": [
+    {
+      "name": "left-pad-ish",
+      "versions": [
+        "1.0.0"
+      ],
+      "paths": [
+        "/x/left-pad-ish"
+      ],
+      "license": "MIT",
+      "author": "a",
+      "homepage": "https://example.com",
+      "description": "d"
+    },
+    {
+      "name": "react-ish",
+      "versions": [
+        "1.0.0"
+      ],
+      "paths": [
+        "/x/react-ish"
+      ],
+      "license": "MIT",
+      "author": "a",
+      "homepage": "https://example.com",
+      "description": "d"
+    }
+  ],
+  "ISC": [
+    {
+      "name": "isc-lib",
+      "versions": [
+        "1.0.0"
+      ],
+      "paths": [
+        "/x/isc-lib"
+      ],
+      "license": "ISC",
+      "author": "a",
+      "homepage": "https://example.com",
+      "description": "d"
+    }
+  ],
+  "(MIT OR CC0-1.0)": [
+    {
+      "name": "type-fest-ish",
+      "versions": [
+        "1.0.0"
+      ],
+      "paths": [
+        "/x/type-fest-ish"
+      ],
+      "license": "(MIT OR CC0-1.0)",
+      "author": "a",
+      "homepage": "https://example.com",
+      "description": "d"
+    }
+  ],
+  "(MIT AND Zlib)": [
+    {
+      "name": "pako-ish",
+      "versions": [
+        "1.0.0"
+      ],
+      "paths": [
+        "/x/pako-ish"
+      ],
+      "license": "(MIT AND Zlib)",
+      "author": "a",
+      "homepage": "https://example.com",
+      "description": "d"
+    }
+  ],
+  "Apache-2.0 AND MIT": [
+    {
+      "name": "swc-ish",
+      "versions": [
+        "1.0.0"
+      ],
+      "paths": [
+        "/x/swc-ish"
+      ],
+      "license": "Apache-2.0 AND MIT",
+      "author": "a",
+      "homepage": "https://example.com",
+      "description": "d"
+    }
+  ],
+  "MPL-2.0": [
+    {
+      "name": "web-push",
+      "versions": [
+        "1.0.0"
+      ],
+      "paths": [
+        "/x/web-push"
+      ],
+      "license": "MPL-2.0",
+      "author": "a",
+      "homepage": "https://example.com",
+      "description": "d"
+    }
+  ],
+  "LGPL-3.0-or-later": [
+    {
+      "name": "@img/sharp-libvips-linux-arm64",
+      "versions": [
+        "1.0.0"
+      ],
+      "paths": [
+        "/x/@img/sharp-libvips-linux-arm64"
+      ],
+      "license": "LGPL-3.0-or-later",
+      "author": "a",
+      "homepage": "https://example.com",
+      "description": "d"
+    }
+  ],
+  "CC-BY-4.0": [
+    {
+      "name": "caniuse-lite",
+      "versions": [
+        "1.0.0"
+      ],
+      "paths": [
+        "/x/caniuse-lite"
+      ],
+      "license": "CC-BY-4.0",
+      "author": "a",
+      "homepage": "https://example.com",
+      "description": "d"
+    }
+  ],
+  "GPL-3.0-only": [
+    {
+      "name": "gpl-only-lib",
+      "versions": [
+        "1.0.0"
+      ],
+      "paths": [
+        "/x/gpl-only-lib"
+      ],
+      "license": "GPL-3.0-only",
+      "author": "a",
+      "homepage": "https://example.com",
+      "description": "d"
+    }
+  ]
+}
