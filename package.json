@@ -18,6 +18,7 @@
     "check:repo-ready": "node scripts/repo-ready.mjs",
     "export:public": "node scripts/export-public/export.mjs",
     "oss:check": "node scripts/export-public/oss-check.mjs",
+    "oss:lockfile": "node scripts/export-public/oss-lockfile.mjs",
     "check:seo": "pnpm --filter @opengmb/web exec playwright test e2e/seo-check.spec.ts",
     "scale": "pnpm --filter @opengmb/web scale",
     "db:generate": "pnpm --filter @opengmb/db db:generate",

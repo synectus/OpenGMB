@@ -13,7 +13,7 @@ import { ClientMessages } from "../../components/client-messages";
 import { AppShell } from "../../components/app-shell";
 import { NotificationBell } from "../../components/notification-bell";
 import { roleLabel } from "../../lib/account";
-import { actorContextFor, getDb } from "../../lib/auth";
+import { actorContextFor, currentViewAs, getDb } from "../../lib/auth";
 import { brandingFor } from "../../lib/branding";
 import { currentDensity } from "../../lib/density";
 import { requireUser } from "../../lib/guard";
@@ -31,6 +31,7 @@ import { brandCss, shellBrand } from "../../lib/theme/brand";
 import { attention_counts } from "../_generated/actions";
 import { NonceStyle } from "../../components/nonce-style";
 import { ReadOnlyBanner } from "../../components/billing";
+import { ViewAsBanner } from "../../components/view-as-banner";
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const { userId, email } = await requireUser();
@@ -79,6 +80,8 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   // here so the rows never reach the RSC payload of anyone else. The banner has plain words only.
   const status = liveStatus(integrationEnv(), emailConfigured(), await pushFacts());
   const adminStatus = liveStatusForViewer(status, await isPlatformAdmin(getDb(), userId));
+  // AP4: a platform admin looking at a customer's account read-only. Always null in the community edition.
+  const viewing = await currentViewAs();
 
   return (
     <ClientMessages set="app">
@@ -100,6 +103,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         ask={ctx && can("review:read") ? { client: scope.onlyWorkspaceId ? { id: scope.onlyWorkspaceId, name: data.workspaces.find((w) => w.id === scope.onlyWorkspaceId)?.name ?? scope.label } : null } : null}
         bell={bell ? <NotificationBell initial={bell} allHref="/settings/notifications" /> : null}
       >
+        {viewing && <ViewAsBanner orgName={viewing.orgName} expiresAt={viewing.expiresAt} />}
         {ctx && <ReadOnlyBanner role={role} />}
         <TimeFormatProvider data={timeData}>{children}</TimeFormatProvider>
       </AppShell>

@@ -7,7 +7,7 @@ import {
   GoogleOAuthError,
   requireAuthenticatedUser,
 } from "@opengmb/core";
-import { getAuth, getDb } from "../../../../lib/auth";
+import { getAuth, getDb, refuseWhileViewing } from "../../../../lib/auth";
 
 // BETTER_AUTH_URL is the public origin; request.url may be an internal host behind a proxy.
 const to = (path: string, request: NextRequest) =>
@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
   const code = params.get("code");
   const state = params.get("state");
   if (!code || !state) return failed("invalid_state", request);
+  if (await refuseWhileViewing()) return failed("read_only", request);
 
   let userId: string;
   try {

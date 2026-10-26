@@ -7,7 +7,7 @@ import { CheckRow } from "../../../../../components/health/check-row";
 import { SkipCheckButton } from "../../../../../components/health/skip-check-button";
 import { RunAgainButton } from "../../../../../components/health/run-again-button";
 import { ErrorText, Panel, secondaryButtonClass } from "../../../../../components/ui";
-import { actorContextFor } from "../../../../../lib/auth";
+import { actorContextFor, currentViewAs } from "../../../../../lib/auth";
 import { requireUser } from "../../../../../lib/guard";
 import {
   GROUPS,
@@ -48,7 +48,8 @@ export default async function LocationHealthPage({
   }
   const h = r.data as Handler<typeof locationsHealthcheck>;
   // First-run checklist: opening a health report is the step. Read first so a repeat view writes and audits nothing.
-  if (canManage) {
+  // Not while a platform admin is viewing this account read-only: opening the page must not tick the customer's checklist.
+  if (canManage && !(await currentViewAs())) {
     const o = await onboarding_get({});
     if (o.ok && !(o.data as { healthReportSeen: boolean }).healthReportSeen) await onboarding_update({ healthReportSeen: true });
   }

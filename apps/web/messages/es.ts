@@ -94,6 +94,7 @@ const es: Messages = {
     signInDescription: "Te damos la bienvenida de nuevo. Inicia sesión para gestionar tus perfiles de Google Business.",
     twoFactorNote: "La verificación en dos pasos es obligatoria para todas las cuentas.",
     emailConfirmed: "Tu correo electrónico está confirmado. Inicia sesión para continuar.",
+    accountBlocked: "Tu cuenta está suspendida o el inicio de sesión está desactivado. Contacta con soporte.",
     newToApp: "¿Eres nuevo en OpenGMB?",
     createAccountLink: "Crear una cuenta",
     questions: "¿Tienes preguntas?",

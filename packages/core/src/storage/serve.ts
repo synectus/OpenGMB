@@ -1,5 +1,5 @@
 import type { Db } from "@opengmb/db";
-import { loadActor } from "../actor";
+import { loadActor, type Actor } from "../actor";
 import { AuthError, requireAuthenticatedUser, type SessionResult } from "../session";
 import { getStoredFileFor } from "./store";
 
@@ -11,11 +11,16 @@ import { getStoredFileFor } from "./store";
  */
 export async function handleFileGet(
   id: string,
-  deps: { db: Db; getSession: () => Promise<SessionResult | null | undefined> },
+  deps: {
+    db: Db;
+    getSession: () => Promise<SessionResult | null | undefined>;
+    /** Who is acting. Defaults to the person's own actor; the web app passes its session actor (a read-only view as a customer reads that customer's files). */
+    actorFor?: (userId: string) => Promise<Actor>;
+  },
 ): Promise<Response> {
   try {
     const { userId } = requireAuthenticatedUser(await deps.getSession());
-    const actor = await loadActor(deps.db, { userId, surface: "ui", actorType: "user" });
+    const actor = await (deps.actorFor ?? ((u) => loadActor(deps.db, { userId: u, surface: "ui", actorType: "user" })))(userId);
     const file = await getStoredFileFor(deps.db, actor, id);
     if (!file) return new Response("Not found", { status: 404 });
     return new Response(new Uint8Array(file.bytes), {

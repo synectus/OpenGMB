@@ -8,7 +8,8 @@ import { CreditExhaustedError, isReadOnlyAccount } from "../billing";
 import { DRAFT_ON_ARRIVAL } from "../config/draft-on-arrival";
 import { aiEnv, getAiModel } from "../ai/model";
 import { CoreError } from "../errors";
-import { enqueueJob } from "../jobs";
+import { isOrgBlocked } from "../account-state";
+import { deferBlockedJob, enqueueJob } from "../jobs";
 import { roleHasPermission } from "../permissions";
 import type { ActionContext } from "../registry";
 import { getReviewRow } from "./queries";
@@ -84,7 +85,7 @@ export async function enqueueArrivalDrafts(
   return wanted.length;
 }
 
-export type ArrivalResult = ArrivalOutcome | "duplicate" | "off" | "gone";
+export type ArrivalResult = ArrivalOutcome | "duplicate" | "off" | "gone" | "blocked";
 
 /**
  * Worker side of `reviews.draftOnArrival`: one review, one transaction. The claim row in review_auto_drafts is
@@ -105,6 +106,11 @@ export async function processArrivalDraft(db: Db, reviewId: string): Promise<Arr
       .from(workspaceReplySettings)
       .where(eq(workspaceReplySettings.workspaceId, r.workspaceId));
     if (!cfg?.on || !cfg.by) return "off" as const;
+    // AP3b: suspended or deleted. No claim row is written and no AI is called; the job is re-queued for later.
+    if (await isOrgBlocked(tx, r.orgId)) {
+      await deferBlockedJob(tx, DRAFT_ARRIVAL_QUEUE, { reviewId }, r.orgId);
+      return "blocked" as const;
+    }
 
     const [claim] = await tx
       .insert(reviewAutoDrafts)

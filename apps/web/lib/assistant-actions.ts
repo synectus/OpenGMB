@@ -2,13 +2,12 @@
 import { headers } from "next/headers";
 import {
   CoreError,
-  loadActor,
   requireAuthenticatedUser,
   runAssistantTurn,
   type AssistantMessage,
   type AssistantResult,
 } from "@opengmb/core";
-import { getAuth, getDb } from "./auth";
+import { getAuth, getDb, sessionActor } from "./auth";
 
 export type AskResponse =
   { ok: true; data: AssistantResult } | { ok: false; error: { code: string; message: string } };
@@ -23,7 +22,7 @@ export async function askSynGMB(workspaceId: string, messages: AssistantMessage[
     const session = await getAuth().api.getSession({ headers: await headers() });
     const { userId } = requireAuthenticatedUser(session);
     const db = getDb();
-    const actor = await loadActor(db, { userId, surface: "ui", actorType: "user" });
+    const actor = await sessionActor(userId);
     return { ok: true, data: await runAssistantTurn(db, actor, { workspaceId, messages }) };
   } catch (e) {
     if (e instanceof CoreError) return { ok: false, error: { code: e.code, message: e.message } };

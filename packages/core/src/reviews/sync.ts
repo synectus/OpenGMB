@@ -15,6 +15,7 @@ import { emitReviewCreated } from "../webhooks/emit";
 import { enqueueArrivalDrafts } from "./draft-on-arrival";
 import { alertNegativeReviews } from "./negative-alert";
 import { upsertReviewsWithChanges } from "./upsert";
+import { orgIsActive } from "../account-state";
 
 export const REVIEW_SYNC_QUEUE = "reviews.sync";
 export const REVIEW_SCHEDULE_QUEUE = "reviews.schedule";
@@ -111,6 +112,7 @@ export async function enqueueScheduledReviewSyncs(
         isNotNull(locations.googleLocationId),
         isNotNull(locations.connectionId),
         opts.orgIds ? inArray(locations.orgId, opts.orgIds) : undefined,
+        orgIsActive(locations.orgId),
       ),
     );
   let queued = 0;

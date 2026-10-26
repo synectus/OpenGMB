@@ -2,7 +2,7 @@ import { and, asc, eq, inArray, lte } from "drizzle-orm";
 import { locations, postTargets, posts, type Db, type Tx } from "@opengmb/db";
 import { GoogleApiError } from "../google/errors";
 import { assertPassed, guardrailSubject, runGuardrails, type GuardrailResult } from "../guardrails";
-import { enqueueJob } from "../jobs";
+import { deferBlockedJob, enqueueJob } from "../jobs";
 import { clientFor, googleFailure } from "../reviews/reply-jobs";
 import { workerAudit, type AuditFn } from "../reviews/reply-state";
 import { contentFromRow, postAuditFields, type PostRow } from "./content";
@@ -10,6 +10,7 @@ import { buildPostGuardrailContext } from "./context";
 import { publishPost, removeGooglePost, type PostWriter } from "./publish";
 import { nextOccurrence, type Recurrence } from "./recurrence";
 import { transitionPost } from "./state";
+import { isOrgBlocked, orgIsActive } from "../account-state";
 
 export const POST_SEND_QUEUE = "posts.send";
 export const POST_DELETE_QUEUE = "posts.deleteGoogle";
@@ -61,6 +62,7 @@ export async function sweepDuePosts(
         eq(posts.status, "scheduled"),
         lte(posts.scheduledFor, now),
         deps.orgIds ? inArray(posts.orgId, deps.orgIds) : undefined,
+        orgIsActive(posts.orgId),
       ),
     )
     .orderBy(asc(posts.scheduledFor), asc(posts.id))
@@ -139,6 +141,21 @@ async function settleTarget(
   });
 }
 
+/**
+ * AP3b: a `publishing` post whose org is blocked goes back to `scheduled`, keeping its occurrence and its pending targets.
+ * scheduled_for is left as it was (already due), so the sweep claims it as soon as the org is active again.
+ */
+async function pauseBlockedPost(tx: Tx, post: PostRow): Promise<void> {
+  await transitionPost(tx, {
+    post,
+    to: "scheduled",
+    action: "publish_paused",
+    set: post.scheduledFor ? {} : { scheduledFor: new Date() },
+    audit: workerAudit(tx, post.orgId),
+    extra: { reason: "account_blocked" },
+  });
+}
+
 type Outcome = Parameters<typeof settleTarget>[2];
 type Prepared =
   | { kind: "settle"; outcome: Exclude<Outcome, { status: "published" }> }
@@ -177,6 +194,11 @@ export async function processPostSend(
   const loaded = await db.transaction(async (tx) => {
     const [post] = await tx.select().from(posts).where(eq(posts.id, job.postId));
     if (!post || post.status !== "publishing" || post.occurrence !== job.occurrence) return null;
+    // AP3b: suspended or deleted. Back to `scheduled` (a legal move) so the minute sweep claims it again after unsuspend.
+    if (await isOrgBlocked(tx, post.orgId)) {
+      await pauseBlockedPost(tx, post);
+      return null;
+    }
     const targets = await tx
       .select()
       .from(postTargets)
@@ -199,6 +221,10 @@ export async function processPostSend(
     const prepared = await db.transaction(async (tx): Promise<Prepared> => {
       const [cur] = await tx.select().from(posts).where(eq(posts.id, job.postId));
       if (!cur || cur.status !== "publishing") return { kind: "gone" };
+      if (await isOrgBlocked(tx, cur.orgId)) {
+        await pauseBlockedPost(tx, cur);
+        return { kind: "gone" };
+      }
       const [loc] = await tx.select().from(locations).where(eq(locations.id, t.locationId));
       if (!loc || loc.status !== "active") {
         return { kind: "settle", outcome: { status: "skipped", error: REASONS.inactive } };
@@ -369,6 +395,14 @@ export async function processPostDelete(
   job: PostDeleteJob,
   deps: { client?: PostWriter; isFinalAttempt?: boolean } = {},
 ): Promise<{ deleted: number; failed: number }> {
+  // AP3b: suspended or deleted at job start. The targets stay `published`; the job is re-queued for later.
+  const paused = await db.transaction(async (tx) => {
+    const [p] = await tx.select({ orgId: posts.orgId }).from(posts).where(eq(posts.id, job.postId));
+    if (!p || !(await isOrgBlocked(tx, p.orgId))) return false;
+    await deferBlockedJob(tx, POST_DELETE_QUEUE, job, p.orgId);
+    return true;
+  });
+  if (paused) return { deleted: 0, failed: 0 };
   const targets = await db
     .select({ t: postTargets, connectionId: locations.connectionId })
     .from(postTargets)

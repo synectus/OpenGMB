@@ -1,6 +1,6 @@
 import { and, asc, eq, inArray, lte } from "drizzle-orm";
 import { locationWriteOps, locations, mediaUploads, type Db } from "@opengmb/db";
-import { enqueueJob } from "../jobs";
+import { deferIfBlocked, enqueueJob } from "../jobs";
 import { GoogleApiError } from "../google/errors";
 import {
   publishMediaCreate,
@@ -18,6 +18,7 @@ import {
 import { clientFor, googleFailure } from "../reviews/reply-jobs";
 import { workerAudit } from "../reviews/reply-state";
 import { hostOf } from "./access";
+import { orgIsActive } from "../account-state";
 
 export const LOCATION_OP_QUEUE = "location-op.apply";
 /** Google errors are classified inside the job; pg-boss retries only unexpected errors. */
@@ -147,6 +148,8 @@ export async function processLocationOp(
     .where(eq(locationWriteOps.id, job.opId));
   if (!row || row.op.status !== "pending") return "ignored";
   const { op, loc } = row;
+  // AP3b: suspended or deleted. The op stays `pending`; the job is re-queued for later.
+  if (await deferIfBlocked(db, op.orgId, LOCATION_OP_QUEUE, job)) return "ignored";
   const fail = (error: string) => settle(db, op.id, { status: "failed", error });
   if (loc.status !== "active") return fail(LOCATION_OP_REASONS.inactive);
   if (!loc.googleLocationId || !loc.googleAccountName) {
@@ -250,6 +253,7 @@ export async function sweepDueLocationOps(
         eq(locationWriteOps.status, "scheduled"),
         lte(locationWriteOps.scheduledFor, now),
         deps.orgIds ? inArray(locationWriteOps.orgId, deps.orgIds) : undefined,
+        orgIsActive(locationWriteOps.orgId),
       ),
     )
     .orderBy(asc(locationWriteOps.scheduledFor), asc(locationWriteOps.id))

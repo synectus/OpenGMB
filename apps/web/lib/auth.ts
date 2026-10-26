@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { nextCookies } from "better-auth/next-js";
 import {
   countBackupCodes,
@@ -6,7 +7,10 @@ import {
   hasCredentialPassword,
   isGoogleConfigured,
   loadActor,
+  viewAsActor,
+  type Actor,
 } from "@opengmb/core";
+import { activeViewAs, type ActiveViewAs } from "@opengmb/core/view-as";
 import { createDb } from "@opengmb/db";
 
 // One pool and one auth instance per server process (survives dev hot reloads).
@@ -29,10 +33,42 @@ export const getDb = () => instance().db;
 export const googleEnabled = () => isGoogleConfigured();
 export const userHasPassword = (userId: string) => hasCredentialPassword(instance().db, userId);
 
+const viewAsOfSession = cache((sessionId: string) => activeViewAs(instance().db, sessionId));
+
+/**
+ * AP4: the read-only "view as customer" grant of the current request's session, or null. Always null in the
+ * community edition. Memoised per request, so the shell and the actions it runs share one lookup.
+ */
+export async function currentViewAs(): Promise<ActiveViewAs | null> {
+  const { headers } = await import("next/headers");
+  const session = await instance().auth.api.getSession({ headers: await headers() });
+  return session ? viewAsOfSession(session.session.id) : null;
+}
+
+/**
+ * The acting person for a signed-in web request, and the ONLY place apps/web builds an actor from a session
+ * (apps/web/lib/session-actor.test.ts counts the call sites). While a platform admin is viewing an organization
+ * this is that organization's owner view, marked read-only, whatever the admin's own memberships are; otherwise
+ * it is the person's own actor.
+ */
+export async function sessionActor(userId: string): Promise<Actor> {
+  const viewing = await currentViewAs();
+  if (viewing && viewing.adminUserId === userId) return viewAsActor({ userId, orgId: viewing.orgId });
+  return loadActor(instance().db, { userId, surface: "ui", actorType: "user" });
+}
+
+/**
+ * A 403 for routes that change something with the person's own account (uploads, device registration) while a
+ * platform admin is viewing a customer: those routes do not go through the action executor, so the read-only
+ * actor cannot stop them. null when nothing is being viewed.
+ */
+export async function refuseWhileViewing(): Promise<Response | null> {
+  if (!(await currentViewAs())) return null;
+  return Response.json({ error: "Read-only view: changes are turned off." }, { status: 403, headers: { "cache-control": "no-store" } });
+}
+
 export async function actorContextFor(userId: string) {
-  const { db } = instance();
-  const actor = await loadActor(db, { userId, surface: "ui", actorType: "user" });
-  return getActorContext(db, actor);
+  return getActorContext(instance().db, await sessionActor(userId));
 }
 
 /** Unused backup codes for a signed-in user. Only the number leaves the server. */

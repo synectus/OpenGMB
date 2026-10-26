@@ -11,4 +11,4 @@ export const isProductSitePath = (_pathname: string): boolean => false;
 export const stagingGate = (_request: NextRequest): NextResponse | null => null;
 
 /** Community edition: no payment checkout, so the Content-Security-Policy adds no hosts. */
-export const CSP_EXTRA_HOSTS: { connect: string[]; frame: string[] } = { connect: [], frame: [] };
+export const CSP_EXTRA_HOSTS: { connect: string[]; frame: string[]; img: string[] } = { connect: [], frame: [], img: [] };

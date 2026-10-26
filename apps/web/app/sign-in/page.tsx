@@ -4,16 +4,16 @@ import { getTranslations } from "next-intl/server";
 import { currentGoogleEnabled, currentIsMainHost } from "../../lib/host-branding";
 import { SignInForm } from "../../components/sign-in-form";
 import { LegalLinks } from "../../components/legal/legal-links";
-import { linkClass } from "../../components/ui";
+import { ErrorText, linkClass } from "../../components/ui";
 import { AuthCard } from "../../components/auth-card";
 import { signUpHref } from "../../lib/sign-up-entry";
 
 export default async function SignInPage({
   searchParams,
 }: {
-  searchParams: Promise<{ verified?: string }>;
+  searchParams: Promise<{ verified?: string; blocked?: string }>;
 }) {
-  const { verified } = await searchParams;
+  const { verified, blocked } = await searchParams;
   const t = await getTranslations("auth");
   const tShell = await getTranslations("shell");
   await connection(); // Google availability is read from runtime env, not baked in at build
@@ -28,6 +28,9 @@ export default async function SignInPage({
         <p role="status" className="rounded-md bg-info-bg p-3 text-sm text-info">
           {t("emailConfirmed")}
         </p>
+      ) : null}
+      {blocked === "1" ? (
+        <ErrorText message={t("accountBlocked")} />
       ) : null}
       <SignInForm googleEnabled={await currentGoogleEnabled()} />
       {signUpHref ? (

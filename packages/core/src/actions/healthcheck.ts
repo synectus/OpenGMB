@@ -60,6 +60,8 @@ async function placeActionLinks(
   viaGoogle: <T>(
     read: (c: GoogleClientFor, n: { locationName: string; parent: string }) => Promise<T>,
   ) => Promise<Src<T>>,
+  /** False for a read-only view (view as customer): the marker is neither set nor cleared. */
+  record: boolean,
 ): Promise<Src<GooglePlaceActionLink[]>> {
   if (await isGoogleAccessBlocked(db, loc.id, "place_actions")) return { ok: false };
   const res = await viaGoogle(async (c, n) => {
@@ -67,7 +69,7 @@ async function placeActionLinks(
       return (await c.listPlaceActionLinks(n.locationName, { pageSize: 1 })).placeActionLinks;
     } catch (e) {
       if (isLocationAccessDenied(e)) {
-        await markGoogleAccessDenied(db, loc, "place_actions");
+        if (record) await markGoogleAccessDenied(db, loc, "place_actions");
         return null;
       }
       throw e;
@@ -75,7 +77,7 @@ async function placeActionLinks(
   });
   if (!res.ok) return res;
   if (res.value === null) return { ok: false };
-  await clearGoogleAccessDenied(db, loc.id, "place_actions");
+  if (record) await clearGoogleAccessDenied(db, loc.id, "place_actions");
   return { ok: true, value: res.value };
 }
 
@@ -158,7 +160,7 @@ export async function readHealthInputs(
         (await c.listLocalPosts(n.parent, { pageSize: CFG.postsPageSize })).localPosts,
     ),
     viaGoogle((c, n) => c.getVoiceOfMerchantState(n.locationName)),
-    placeActionLinks(db, loc, viaGoogle),
+    placeActionLinks(db, loc, viaGoogle, !actor.readOnly),
     viaGoogle(
       async (c, n) => (await c.getAttributes(`${n.locationName}/attributes`)).attributes ?? [],
     ),

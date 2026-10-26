@@ -7,7 +7,7 @@ import { PlatformCapExceededError, assertWithinPlatformCap } from "../geogrid/co
 import { dataForSeoBaseUrl, platformDataForSeoCredentials, rankSource } from "../geogrid/drivers/source";
 import type { GoogleClient } from "../google/client";
 import { getIntegrationFresh } from "../integrations";
-import { enqueueJob } from "../jobs";
+import { deferIfBlocked, enqueueJob } from "../jobs";
 import { NORMALISE } from "../profile/fields";
 import { clientFor } from "../reviews/reply-jobs";
 import { sha256, workerAudit } from "../reviews/reply-state";
@@ -155,6 +155,8 @@ export async function processLocationCenter(db: Db, job: LocationCenterJob, deps
   const [loc] = await db.select().from(locations).where(eq(locations.id, job.locationId));
   if (!loc || loc.status !== "active") return { outcome: "skipped" };
   if (loc.centerSource === "manual") return { outcome: "kept_manual" };
+  // AP3b: this can call paid Places / DataForSEO; a suspended org's job waits (re-queued) instead.
+  if (await deferIfBlocked(db, loc.orgId, LOCATION_CENTER_QUEUE, job)) return { outcome: "skipped" };
 
   let google: Awaited<ReturnType<Pick<GoogleClient, "getLocation">["getLocation"]>> | null = null;
   if (loc.googleLocationId) {

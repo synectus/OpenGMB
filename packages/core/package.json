@@ -9,6 +9,9 @@
     "./time": "./src/time/index.ts",
     "./limits": "./src/limits/index.ts",
     "./topics": "./src/config/review-topics.ts",
+    "./admin-capture": "./src/admin-capture/index.ts",
+    "./view-as": "./src/view-as/index.ts",
+    "./account-state": "./src/account-state/index.ts",
     "./google-oauth-brand": "./src/config/google-oauth-brand.ts",
     "./fonts/inter-bold": "./src/postImages/fonts/inter-bold.ts",
     "./post-image-templates": "./src/config/post-image-templates.ts"

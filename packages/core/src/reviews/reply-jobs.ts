@@ -6,8 +6,10 @@ import {
   GoogleRetriesExhaustedError,
   GoogleWritesDisabledError,
 } from "../google/errors";
+import { isOrgBlocked } from "../account-state";
 import { createGoogleClient } from "../google/factory";
 import { assertPassed, runGuardrails, type GuardrailResult } from "../guardrails";
+import { deferBlockedJob } from "../jobs";
 import { publishReply, removeGoogleReply, type ReplyWriter } from "./publish";
 import { buildGuardrailContext } from "./reply-context";
 import { transitionReply, workerAudit, type ReplyRow } from "./reply-state";
@@ -222,6 +224,11 @@ export async function processReplyPublish(
   const pre = await db.transaction(async (tx) => {
     const [reply] = await tx.select().from(reviewReplies).where(eq(reviewReplies.id, replyId));
     if (!reply || reply.status !== "approved" || !reply.publishRequestedAt) return null;
+    // AP3b: suspended or deleted. The reply stays `approved` and asked-for; the job is re-queued for later.
+    if (await isOrgBlocked(tx, reply.orgId)) {
+      await deferBlockedJob(tx, REPLY_PUBLISH_QUEUE, { replyId }, reply.orgId);
+      return null;
+    }
     return { reply, target: await loadTarget(tx, reply.reviewId) };
   });
   if (!pre) return null;
@@ -257,6 +264,10 @@ export async function processReplyPublish(
       .where(eq(reviewReplies.id, replyId))
       .for("update");
     if (!reply || reply.status !== "approved" || !reply.publishRequestedAt) return null;
+    if (await isOrgBlocked(tx, reply.orgId)) {
+      await deferBlockedJob(tx, REPLY_PUBLISH_QUEUE, { replyId }, reply.orgId);
+      return null;
+    }
     const audit = workerAudit(tx, reply.orgId);
     const fail = async (reason: string, guardrail?: GuardrailResult) =>
       ({
@@ -387,6 +398,11 @@ export async function processReplyDelete(
       .where(eq(reviews.id, job.reviewId));
     const target = await loadTarget(tx, job.reviewId);
     if (!review || !target || review.replyComment === null) return null;
+    // AP3b: suspended or deleted. The Google reply stays; the job is re-queued for later.
+    if (await isOrgBlocked(tx, target.orgId)) {
+      await deferBlockedJob(tx, REPLY_DELETE_QUEUE, job, target.orgId);
+      return "blocked" as const;
+    }
     const [published] = await tx
       .select({ id: reviewReplies.id })
       .from(reviewReplies)
@@ -399,7 +415,7 @@ export async function processReplyDelete(
       token: published?.id ?? `ext-${review.replyUpdateTime?.getTime() ?? 0}`,
     };
   });
-  if (!plan) return "noop";
+  if (!plan || plan === "blocked") return "noop";
   const { target } = plan;
 
   const recordFailure = async (reason: string) => {

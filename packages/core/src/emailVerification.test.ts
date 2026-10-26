@@ -90,6 +90,22 @@ describe("email verification at sign-up", () => {
     expect((await userRow(email)).emailVerified).toBe(true);
   });
 
+  it("AP6: the server can resend the link for an unverified address without that person's session, and not for a verified one", async () => {
+    setEmailSender(async (m) => void sent.push(m), true);
+    const { auth, post } = setup();
+    const email = `admin-resend-${uniq()}@example.test`;
+    await post("/sign-up/email", { name: "A", email, password: PASSWORD });
+    expect(sent).toHaveLength(1);
+    // The call the admin panel makes: no headers, so no session.
+    await auth.api.sendVerificationEmail({ body: { email, callbackURL: "/sign-in?verified=1" } });
+    expect(sent).toHaveLength(2);
+    expect(sent[1]!.to).toBe(email);
+    await auth.handler(new Request(linkIn(sent[1]!), { headers: { origin: BASE } }));
+    expect((await userRow(email)).emailVerified).toBe(true);
+    await auth.api.sendVerificationEmail({ body: { email, callbackURL: "/sign-in?verified=1" } });
+    expect(sent).toHaveLength(2); // already verified: nothing is sent
+  });
+
   it("a tampered link verifies nothing", async () => {
     setEmailSender(async (m) => void sent.push(m), true);
     const { auth, post } = setup();

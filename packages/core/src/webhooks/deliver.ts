@@ -2,6 +2,8 @@ import { request } from "node:https";
 import { and, eq, sql } from "drizzle-orm";
 import { apiTokens, memberships, webhookDeliveries, webhookSubscriptions, type Db, type Tx } from "@opengmb/db";
 import { writeAudit } from "../audit";
+import { WEBHOOK_QUEUE } from "../config/webhooks";
+import { deferIfBlocked } from "../jobs";
 import {
   WEBHOOK_DISABLE_AFTER_FAILURES,
   WEBHOOK_LAST_ERROR_MAX_CHARS,
@@ -132,6 +134,8 @@ export async function processWebhookDelivery(
     .where(eq(webhookDeliveries.id, deliveryId));
   if (!row || row.d.status !== "pending") return null;
   const { d, s } = row;
+  // AP3b: suspended or deleted. Nothing is sent; the delivery stays `pending` and the job is re-queued for later.
+  if (await deferIfBlocked(db, s.orgId, WEBHOOK_QUEUE, { deliveryId })) return null;
   const now = deps.now ?? (() => new Date());
 
   const settle = (

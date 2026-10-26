@@ -4,7 +4,8 @@ import { and, eq, inArray, ne, sql } from "drizzle-orm";
 import { gridCompetitorSnapshots, gridConfigs, gridPoints, gridRuns, gridTasks, type Db, type Tx } from "@opengmb/db";
 import { usdToMicro } from "../ai/money";
 import { assertCredit, debit, CreditExhaustedError } from "../billing";
-import { enqueueJob } from "../jobs";
+import { deferBlockedJob, deferIfBlocked, enqueueJob } from "../jobs";
+import { isOrgBlocked, orgIsActive } from "../account-state";
 import { hasByoKey, loadByoCredentials } from "./byo";
 import type { ActionAuditEntry } from "../registry";
 import { workerAudit } from "../reviews/reply-state";
@@ -353,6 +354,11 @@ export async function processGridRun(
   const plan = await db.transaction(async (tx) => {
     const [run] = await tx.select().from(gridRuns).where(eq(gridRuns.id, runId)).for("update");
     if (!run || run.status !== "queued") return null;
+    // AP3b: suspended or deleted. The run stays `queued`; the job is re-queued for later.
+    if (await isOrgBlocked(tx, run.orgId)) {
+      await deferBlockedJob(tx, GRID_RUN_QUEUE, { runId }, run.orgId);
+      return null;
+    }
     const [config] = await tx.select().from(gridConfigs).where(eq(gridConfigs.id, run.configId));
     if (!config) return null;
     await tx
@@ -530,6 +536,8 @@ export async function processGridCollect(
   const row = loaded[0];
   if (!row || row.task.status !== "received" || !row.task.taskRef) return "skipped";
   const { task, run, config } = row;
+  // AP3b: suspended or deleted. The task stays `received`; the job is re-queued for later.
+  if (await deferIfBlocked(db, run.orgId, GRID_COLLECT_QUEUE, { taskId })) return "skipped";
   const driver = await driverForRun(db, deps.drivers, run);
   const target = { name: config.targetName, placeId: config.targetPlaceId, domain: config.targetDomain };
 
@@ -587,6 +595,7 @@ export async function enqueueDueGridRuns(
         eq(gridConfigs.active, true),
         ne(gridConfigs.schedule, "manual"),
         deps.orgIds ? inArray(gridConfigs.orgId, deps.orgIds) : undefined,
+        orgIsActive(gridConfigs.orgId),
       ),
     );
   let enqueued = 0;

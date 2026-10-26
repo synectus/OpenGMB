@@ -31,6 +31,7 @@ import {
   type ProfileKind,
   type ProfileTransport,
 } from "./profiles";
+import { orgIsActive } from "../account-state";
 
 export const COMPETITOR_REFRESH_QUEUE = "competitors.profiles_refresh";
 export const COMPETITOR_REFRESH_CRON = "30 5 * * *";
@@ -247,7 +248,7 @@ export async function enqueueDueCompetitorRefreshes(db: Db, deps: RefreshDeps = 
   const candidates = await db
     .select({ id: gridConfigs.id, orgId: gridConfigs.orgId })
     .from(gridConfigs)
-    .where(and(eq(gridConfigs.kind, "tracker"), eq(gridConfigs.active, true), ne(gridConfigs.competitorRefresh, "manual")))
+    .where(and(eq(gridConfigs.kind, "tracker"), eq(gridConfigs.active, true), ne(gridConfigs.competitorRefresh, "manual"), orgIsActive(gridConfigs.orgId)))
     .orderBy(gridConfigs.createdAt, gridConfigs.id);
   let submitted = 0;
   let skipped = 0;
@@ -277,7 +278,7 @@ export async function collectCompetitorProfiles(
   const open = await db
     .select()
     .from(competitorProfileTasks)
-    .where(and(eq(competitorProfileTasks.status, "submitted"), deps.orgIds ? inArray(competitorProfileTasks.orgId, deps.orgIds) : undefined))
+    .where(and(eq(competitorProfileTasks.status, "submitted"), deps.orgIds ? inArray(competitorProfileTasks.orgId, deps.orgIds) : undefined, orgIsActive(competitorProfileTasks.orgId)))
     .orderBy(competitorProfileTasks.submittedAt)
     .limit(500);
   let stored = 0;

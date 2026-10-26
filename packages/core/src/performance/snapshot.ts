@@ -35,6 +35,7 @@ import {
   yesterday,
   type DayRange,
 } from "./dates";
+import { orgIsActive } from "../account-state";
 
 export const PERFORMANCE_SNAPSHOT_QUEUE = "performance.snapshot";
 export const PERFORMANCE_SCHEDULE_QUEUE = "performance.schedule";
@@ -82,6 +83,7 @@ export async function enqueueNightlySnapshots(
         isNotNull(locations.googleLocationId),
         isNotNull(locations.connectionId),
         opts.orgIds ? inArray(locations.orgId, opts.orgIds) : undefined,
+        orgIsActive(locations.orgId),
       ),
     );
   const stagger = orgStagger();

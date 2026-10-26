@@ -11,7 +11,7 @@ import {
 import { canonicalJson } from "../audit";
 import { PROFILE_LIMITS } from "../config/profile-limits";
 import type { GoogleClient } from "../google/client";
-import { enqueueJob } from "../jobs";
+import { deferIfBlocked, enqueueJob } from "../jobs";
 import { orgStagger } from "../google/rate-limit-retry";
 import { recipientsForLocation } from "../notifications";
 import { clientFor } from "../reviews/reply-jobs";
@@ -28,6 +28,7 @@ import {
   type ProfileSnapshot,
   type ProfileValues,
 } from "./fields";
+import { orgIsActive } from "../account-state";
 
 export const PROFILE_SNAPSHOT_QUEUE = "profile.snapshot";
 export const PROFILE_SNAPSHOT_SCHEDULE_QUEUE = "profile.snapshot_schedule";
@@ -101,6 +102,7 @@ export async function enqueueNightlyProfileSnapshots(
         scope.orgId ? eq(locations.orgId, scope.orgId) : undefined,
         isNotNull(locations.googleLocationId),
         isNotNull(locations.connectionId),
+        orgIsActive(locations.orgId),
       ),
     );
   // One transaction: the fan-out is all-or-nothing and a thousand locations stay one round of commits.
@@ -238,6 +240,8 @@ export async function processProfileSnapshot(
 ): Promise<SnapshotOutcome> {
   const [loc] = await db.select().from(locations).where(eq(locations.id, job.locationId));
   if (!loc || loc.status !== "active" || !loc.googleLocationId) return "skipped";
+  // AP3b: the auto-revert below WRITES to Google, so a suspended org's snapshot waits (re-queued) rather than running.
+  if (await deferIfBlocked(db, loc.orgId, PROFILE_SNAPSHOT_QUEUE, job)) return "skipped";
   const client = deps.client ?? (await clientFor(db, loc.orgId, loc.connectionId));
   if (!client) return "skipped";
   const { snapshot } = await fetchProfile(client, loc.googleLocationId);

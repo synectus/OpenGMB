@@ -2,11 +2,10 @@ import { NextResponse, type NextRequest } from "next/server";
 import {
   AuthError,
   CoreError,
-  loadActor,
   loadReportPdf,
   requireAuthenticatedUser,
 } from "@opengmb/core";
-import { getAuth, getDb } from "../../../../../lib/auth";
+import { getAuth, getDb, sessionActor } from "../../../../../lib/auth";
 
 /** Logged-in download. core authorizes (report:read + workspace scope) before any bytes are read. */
 export async function GET(
@@ -18,7 +17,7 @@ export async function GET(
     const session = await getAuth().api.getSession({ headers: request.headers });
     const { userId } = requireAuthenticatedUser(session);
     const db = getDb();
-    const actor = await loadActor(db, { userId, surface: "ui", actorType: "user" });
+    const actor = await sessionActor(userId);
     const { pdf, filename } = await loadReportPdf(db, actor, runId);
     return new NextResponse(new Uint8Array(pdf), {
       headers: {

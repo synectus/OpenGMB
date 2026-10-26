@@ -11,7 +11,8 @@ import {
 import { writeAudit } from "../audit";
 import { loadBranding } from "../branding";
 import { PERFORMANCE_CONFIG } from "../config/performance";
-import { enqueueJob } from "../jobs";
+import { orgIsActive } from "../account-state";
+import { deferIfBlocked, enqueueJob } from "../jobs";
 import {
   last30DaysRange,
   lastCompleteMonth,
@@ -178,9 +179,15 @@ export async function processReportRun(
   const [claimed] = await db
     .update(reportRuns)
     .set({ status: "running" })
-    .where(and(eq(reportRuns.id, runId), eq(reportRuns.status, "queued")))
+    // AP3b: a suspended or deleted org's run is not claimed.
+    .where(and(eq(reportRuns.id, runId), eq(reportRuns.status, "queued"), orgIsActive(reportRuns.orgId)))
     .returning();
-  if (!claimed) return "skipped";
+  if (!claimed) {
+    // Still `queued` means the org is blocked: the job is re-queued for later, the run stays `queued`.
+    const [waiting] = await db.select({ orgId: reportRuns.orgId }).from(reportRuns).where(and(eq(reportRuns.id, runId), eq(reportRuns.status, "queued")));
+    if (waiting) await deferIfBlocked(db, waiting.orgId, REPORT_GENERATE_QUEUE, { runId });
+    return "skipped";
+  }
   try {
     const [def] = await db
       .select()

@@ -1,4 +1,5 @@
 import type { Db } from "@opengmb/db";
+import { recordConnectionError, recordConnectionOk } from "../admin-capture";
 import { CoreError } from "../errors";
 import type { GoogleClient } from "./client";
 import { createAccessTokenProvider } from "./access-token";
@@ -24,14 +25,22 @@ export function setSharedMockGoogleClient(mock: MockGoogleClient | null) {
  */
 export function createGoogleClient(p: {
   db: Db;
-  connection: { refreshTokenEnc: string; orgId?: string };
+  connection: { refreshTokenEnc: string; orgId?: string; id?: string };
   clock?: Partial<Clock>;
 }): ThrottledGoogleClient {
   const mode = process.env.GOOGLE_BUSINESS_API_MODE?.trim() || "mock";
   let inner: GoogleClient;
   if (mode === "mock") inner = sharedMock ?? new MockGoogleClient();
   else if (mode === "live") {
-    const live = new LiveGoogleClient({ getAccessToken: createAccessTokenProvider(p.connection) });
+    // AP1b: connection health. `p.db` is the root db every caller passes; capture swallows its own errors.
+    const { id, orgId } = p.connection;
+    const health = id && orgId ? { connectionId: id, orgId } : null;
+    const live = new LiveGoogleClient({
+      getAccessToken: createAccessTokenProvider(p.connection, {
+        onRefreshOk: health ? () => recordConnectionOk(p.db, health) : undefined,
+        onRefreshError: health ? (code) => recordConnectionError(p.db, health, code) : undefined,
+      }),
+    });
     const writes = process.env.GOOGLE_BUSINESS_WRITES?.trim() || "off";
     if (writes === "live") inner = live;
     else if (writes === "off") inner = new ReadOnlyGoogleClient(live);

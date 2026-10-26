@@ -94,6 +94,7 @@ const hi: Messages = {
     signInDescription: "फिर से स्वागत है। अपने Google Business प्रोफ़ाइल सँभालने के लिए साइन इन करें।",
     twoFactorNote: "हर खाते के लिए दो-चरणीय सत्यापन ज़रूरी है।",
     emailConfirmed: "आपका ईमेल पता पक्का हो गया है। जारी रखने के लिए साइन इन करें।",
+    accountBlocked: "आपका खाता निलंबित है या साइन इन बंद कर दिया गया है। सहायता से संपर्क करें।",
     newToApp: "OpenGMB पर नए हैं?",
     createAccountLink: "खाता बनाएँ",
     questions: "कोई सवाल है?",

@@ -1,6 +1,8 @@
 import { and, desc, eq, inArray, ne } from "drizzle-orm";
 import { aiVisibilityResults, aiVisibilityRuns, aiVisibilitySettings, gridConfigs, gridPoints, gridRuns, locations, platformDfsSpend, type Db, type Tx } from "@opengmb/db";
+import { isOrgBlocked, orgIsActive } from "../account-state";
 import { usdToMicro } from "../ai/money";
+import { deferIfBlocked } from "../jobs";
 import { CreditExhaustedError, assertCredit, debit } from "../billing";
 import { AI_ENGINES, AI_VISIBILITY, checkCostUsd, type AiEngine } from "../config/ai-visibility";
 import { dfsLocationCodeFor } from "../config/dfs-locations";
@@ -34,7 +36,7 @@ export type AiCheckDeps = {
 
 export type AiCheckOutcome =
   | { outcome: "stored"; runId: string; results: number; chargedUsd: number }
-  | { outcome: "not_enabled" | "not_due" | "no_prompts" | "skipped_limit" | "failed" };
+  | { outcome: "not_enabled" | "not_due" | "no_prompts" | "skipped_limit" | "failed" | "blocked" };
 
 /** Only engines we know, in the fixed order; never an empty list. */
 export function cleanEngines(engines: readonly string[] | null | undefined): AiEngine[] {
@@ -94,6 +96,11 @@ export async function runAiVisibilityCheck(db: Db, locationId: string, deps: AiC
   const source = deps.source ?? rankSource();
   const [settings] = await db.select().from(aiVisibilitySettings).where(eq(aiVisibilitySettings.locationId, locationId));
   if (!settings || !settings.enabled) return { outcome: "not_enabled" };
+  // AP3b: suspended or deleted. Nothing is asked or charged. A scheduled check stays due (last_checked_at is untouched, so the
+  // daily tick takes it after unsuspend); a forced one is somebody's request, so it is re-queued for later.
+  if (deps.force) {
+    if (await deferIfBlocked(db, settings.orgId, AI_VISIBILITY_QUEUE, { locationId, force: true })) return { outcome: "blocked" };
+  } else if (await isOrgBlocked(db, settings.orgId)) return { outcome: "blocked" };
   if (!deps.force && !isDue(AI_VISIBILITY.schedule, settings.lastCheckedAt, now)) return { outcome: "not_due" };
   const [loc] = await db.select().from(locations).where(and(eq(locations.id, locationId), eq(locations.orgId, settings.orgId)));
   if (!loc || loc.status !== "active") return { outcome: "not_enabled" };
@@ -222,7 +229,7 @@ export async function enqueueDueAiVisibilityChecks(db: Db, deps: AiCheckDeps = {
   const candidates = await db
     .select({ locationId: aiVisibilitySettings.locationId, orgId: aiVisibilitySettings.orgId })
     .from(aiVisibilitySettings)
-    .where(and(eq(aiVisibilitySettings.enabled, true), ne(aiVisibilitySettings.category, "")))
+    .where(and(eq(aiVisibilitySettings.enabled, true), ne(aiVisibilitySettings.category, ""), orgIsActive(aiVisibilitySettings.orgId)))
     .orderBy(aiVisibilitySettings.locationId);
   let stored = 0;
   let skipped = 0;

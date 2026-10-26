@@ -34,7 +34,7 @@ export function buildCsp(nonce: string, dev: boolean): string {
     // fonts.googleapis.com: the Maps API's stylesheet.
     `style-src 'self' https://fonts.googleapis.com ${dev ? "'unsafe-inline'" : `'nonce-${nonce}'`}`,
     "style-src-attr 'unsafe-inline'",
-    "img-src 'self' data: blob: https:",
+    `img-src 'self' data: blob: https: ${CSP_EXTRA_HOSTS.img.join(" ")}`.trim(),
     "font-src 'self' https://fonts.gstatic.com",
     // The origins Google's CSP guide for the Maps JavaScript API lists (rank map).
     // Extra hosts the full server's payment checkout needs (site-edition.ts); the community edition adds none.

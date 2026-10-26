@@ -18,6 +18,7 @@ import {
 } from "@opengmb/core";
 import { reportDefinitions, reportRuns, reportShareLinks, workspaces, type Db } from "@opengmb/db";
 import { resendSendEmail, type DigestDeps } from "./digest";
+import { orgIsActive } from "@opengmb/core/account-state";
 
 const escapeHtml = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -93,6 +94,7 @@ export async function runMonthlyReports(db: Db, deps: DigestDeps): Promise<Month
     .where(
       and(
         eq(reportDefinitions.schedule, "monthly"),
+        orgIsActive(reportDefinitions.orgId),
         deps.orgIds ? inArray(reportDefinitions.orgId, deps.orgIds) : undefined,
       ),
     );

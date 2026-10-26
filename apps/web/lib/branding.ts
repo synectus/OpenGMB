@@ -1,6 +1,6 @@
 import "server-only";
-import { executeAction, loadActor, type Branding } from "@opengmb/core";
-import { getDb } from "./auth";
+import { executeAction, type Branding } from "@opengmb/core";
+import { getDb, sessionActor } from "./auth";
 
 type Logos = { orgLogoFileId: string | null; workspaceLogos: { workspaceId: string; fileId: string }[] };
 
@@ -15,7 +15,7 @@ export const fileSrc = (fileId: string) => `/api/files/${fileId}`;
 export async function brandingFor(userId: string): Promise<(Branding & { clientLogoUrl: string | null }) | null> {
   try {
     const db = getDb();
-    const actor = await loadActor(db, { userId, surface: "ui", actorType: "user" });
+    const actor = await sessionActor(userId);
     const out = (await executeAction(db, actor, "branding.get", {})) as { branding: Branding };
     const logos = (await executeAction(db, actor, "branding.logos", {})) as Logos;
     const client = actor.workspaceIds !== "all" && logos.workspaceLogos.length === 1 ? logos.workspaceLogos[0]! : null;

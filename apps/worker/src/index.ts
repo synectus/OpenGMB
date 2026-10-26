@@ -110,6 +110,7 @@ import { createPerformanceQueues, registerPerformanceJobs } from "./performance"
 import { registerReportJobs } from "./reports";
 import { registerReviewTopicJobs } from "./review-topics";
 import { registerWebhookJobs } from "./webhooks";
+import { registerPrivateJobs } from "./private-jobs";
 import { startServer } from "./http";
 
 reportStartupConfig("worker");
@@ -495,6 +496,7 @@ await registerPerformanceJobs(boss, db);
 await registerReportJobs(boss, db);
 await registerReviewTopicJobs(boss, db);
 await registerWebhookJobs(boss, db);
+await registerPrivateJobs(boss, db);
 await boss.send(HEARTBEAT_QUEUE, { at: new Date().toISOString() });
 
 // H2: tell the web server we are alive, and report jobs that failed for good (retries used up).

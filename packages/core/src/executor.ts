@@ -1,7 +1,8 @@
 import type { z } from "zod";
+import { sql } from "drizzle-orm";
 import type { Db, Tx } from "@opengmb/db";
 import type { Actor } from "./actor";
-import { AccessError, authorizeAction } from "./actor";
+import { AccessError, ReadOnlyViewError, authorizeAction } from "./actor";
 import { isExternalEffect, personMustApproveMessage } from "./external-effects";
 import { writeAudit } from "./audit";
 import { CoreError } from "./errors";
@@ -57,6 +58,8 @@ export async function runParsed(
   within?: Tx,
 ): Promise<unknown> {
   const name = action.name;
+  // A second guard behind authorizeAction, for callers that arrive with an already authorized action (proposal apply).
+  if (actor.readOnly && action.kind === "write") throw new ReadOnlyViewError();
   if (action.outsideTransaction) {
     if (action.kind !== "read")
       throw new Error(`Action ${name}: outsideTransaction needs kind read`);
@@ -80,6 +83,9 @@ export async function runParsed(
 
   const after: (() => void)[] = [];
   const body = async (tx: Tx) => {
+    // A read-only actor's transaction cannot write: Postgres refuses any INSERT, UPDATE or DELETE, even from a read
+    // action that should not have one. Must be the first statement of the transaction.
+    if (actor.readOnly && !within) await tx.execute(sql`SET TRANSACTION READ ONLY`);
     // Read-only accounts (an ended trial, a lapsed plan) refuse writes here and nowhere else.
     if (action.kind === "write") await assertWritable(tx, actor, name, new Date());
     let auditRows = 0;

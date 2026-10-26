@@ -14,6 +14,7 @@ import { emailConfigured, getEmailSender, type SendEmail } from "../email";
 import { LIST_SOURCES, MAX_SEND_ATTEMPTS, reviewRequestDailyLimit, reviewRequestWorkspaceDailyLimit, SWEEP_BATCH } from "../config/review-requests";
 import { identityOf, sendingBlock } from "./identity";
 import { appBaseUrl, buildReviewRequestEmail, clickUrl, inSendWindow, unsubscribeUrl } from "./pure";
+import { isOrgBlocked, orgIsActive } from "../account-state";
 
 const DAY = 86_400_000;
 
@@ -85,6 +86,7 @@ export async function sweepReviewRequests(
         isNotNull(workspaces.senderPostalAddress),
         atLimit.length ? notInArray(reviewRequestRecipients.workspaceId, atLimit) : undefined,
         deps.orgIds ? inArray(reviewRequestRecipients.orgId, deps.orgIds) : undefined,
+        orgIsActive(reviewRequestRecipients.orgId),
         or(
           and(eq(reviewRequestRecipients.status, "pending"), lt(reviewRequestRecipients.attempts, MAX_SEND_ATTEMPTS)),
           and(
@@ -125,6 +127,8 @@ export async function sweepReviewRequests(
         .where(eq(reviewRequestRecipients.id, cand.id))
         .for("update", { of: reviewRequestRecipients, skipLocked: true });
       if (!row || row.c.status !== "active") return "none" as const;
+      // AP3b: suspended or deleted since the candidate list was read. Untouched, so the next sweep after unsuspend sends it.
+      if (await isOrgBlocked(tx, row.r.orgId)) return "none" as const;
       const { r: rec, c: camp, loc, ws } = row;
       const reminder = rec.status === "sent";
       if (rec.status !== "pending" && !reminder) return "none" as const;

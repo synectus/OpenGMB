@@ -92,6 +92,7 @@ const en = {
     signInDescription: "Welcome back. Sign in to manage your Google Business Profiles.",
     twoFactorNote: "Two-factor authentication is required for every account.",
     emailConfirmed: "Your email address is confirmed. Sign in to continue.",
+    accountBlocked: "Your account is suspended or sign-in is turned off. Contact support.",
     newToApp: "New to OpenGMB?",
     createAccountLink: "Create an account",
     questions: "Questions?",

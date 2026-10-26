@@ -4,7 +4,7 @@ import { randomBytes } from "node:crypto";
 import { and, eq, inArray, isNull } from "drizzle-orm";
 import { z } from "zod";
 import { aiUsage, apiTokens, workspaces, type Db } from "@opengmb/db";
-import { AccessError, authorize, authorizeAction, type Actor } from "../actor";
+import { AccessError, ReadOnlyViewError, authorize, authorizeAction, type Actor } from "../actor";
 import { actions } from "../actions";
 import { effectiveScopes, hashApiToken, resolveNewTokenScopes } from "../apiTokens";
 import { writeAudit } from "../audit";
@@ -218,6 +218,8 @@ export async function runAssistantTurn(
   input: { workspaceId: string; messages: AssistantMessage[] },
   registry: readonly AnyAction[] = actions,
 ): Promise<AssistantResult> {
+  // A chat turn spends the organization's AI budget and records usage: not part of a read-only view.
+  if (actor.readOnly) throw new ReadOnlyViewError();
   const messages = assistantMessages.parse(input.messages);
   const last = messages[messages.length - 1]!;
   if (last.role !== "user") throw new CoreError("INVALID_INPUT", "The last message must be from the user");

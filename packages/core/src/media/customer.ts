@@ -13,6 +13,7 @@ import { orgStagger } from "../google/rate-limit-retry";
 import { clientFor } from "../reviews/reply-jobs";
 import { workerAudit } from "../reviews/reply-state";
 import { recipientsForLocation } from "../notifications";
+import { orgIsActive } from "../account-state";
 
 export const CUSTOMER_MEDIA_SCAN_QUEUE = "media.customer_scan";
 export const CUSTOMER_MEDIA_SCHEDULE_QUEUE = "media.customer_schedule";
@@ -61,6 +62,7 @@ export async function enqueueCustomerMediaScans(
         isNotNull(locations.googleLocationId),
         isNotNull(locations.googleAccountName),
         isNotNull(locations.connectionId),
+        orgIsActive(locations.orgId),
       ),
     );
   // One transaction: the fan-out is all-or-nothing and a thousand locations stay one round of commits.

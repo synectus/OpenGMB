@@ -1,5 +1,7 @@
 import type { BetterAuthPlugin } from "better-auth";
 import { APIError, createAuthMiddleware } from "better-auth/api";
+import type { Db } from "@opengmb/db";
+import { recordFailedSignIn } from "./admin-capture";
 import { lockoutConfig } from "./limits/config";
 import { WindowLimiter } from "./limits/window";
 
@@ -12,6 +14,17 @@ export type LockoutOptions = {
 };
 
 const SIGN_IN = "/sign-in/email";
+
+/** AP7: counts a wrong password for the admin alerts. Fire and forget: it must never slow or change a sign-in. */
+function captureFailedSignIn(db: Db | undefined): void {
+  if (!db) return;
+  try {
+    void Promise.resolve(recordFailedSignIn(db)).catch(() => {});
+  } catch {
+    // The seam never throws; this covers a stand-in or a bug.
+  }
+}
+
 const normalize = (email: unknown) => (typeof email === "string" ? email.trim().toLowerCase() : "");
 
 /**
@@ -23,7 +36,7 @@ const normalize = (email: unknown) => (typeof email === "string" ? email.trim().
  * address whether or not an account exists, so the answer never says which accounts exist. State
  * is in process memory like the other limiters; a restart clears it.
  */
-export function accountLockout(opts: LockoutOptions = lockoutConfig()): BetterAuthPlugin {
+export function accountLockout(opts: LockoutOptions = lockoutConfig(), db?: Db): BetterAuthPlugin {
   const limiter = new WindowLimiter(opts.failures, opts.windowMinutes * 60_000, opts.now);
   return {
     id: "account-lockout",
@@ -53,7 +66,10 @@ export function accountLockout(opts: LockoutOptions = lockoutConfig()): BetterAu
             const returned = ctx.context.returned;
             if (returned instanceof APIError) {
               // Only a wrong password counts; an unverified address (403) or a limit (429) does not.
-              if (returned.statusCode === 401) limiter.hit(key);
+              if (returned.statusCode === 401) {
+                limiter.hit(key);
+                captureFailedSignIn(db);
+              }
             } else {
               limiter.reset(key);
             }

@@ -1,6 +1,7 @@
 import { and, eq, inArray, lt, sql } from "drizzle-orm";
 import { gridTasks, type Db } from "@opengmb/db";
 import { GEOGRID_DEFAULTS } from "../config/geogrid";
+import { orgIsActive } from "../account-state";
 import { finalizeRunIfSettled, markReceivedAndCollect } from "./run";
 
 /**
@@ -26,6 +27,8 @@ export async function sweepStaleGridTasks(
         lt(age, sql`${staleBefore.toISOString()}::timestamptz`),
         // Tests only; production sweeps every org.
         opts.orgIds ? inArray(gridTasks.orgId, opts.orgIds) : undefined,
+        // AP3b: a blocked org's tasks stay `submitted`; the sweep takes them after unsuspend.
+        orgIsActive(gridTasks.orgId),
       ),
     );
   let enqueued = 0;

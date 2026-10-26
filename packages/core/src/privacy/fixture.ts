@@ -114,7 +114,7 @@ export async function seedClient(
   return { mark, orgId, userId, workspaceId, name, seeded };
 }
 
-async function insertRow(
+export async function insertRow(
   db: Db,
   tableName: string,
   ctx: Record<string, unknown>,

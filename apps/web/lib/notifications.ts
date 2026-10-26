@@ -1,6 +1,6 @@
 import "server-only";
-import { executeAction, loadActor } from "@opengmb/core";
-import { getDb } from "./auth";
+import { executeAction } from "@opengmb/core";
+import { getDb, sessionActor } from "./auth";
 
 export type BellItem = {
   id: string;
@@ -16,7 +16,7 @@ export type BellData = { unreadCount: number; items: BellItem[] };
 export async function bellDataFor(userId: string): Promise<BellData | null> {
   try {
     const db = getDb();
-    const actor = await loadActor(db, { userId, surface: "ui", actorType: "user" });
+    const actor = await sessionActor(userId);
     return (await executeAction(db, actor, "notifications.list", { limit: 10 })) as BellData;
   } catch (e) {
     // No membership yet, or several organizations without a chooser: render without a bell.

@@ -2,13 +2,12 @@ import { headers } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
 import {
   isAllowedPushEndpoint,
-  loadActor,
   pushConfig,
   removePushSubscription,
   requireAuthenticatedUser,
   savePushSubscription,
 } from "@opengmb/core";
-import { getAuth, getDb } from "../../../../lib/auth";
+import { getAuth, getDb, refuseWhileViewing, sessionActor } from "../../../../lib/auth";
 import { parseSubscriptionBody } from "../../../../lib/push-client";
 
 /**
@@ -18,7 +17,7 @@ import { parseSubscriptionBody } from "../../../../lib/push-client";
 async function who() {
   const session = await getAuth().api.getSession({ headers: await headers() });
   const { userId } = requireAuthenticatedUser(session);
-  const actor = await loadActor(getDb(), { userId, surface: "ui", actorType: "user" });
+  const actor = await sessionActor(userId);
   return { userId, orgId: actor.orgId };
 }
 
@@ -27,6 +26,7 @@ const fail = (status: number, message: string) =>
 
 async function handle(request: NextRequest, save: boolean) {
   if (!pushConfig()) return fail(404, "Not found");
+  if (await refuseWhileViewing()) return fail(403, "Read-only view: changes are turned off.");
   let me;
   try {
     me = await who();

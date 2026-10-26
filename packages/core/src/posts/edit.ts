@@ -1,4 +1,6 @@
 import { and, asc, eq } from "drizzle-orm";
+import { isOrgBlocked } from "../account-state";
+import { deferBlockedJob } from "../jobs";
 import { locations, postEdits, postTargets, posts, type Db, type Tx } from "@opengmb/db";
 import { assertPassed, guardrailSubject, runGuardrails, type GuardrailResult } from "../guardrails";
 import { clientFor, googleFailure } from "../reviews/reply-jobs";
@@ -104,6 +106,11 @@ export async function processPostEdit(
     if (!edit || edit.status !== "applying") return null;
     const [post] = await tx.select().from(posts).where(eq(posts.id, edit.postId));
     if (!post) return null;
+    // AP3b: suspended or deleted. The edit stays `applying`; the job is re-queued for later.
+    if (await isOrgBlocked(tx, post.orgId)) {
+      await deferBlockedJob(tx, POST_EDIT_QUEUE, job, post.orgId);
+      return null;
+    }
     return { edit, post, targets: await editableTargets(tx, post) };
   });
   if (!loaded) return null;
@@ -118,6 +125,10 @@ export async function processPostEdit(
     const prepared = await db.transaction(async (tx): Promise<Prepared> => {
       const [cur] = await tx.select().from(postEdits).where(eq(postEdits.id, edit.id));
       if (!cur || cur.status !== "applying") return { kind: "gone" };
+      if (await isOrgBlocked(tx, post.orgId)) {
+        await deferBlockedJob(tx, POST_EDIT_QUEUE, job, post.orgId);
+        return { kind: "gone" };
+      }
       const [loc] = await tx.select().from(locations).where(eq(locations.id, t.locationId));
       if (!loc || loc.status !== "active") return { kind: "fail", error: REASONS.inactive };
       if (!loc.googleAccountName || !loc.googleLocationId) {

@@ -11,6 +11,7 @@ import {
   workspaces,
   type Db,
 } from "@opengmb/db";
+import { orgIsActive } from "@opengmb/core/account-state";
 
 export { DIGEST_CRON, resendSendEmail };
 
@@ -135,6 +136,7 @@ export async function runDigest(db: Db, deps: DigestDeps): Promise<{ sent: numbe
         gte(notifications.createdAt, since),
         lte(notifications.createdAt, now),
         deps.orgIds ? inArray(notifications.orgId, deps.orgIds) : undefined,
+        orgIsActive(notifications.orgId),
       ),
     );
 

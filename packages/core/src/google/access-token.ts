@@ -14,13 +14,29 @@ export const ACCESS_TOKEN_SKEW_MS = 60_000;
  */
 export function createAccessTokenProvider(
   connection: { refreshTokenEnc: string },
-  opts: { now?: () => number } = {},
+  opts: {
+    now?: () => number;
+    /** Called after a refresh succeeds / fails (`code` is the OAuth error code, never a token). Must not throw. */
+    onRefreshOk?: () => Promise<void>;
+    onRefreshError?: (code: string) => Promise<void>;
+  } = {},
 ): () => Promise<string> {
   const now = opts.now ?? Date.now;
   let cached: { token: string; expiresAt: number } | null = null;
   let inflight: Promise<string> | null = null;
 
   async function refresh(): Promise<string> {
+    try {
+      const token = await exchange();
+      await opts.onRefreshOk?.();
+      return token;
+    } catch (e) {
+      await opts.onRefreshError?.(errorCode(e));
+      throw e;
+    }
+  }
+
+  async function exchange(): Promise<string> {
     const cfg = getGoogleOAuthConfig();
     const res = await cfg.fetch(cfg.tokenUrl, {
       method: "POST",
@@ -56,4 +72,13 @@ export function createAccessTokenProvider(
     });
     return inflight;
   };
+}
+
+/** The OAuth error code of a failed refresh, else "refresh_failed". Never the message, which could carry more than a code. */
+function errorCode(e: unknown): string {
+  if (e instanceof GoogleApiError) {
+    const code = (e.body as { error?: unknown } | null)?.error;
+    return typeof code === "string" && code ? code : `http_${e.status}`;
+  }
+  return "refresh_failed";
 }

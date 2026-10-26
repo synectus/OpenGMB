@@ -10,6 +10,7 @@ import {
   type TokenMode,
   type TokenScope,
 } from "./actor";
+import { isOrgBlocked, isUserBlocked } from "./account-state";
 import { writeAudit } from "./audit";
 import { CoreError } from "./errors";
 import { roleHasPermission } from "./permissions";
@@ -291,6 +292,11 @@ export async function verifyApiToken(db: Db, token: string): Promise<Actor> {
     .from(apiTokens)
     .where(and(eq(apiTokens.tokenHash, hashApiToken(token)), isNull(apiTokens.revokedAt)));
   if (!row) throw new AuthError("UNAUTHENTICATED", "Invalid token");
+  // AP3b: a suspended or deleted org, or a user whose sign-in is off, cannot use a token. The token is kept (suspension is
+  // reversible) and nothing is written, so last_used_at shows the last real use.
+  if ((await isOrgBlocked(db, row.orgId)) || (await isUserBlocked(db, row.userId))) {
+    throw new AuthError("UNAUTHENTICATED", "Invalid token");
+  }
 
   const [user] = await db.select().from(users).where(eq(users.id, row.userId));
   if (!user) throw new AuthError("UNAUTHENTICATED", "Invalid token");

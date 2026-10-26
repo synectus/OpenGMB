@@ -2,10 +2,12 @@ import { signupPerIpPerHour } from "./config/platform-limits";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { APIError } from "better-auth/api";
 import { twoFactor } from "better-auth/plugins";
 import type { BetterAuthPlugin } from "better-auth";
 import { and, eq, isNotNull } from "drizzle-orm";
 import { accountLockout, type LockoutOptions } from "./account-lockout";
+import { BLOCKED_MESSAGES, blockedReason } from "./account-state";
 import { noTrustedDevice } from "./no-trusted-device";
 import { sendVerificationLink } from "./verification-email";
 import {
@@ -191,6 +193,19 @@ export function createAuth(db: Db, opts: AuthOptions = {}) {
       customRules: { ...AUTH_RATE_LIMIT_RULES },
     },
     databaseHooks: {
+      // AP3b: every sign-in path (password, 2FA step, Google, magic link) creates a session, so this one check
+      // refuses a suspended or deleted account and a user whose sign-in was turned off. A stand-in in the community
+      // edition never refuses. It reads inside Better-Auth's own transaction when there is one (a brand-new user is
+      // not visible to the pool yet).
+      session: {
+        create: {
+          before: async (session) => {
+            const reason = await blockedReason(txStorage.getStore() ?? db, session.userId);
+            // Not 403 (the sign-in form reads that as "confirm your email") and not 401 (the lockout counts it as a wrong password).
+            if (reason) throw new APIError("BAD_REQUEST", { message: BLOCKED_MESSAGES[reason] });
+          },
+        },
+      },
       account: {
         create: {
           // Runs INSIDE Better-Auth's sign-up / OAuth transaction (the user row is already inserted
@@ -231,7 +246,7 @@ export function createAuth(db: Db, opts: AuthOptions = {}) {
       // MFA is mandatory on every sign-in; refuse trustDevice; see no-trusted-device.ts.
       noTrustedDevice(),
       // Per-account sign-in lockout on top of the per-IP limit; see account-lockout.ts.
-      accountLockout(opts.lockout),
+      accountLockout(opts.lockout, db),
       passwordResetLimit(),
       // Client users can sign in with an emailed link; MFA still applies (see social-mfa.ts).
       ...magicLinkPlugins(db, opts.baseURL),

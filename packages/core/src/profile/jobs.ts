@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { locations, profileChangeSets, profileChangeTargets, type Db } from "@opengmb/db";
 import { assertPassed, guardrailSubject } from "../guardrails";
+import { deferIfBlocked } from "../jobs";
 import { clientFor, googleFailure } from "../reviews/reply-jobs";
 import { workerAudit } from "../reviews/reply-state";
 import { PROFILE_LIMITS } from "../config/profile-limits";
@@ -148,6 +149,8 @@ export async function processProfileApply(
     return "ignored";
   }
   const { target, loc, cs } = loaded;
+  // AP3b: suspended or deleted. The target stays `pending` and the change set `queued`; the job is re-queued for later.
+  if (await deferIfBlocked(db, target.orgId, PROFILE_APPLY_QUEUE, job)) return "ignored";
   const settle = async (o: Outcome) => {
     await settleTarget(db, target.id, o);
     return o.status;

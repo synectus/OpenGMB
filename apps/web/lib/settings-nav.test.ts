@@ -28,7 +28,9 @@ describe("settingsNavFor", () => {
     const can = () => true;
     expect(settingsNavFor(can).map((i) => i.href)).not.toContain("/settings/organizations");
     const labels = settingsNavFor(can, true).map((i) => i.label);
-    expect(labels).toHaveLength(16);
+    expect(labels).toHaveLength(17);
+    expect(labels).toContain("Admin panel");
+    expect(settingsNavFor(can).map((i) => i.href)).not.toContain("/admin");
     expect(labels).toContain("System health");
     expect(labels).toContain("Integrations");
     expect(labels.indexOf("Organizations")).toBe(labels.indexOf("Team") + 1);

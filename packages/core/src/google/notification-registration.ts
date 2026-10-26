@@ -11,6 +11,7 @@ import { enqueueJob } from "../jobs";
 import { createGoogleClient } from "./factory";
 import type { GoogleClient, GoogleNotificationSetting } from "./client";
 import { GoogleApiError, GoogleWritesDisabledError } from "./errors";
+import { orgIsActive } from "../account-state";
 
 export const NOTIFICATION_REGISTER_QUEUE = "google-notifications.register";
 /** Once a day, UTC. */
@@ -170,7 +171,8 @@ export async function runNotificationRegistration(db: Db, job: RegisterJob): Pro
   const conns = await db
     .select({ id: googleConnections.id, orgId: googleConnections.orgId, refreshTokenEnc: googleConnections.refreshTokenEnc })
     .from(googleConnections)
-    .where(job.connectionId ? eq(googleConnections.id, job.connectionId) : undefined);
+    // AP3b: a suspended or deleted org's accounts are left alone; the daily run repairs them after unsuspend.
+    .where(and(job.connectionId ? eq(googleConnections.id, job.connectionId) : undefined, orgIsActive(googleConnections.orgId)));
   for (const c of conns) {
     const s = await registerConnectionNotifications(db, c, job.scope);
     total.accounts += s.accounts;

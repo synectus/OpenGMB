@@ -34,6 +34,7 @@ import {
   workspaceSpentMicroUsd,
 } from "../ai/usage";
 import { commentHashSql } from "./topic-filter";
+import { orgIsActive } from "../account-state";
 
 export const TOPIC_USAGE_ACTION = "reviews.classifyTopics";
 export const TOPIC_USAGE_PURPOSE = "topics";
@@ -354,7 +355,7 @@ export async function sweepReviewTopics(db: Db): Promise<TopicSweepResult> {
     .select({ workspaceId: workspaces.id, orgId: workspaces.orgId })
     .from(workspaceReviewTopicSettings)
     .innerJoin(workspaces, eq(workspaces.id, workspaceReviewTopicSettings.workspaceId))
-    .where(eq(workspaceReviewTopicSettings.autoClassify, true))
+    .where(and(eq(workspaceReviewTopicSettings.autoClassify, true), orgIsActive(workspaces.orgId)))
     .orderBy(workspaces.id);
   for (const w of on) {
     if (!(await aiEnabledForOrg(db, w.orgId))) continue; // an owner switched AI off for this account

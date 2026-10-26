@@ -94,10 +94,11 @@ export const placeActionsList = defineAction({
       }
     } catch (e) {
       if (!isLocationAccessDenied(e)) throw e;
-      await markGoogleAccessDenied(db, loc, "place_actions");
+      // A read-only view (view as customer) must not record anything on the location.
+      if (!actor.readOnly) await markGoogleAccessDenied(db, loc, "place_actions");
       return { links: [], operations, googleAccessDenied: true };
     }
-    await clearGoogleAccessDenied(db, loc.id, "place_actions");
+    if (!actor.readOnly) await clearGoogleAccessDenied(db, loc.id, "place_actions");
     return { links: links.map(toLink), operations, googleAccessDenied: false };
   },
 });

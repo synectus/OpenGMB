@@ -1,5 +1,6 @@
 import { and, eq } from "drizzle-orm";
 import { memberships, organizations, type Db } from "@opengmb/db";
+import { BLOCKED_MESSAGES, isOrgBlocked } from "./account-state";
 import { CoreError } from "./errors";
 import { roleHasPermission, type Permission, type Role } from "./permissions";
 import type { AnyAction } from "./registry";
@@ -18,6 +19,28 @@ export class OrgSelectionRequiredError extends CoreError {
     this.name = "OrgSelectionRequiredError";
   }
 }
+
+/** What a read-only (view-as) actor is told when it tries to change something. */
+export const READ_ONLY_VIEW_MESSAGE = "Read-only view: changes are turned off.";
+
+/** Refused for a read-only actor with this error (code FORBIDDEN, `view` READ_ONLY_VIEW). */
+export class ReadOnlyViewError extends AccessError {
+  readonly view = "READ_ONLY_VIEW";
+  constructor() {
+    super("FORBIDDEN", READ_ONLY_VIEW_MESSAGE);
+    this.name = "ReadOnlyViewError";
+  }
+}
+
+/**
+ * Read actions a read-only actor is still refused, because running them changes something or spends money:
+ * - posts.syncGoogle stores Google's posts in our copy of the location (a write dressed as a read);
+ * - integrations.testDataForSeo calls the paid provider with the platform's own login.
+ * Every other read action that reaches a paid provider (DataForSEO, an AI model) was checked by hand on 2026-10-25 and
+ * does not call it from a read (geogrid.preview and aiVisibility.get only estimate; aiUsage.get, reviewTopics.status and
+ * postImages.sources only check configuration). Not listed here: the Google calls reads make, which are free.
+ */
+export const READ_ONLY_REFUSED_READS: ReadonlySet<string> = new Set(["posts.syncGoogle", "integrations.testDataForSeo"]);
 
 export const TOKEN_SCOPES = ["read", "write"] as const;
 export type TokenScope = (typeof TOKEN_SCOPES)[number];
@@ -51,7 +74,26 @@ export type Actor = {
   scopes?: readonly TokenScope[];
   /** API-token actors only. Absent means human_in_the_loop (the safe reading). */
   tokenMode?: TokenMode;
+  /**
+   * A support view of someone else's organization: the actor may read what the owner reads and nothing else.
+   * authorizeAction refuses every write action for it and the executor opens its transactions READ ONLY.
+   * Only the web actor helper sets it, from a view-as grant; nothing sets it in the community edition.
+   */
+  readOnly?: true;
 };
+
+/** The owner's view of `orgId` for `userId`, marked read-only. For a view-as grant; the caller has checked the grant. */
+export function viewAsActor(input: { userId: string; orgId: string }): Actor {
+  return {
+    userId: input.userId,
+    orgId: input.orgId,
+    role: "owner",
+    workspaceIds: "all",
+    surface: "ui",
+    actorType: "user",
+    readOnly: true,
+  };
+}
 
 export type LoadActorInput = {
   userId: string;
@@ -80,6 +122,11 @@ export async function loadActor(db: Db, input: LoadActorInput): Promise<Actor> {
   const orgIds = [...new Set(rows.map((r) => r.orgId))];
   if (orgIds.length > 1) throw new OrgSelectionRequiredError(orgIds);
   const orgId = orgIds[0]!;
+  // AP3b: the org-level backstop for everything that loads an actor (web actions and pages, API routes, tokens). The
+  // worker is excluded: its jobs are guarded where they start, so a job never fails half way for a suspended org.
+  if (input.surface !== "worker" && (await isOrgBlocked(db, orgId))) {
+    throw new AccessError("FORBIDDEN", BLOCKED_MESSAGES.org_suspended);
+  }
 
   const orgWide = rows.find((r) => r.workspaceId === null);
   const base = {
@@ -128,6 +175,9 @@ export function authorizeAction(
   actor: Actor,
   action: Pick<AnyAction, "name" | "permission" | "kind">,
 ): void {
+  if (actor.readOnly && (action.kind === "write" || READ_ONLY_REFUSED_READS.has(action.name))) {
+    throw new ReadOnlyViewError();
+  }
   authorize(actor, action.permission);
   if (action.kind !== "write" || !actor.scopes) return;
   if (!actor.scopes.includes("write")) {

@@ -31,6 +31,7 @@ import type {
   ListReviewsResponse,
   ListSearchKeywordsResponse,
 } from "./client";
+import { recordOrgGoogleCall } from "../admin-capture";
 import { recordGoogleCall } from "../monitoring/google-usage";
 import { reportLimitEvent } from "../limits/alerts";
 import { GoogleApiError, GoogleOrgLimitError, GoogleRateLimitError, GoogleRetriesExhaustedError } from "./errors";
@@ -62,14 +63,15 @@ function locationOf(name: string): string {
   return m[1]!;
 }
 
-/** Wraps a client so every method call (retries included) is counted per UTC day for the H2 quota view. */
-function countingClient(inner: GoogleClient, db: Db): GoogleClient {
+/** Wraps a client so every method call (retries included) is counted per UTC day for the H2 quota view, and per org when it has one (AP1b). */
+function countingClient(inner: GoogleClient, db: Db, orgId?: string): GoogleClient {
   return new Proxy(inner, {
     get(target, prop, receiver) {
       const v = Reflect.get(target, prop, receiver);
       if (typeof v !== "function" || typeof prop !== "string") return v;
       return async (...args: unknown[]) => {
         await recordGoogleCall(db, prop);
+        if (orgId) await recordOrgGoogleCall(db, orgId);
         return v.apply(target, args);
       };
     },
@@ -98,7 +100,7 @@ export class ThrottledGoogleClient {
     clock: Partial<Clock> = {},
     private readonly orgId?: string,
   ) {
-    this.inner = countingClient(inner, db);
+    this.inner = countingClient(inner, db, orgId);
     this.clock = { ...realClock, ...clock };
     this.limiter = new PostgresRateLimiter(db, this.clock);
   }
