@@ -58,6 +58,7 @@ const en = {
       "Reply templates": "Reply templates",
       Team: "Team",
       Organizations: "Organizations",
+      "Admin panel": "Admin panel",
       Branding: "Branding",
       "API tokens": "API tokens",
       Webhooks: "Webhooks",

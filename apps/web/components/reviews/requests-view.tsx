@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import type { reviewLinksGet, reviewsList, workspacesList } from "@opengmb/core";
 import { reviewLinks_get, reviews_list, workspaces_list } from "../../app/_generated/actions";
+import { locationLabel } from "../../lib/locations";
 import { trackedUrl } from "../../lib/review-requests";
 import { filterFieldClass } from "../page-parts";
 import { EmptyState, ErrorText, Panel, secondaryButtonClass } from "../ui";
@@ -19,7 +20,7 @@ export async function RequestsView({
   canManage,
 }: {
   sp: { ws?: string; loc?: string };
-  locations: { id: string; name: string; workspaceId: string }[];
+  locations: { id: string; name: string; addressSummary?: string | null; phone?: string | null; workspaceId: string }[];
   origin: string;
   canManage: boolean;
 }) {
@@ -42,7 +43,7 @@ export async function RequestsView({
         <label className="flex items-center gap-2 text-[13px] font-semibold">
           {t("requests.locationLabel")}
           <select name="loc" defaultValue={chosen.id} className={filterFieldClass}>
-            {options.map((l) => <option key={l.id} value={l.id}>{l.name}</option>)}
+            {options.map((l) => <option key={l.id} value={l.id}>{locationLabel(l)}</option>)}
           </select>
         </label>
         <button type="submit" className={secondaryButtonClass}>{t("requests.show")}</button>

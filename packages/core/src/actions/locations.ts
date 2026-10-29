@@ -13,7 +13,7 @@ import {
 import { AccessError, authorize, workspaceScope, type Actor } from "../actor";
 import { createGoogleClient } from "../google/factory";
 import { enqueueJob } from "../jobs";
-import { fetchAllLocations, addressSummary } from "../locations/google";
+import { fetchAllLocations, addressSummary, hasVoiceOfMerchant } from "../locations/google";
 import { IMPORT_MAX_LOCATIONS, LOCATION_IMPORT_QUEUE, importItem, importResult } from "../locations/import";
 import { locationStats } from "../locations/stats";
 import { defineAction } from "../registry";
@@ -170,6 +170,8 @@ const availableLocation = z.object({
   title: z.string(),
   phone: z.string().nullable(),
   addressSummary: z.string().nullable(),
+  /** Google's metadata.hasVoiceOfMerchant: false covers never verified, suspended and ownership conflicts; null when Google sent no metadata. */
+  hasVoiceOfMerchant: z.boolean().nullable(),
   /** Active in this org (workspace shown) or in some other org (workspace never shown). */
   alreadyImported: z.boolean(),
   importedWorkspace: z.object({ id: z.string(), name: z.string() }).nullable(),
@@ -242,6 +244,7 @@ export const locationsListAvailable = defineAction({
             title: l.title,
             phone: l.phoneNumbers?.primaryPhone ?? null,
             addressSummary: addressSummary(l),
+            hasVoiceOfMerchant: hasVoiceOfMerchant(l),
             alreadyImported: !!mine || other,
             importedWorkspace: mine ? { id: mine.workspaceId, name: mine.workspaceName } : null,
             activeInAnotherOrg: other,

@@ -157,7 +157,7 @@ export default async function GoogleSettingsPage({
               <Panel title={t("google.seeTitle")}>
                 <p className="text-sm">{connectionSummary(data.connections.length, locations)}</p>
                 {roleHasPermission(role, "location:manage") && (
-                  <Link href="/locations" className={linkClass}>
+                  <Link href="/locations/import" className={linkClass}>
                     {t("google.importLocations")}
                   </Link>
                 )}

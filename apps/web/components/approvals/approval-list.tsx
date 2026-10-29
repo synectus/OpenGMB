@@ -16,6 +16,7 @@ import {
   approveSequentially,
   bulkBlockKey,
   itemKey,
+  itemLocationsText,
   pruneSelection,
   toggleAll,
   toggleKey,
@@ -157,7 +158,7 @@ export function ApprovalList({
                 </span>
                 <strong className="truncate font-semibold">{i.title}</strong>
                 <span className="truncate text-[13px] text-muted-foreground">
-                  {i.workspaceName} · {i.locationNames.join(", ")}
+                  {i.workspaceName} · {itemLocationsText(i)}
                 </span>
                 <span className="mt-0.5 flex flex-wrap gap-1.5">
                   <Pill tone="warn">{tRoot("pendingApproval")}</Pill>

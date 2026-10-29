@@ -3,6 +3,7 @@ import "server-only";
 import { getTranslations } from "next-intl/server";
 import type { locationGroupsList, locationsList, performanceKeywords, performanceSummary, workspacesList } from "@opengmb/core";
 import { DEFAULT_COLOUR, PERFORMANCE_CONFIG, definitionPeriod, emailConfigured, reportPeriodLabel, reportSummaryOffer } from "@opengmb/core";
+import { locationLabel } from "../../../lib/locations";
 import { keywordUsers, tileDelta } from "../../../lib/performance";
 import { scheduleText } from "../../../lib/reports";
 import { getTimeFormat } from "../../../lib/time-format-server";
@@ -39,7 +40,7 @@ export async function editorData(shape: Shape) {
   return {
     workspaces,
     groups: groups.map((g) => ({ id: g.id, workspaceId: g.workspaceId, label: g.name })),
-    locations: locations.map((l) => ({ id: l.id, workspaceId: l.workspaceId, label: l.title ?? l.name })),
+    locations: locations.map((l) => ({ id: l.id, workspaceId: l.workspaceId, label: locationLabel(l) })),
     groupDeleted: shape.scope === "group" && !group,
     emailOn: emailConfigured(),
     summaryNotes,

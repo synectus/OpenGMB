@@ -53,7 +53,7 @@ export function publicEndpointFor(pathname: string): PublicEndpoint | null {
   if (/^\/m\/[^/]+$/.test(pathname)) return "image";
   if (/^\/help(?:\/[^/]+)?$/.test(pathname)) return "help";
   if (pathname === "/status") return "status";
-  if (pathname === "/api/tools/check" || pathname === "/api/tools/review-link/qr") return "tools";
+  if (pathname === "/api/tools/check" || pathname === "/api/tools/review-link/qr" || pathname === "/api/tools/rank-check") return "tools";
   if (pathname === "/api/tools/review-link/search") return "tools-search";
   return null;
 }

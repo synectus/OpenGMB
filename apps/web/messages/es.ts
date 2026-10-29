@@ -60,6 +60,7 @@ const es: Messages = {
       "Reply templates": "Plantillas de respuesta",
       Team: "Equipo",
       Organizations: "Organizaciones",
+      "Admin panel": "Panel de administración",
       Branding: "Marca",
       "API tokens": "Tokens de API",
       Webhooks: "Webhooks",

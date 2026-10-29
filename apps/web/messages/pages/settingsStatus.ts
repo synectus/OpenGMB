@@ -23,7 +23,7 @@ export default namespace({
       notConfigured:
         "Google OAuth is not configured on this server (GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET), so accounts cannot be connected.",
       seeTitle: "What this connection can see",
-      importLocations: "Import locations",
+      importLocations: "Import locations from these accounts",
       reconnectTitle: "After a reconnect",
       reconnectBody:
         "Locations stay in OpenGMB. If one shows Not linked to Google, re-import it from Locations to re-link it.",
@@ -195,7 +195,7 @@ export default namespace({
       notConfigured:
         "इस सर्वर पर Google OAuth सेट नहीं है (GOOGLE_CLIENT_ID और GOOGLE_CLIENT_SECRET), इसलिए खाते नहीं जोड़े जा सकते।",
       seeTitle: "यह कनेक्शन क्या देख सकता है",
-      importLocations: "स्थान इम्पोर्ट करें",
+      importLocations: "इन खातों से स्थान इम्पोर्ट करें",
       reconnectTitle: "दोबारा जोड़ने के बाद",
       reconnectBody:
         "स्थान OpenGMB में ही रहते हैं। अगर कोई स्थान Google से लिंक नहीं दिखे, तो उसे स्थान पेज से दोबारा इम्पोर्ट करके लिंक करें।",
@@ -367,7 +367,7 @@ export default namespace({
       notConfigured:
         "Google OAuth no está configurado en este servidor (GOOGLE_CLIENT_ID y GOOGLE_CLIENT_SECRET), así que no se pueden conectar cuentas.",
       seeTitle: "Qué puede ver esta conexión",
-      importLocations: "Importar ubicaciones",
+      importLocations: "Importar ubicaciones de estas cuentas",
       reconnectTitle: "Tras reconectar",
       reconnectBody:
         "Las ubicaciones se quedan en OpenGMB. Si alguna aparece sin vincular a Google, vuelve a importarla desde Ubicaciones para vincularla.",

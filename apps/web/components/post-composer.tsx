@@ -31,6 +31,7 @@ import {
   type NoteKey,
 } from "../lib/posts";
 import { approvalsHref } from "../lib/approvals";
+import { locationLabel } from "../lib/locations";
 import { ProvenanceChip } from "./approvals/provenance-chip";
 import { SchedulePicker } from "./schedule-picker";
 import { useTimeFormat } from "./time-format-provider";
@@ -52,7 +53,7 @@ const NOTE_CLASS = {
   info: "bg-info-bg text-info",
 } as const;
 
-export type ComposerLocation = { id: string; title: string };
+export type ComposerLocation = { id: string; title: string; addressSummary?: string | null; phone?: string | null };
 
 /**
  * Post editor for one workspace. posts.check runs ~500ms after each change; saving never needs a
@@ -502,7 +503,7 @@ export function PostComposer({
                       )
                     }
                   />
-                  {l.title}
+                  {locationLabel(l)}
                 </label>
               );
             })}

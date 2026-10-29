@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { geogrid_locationCenter, rankings_track } from "../../app/_generated/actions";
+import { locationLabel } from "../../lib/locations";
 import { geogridHref } from "../../lib/rank-tracking";
 import { filterFieldClass } from "../page-parts";
 import { ErrorText, secondaryButtonClass } from "../ui";
@@ -20,7 +21,7 @@ const fail = (r: { error: { code: string; message: string } }) => `${r.error.cod
  * "Track this" on a Performance keyword: starts daily Google rank checks for it at one of the locations in
  * scope. The coordinates, place id and website come from the location's Google profile (geogrid.locationCenter).
  */
-export function TrackKeyword({ keyword, locations }: { keyword: string; locations: { id: string; title: string }[] }) {
+export function TrackKeyword({ keyword, locations }: { keyword: string; locations: { id: string; title: string; addressSummary?: string | null; phone?: string | null }[] }) {
   const t = useTranslations("performance");
   const [locationId, setLocationId] = useState(locations[0]?.id ?? "");
   const [state, setState] = useState<"idle" | "busy" | "done">("idle");
@@ -66,7 +67,7 @@ export function TrackKeyword({ keyword, locations }: { keyword: string; location
           >
             {locations.map((l) => (
               <option key={l.id} value={l.id}>
-                {l.title}
+                {locationLabel(l)}
               </option>
             ))}
           </select>

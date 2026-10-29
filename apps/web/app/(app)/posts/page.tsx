@@ -334,6 +334,8 @@ async function Compose({
     .map((l) => ({
       id: l.id,
       title: l.title ?? l.name,
+      addressSummary: l.addressSummary,
+      phone: l.phone,
     }));
   if (locations.length === 0 && !post) {
     return (

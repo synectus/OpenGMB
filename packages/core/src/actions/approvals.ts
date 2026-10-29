@@ -28,7 +28,10 @@ const itemOut = z.object({
   postId: z.string().nullable(),
   workspaceId: z.string(),
   workspaceName: z.string(),
+  /** Names only, kept for older clients; `locations` is the same list with ids and addresses. */
   locationNames: z.array(z.string()),
+  /** Where it is for. Same-named listings differ by id; addressSummary tells them apart. */
+  locations: z.array(z.object({ id: z.string(), name: z.string(), addressSummary: z.string().nullable() })),
   submittedAt: z.string().nullable(),
   /** One line that says what is waiting: "Reply to a 2★ review from Maria G.", "Offer: ...", "Profile change: ...". */
   title: z.string(),
@@ -57,12 +60,14 @@ const itemOut = z.object({
   }),
   /** What the caller may do now; buttons come from these, never from the role. */
   can: z.object({ approve: z.boolean(), reject: z.boolean() }),
+  /** The caller may discard it for good: posts.cancel (post), profile.cancel (changeset), posts.cancelEdit (postedit). Replies are never discardable. */
+  canDiscard: z.boolean(),
 });
 
 export const approvalsQueue = defineAction({
   name: "approvals.queue",
   description:
-    "Everything waiting for a person to approve, across the caller's workspaces or one workspaceId, oldest submission first: review replies, posts, profile change sets and edits of published posts with status pending_approval. Each item has a one-line title, the text, where it is for, who drafted it (provenance.createdSurface is mcp for an agent draft), a guardrail summary and can.approve / can.reject from the caller's role; act with reviewReplies.approve / reject, posts.approve / reject, profile.approve / reject, posts.approveEdit / rejectEdit (a postedit item's id is the edit id; the post stays published while its edit waits). An edit is included only while a live Google post it would patch is at an active location. counts are the totals before limit; truncated is true when limit cut the list. Replies at inactive locations are not included. A change set is included only while at least one location it changes is active, and only active locations are named.",
+    "Everything waiting for a person to approve, across the caller's workspaces or one workspaceId, oldest submission first: review replies, posts, profile change sets and edits of published posts with status pending_approval. Each item has a one-line title, the text, where it is for, who drafted it (provenance.createdSurface is mcp for an agent draft), a guardrail summary and can.approve / can.reject and canDiscard from the caller's role (canDiscard: act with posts.cancel, profile.cancel or posts.cancelEdit; replies have none), and locations (id, name, addressSummary) beside locationNames; act with reviewReplies.approve / reject, posts.approve / reject, profile.approve / reject, posts.approveEdit / rejectEdit (a postedit item's id is the edit id; the post stays published while its edit waits). An edit is included only while a live Google post it would patch is at an active location. counts are the totals before limit; truncated is true when limit cut the list. Replies at inactive locations are not included. A change set is included only while at least one location it changes is active, and only active locations are named.",
   input: z.object({
     workspaceId: z.uuid().optional(),
     /** Narrow to these locations (a location scope). Items for other locations drop out and counts follow. */

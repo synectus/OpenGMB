@@ -96,7 +96,10 @@ export function ScopeSwitcher({
   const labelOf = (o: ScopeOption) => (o.value === "all" ? t("allClients") : o.label);
   const item = (o: ScopeOption) => (
     <CommandItem key={o.value} value={o.search} onSelect={() => choose(o.value)} className={`gap-2 ${INDENT[o.depth]}`}>
-      <span className={`min-w-0 flex-1 truncate ${o.depth < 2 ? "font-semibold" : "font-medium"}`}>{labelOf(o)}</span>
+      <span className="flex min-w-0 flex-1 flex-col">
+        <span className={`truncate ${o.depth < 2 ? "font-semibold" : "font-medium"}`}>{labelOf(o)}</span>
+        {o.detail && <span className="truncate text-xs text-muted-foreground">{o.detail}</span>}
+      </span>
       <span className="shrink-0 text-xs text-muted-foreground">{o.meta}</span>
       {o.value === shown ? (
         <>

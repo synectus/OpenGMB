@@ -196,6 +196,8 @@ export default async function LocationsPage({ searchParams }: { searchParams: Pr
                     locations={(clientLocs.data as Handler<typeof locationsList>).locations.map((l) => ({
                       id: l.id,
                       name: l.name,
+                      addressSummary: l.addressSummary,
+                      phone: l.phone,
                     }))}
                   />
                 ) : (
@@ -220,7 +222,7 @@ export default async function LocationsPage({ searchParams }: { searchParams: Pr
 
   return (
     <div className="flex flex-col gap-5">
-      <LocationsHeader view="list" ws={carry} />
+      <LocationsHeader view="list" ws={carry} canManage={canManage} />
       {body}
     </div>
   );

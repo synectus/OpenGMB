@@ -9,6 +9,7 @@
     "./time": "./src/time/index.ts",
     "./limits": "./src/limits/index.ts",
     "./topics": "./src/config/review-topics.ts",
+    "./review-request-gating": "./src/guardrails/review-request/gating.ts",
     "./admin-capture": "./src/admin-capture/index.ts",
     "./view-as": "./src/view-as/index.ts",
     "./account-state": "./src/account-state/index.ts",

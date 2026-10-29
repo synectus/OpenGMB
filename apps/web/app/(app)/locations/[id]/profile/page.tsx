@@ -151,6 +151,8 @@ async function copyTargetsFor(workspaceId: string, sourceId: string) {
     locations: others.map((l) => ({
       id: l.id,
       name: l.name,
+      addressSummary: l.addressSummary,
+      phone: l.phone,
       status: l.status,
       googleLocationId: l.googleLocationId,
       needsRelink: l.needsRelink,

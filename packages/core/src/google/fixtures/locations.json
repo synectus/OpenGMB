@@ -35,7 +35,7 @@
         ]
       },
       "latlng": { "latitude": 29.4241, "longitude": -98.4936 },
-      "metadata": { "placeId": "FAKE_PLACE_ID_0001", "mapsUri": "https://maps.example/?cid=1" }
+      "metadata": { "placeId": "FAKE_PLACE_ID_0001", "mapsUri": "https://maps.example/?cid=1", "hasVoiceOfMerchant": true }
     },
     {
       "name": "locations/200000000000000002",
@@ -65,7 +65,7 @@
           }
         ]
       },
-      "metadata": { "placeId": "FAKE_PLACE_ID_0002", "mapsUri": "https://maps.example/?cid=2" }
+      "metadata": { "placeId": "FAKE_PLACE_ID_0002", "mapsUri": "https://maps.example/?cid=2", "hasVoiceOfMerchant": true }
     },
     {
       "name": "locations/200000000000000003",
@@ -135,10 +135,6 @@
             }
           }
         ]
-      },
-      "metadata": {
-        "placeId": "FAKE_PLACE_ID_0004",
-        "mapsUri": "https://maps.example/?cid=4"
       }
     }
   ]

@@ -126,3 +126,26 @@
     font-family: var(--font-display);
   }
 }
+
+/* Free tools: the printable review sign (W12a). Only .print-area prints. */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+  .print-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    border: 0;
+    box-shadow: none;
+  }
+  .print-hide {
+    display: none;
+  }
+}

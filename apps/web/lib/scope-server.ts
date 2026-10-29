@@ -26,6 +26,8 @@ export const scopeData = cache(async (): Promise<ScopeData & { error: string | n
           name: x.name,
           title: x.title,
           status: x.status,
+          addressSummary: x.addressSummary,
+          phone: x.phone,
         }))
       : [],
     groups: g.ok ? (g.data as Handler<typeof locationGroupsList>).groups : [],

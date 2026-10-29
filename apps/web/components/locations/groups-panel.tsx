@@ -8,9 +8,10 @@ import {
   locationGroups_rename,
   locationGroups_setMembers,
 } from "../../app/_generated/actions";
+import { locationLabel } from "../../lib/locations";
 import { buttonClass, ErrorText, inputClass, secondaryButtonClass } from "../ui";
 
-type Loc = { id: string; name: string };
+type Loc = { id: string; name: string; addressSummary?: string | null; phone?: string | null };
 type Group = { id: string; name: string; locationIds: string[] };
 type Call = (fn: () => Promise<{ ok: boolean; error?: { code: string; message: string } }>) => Promise<boolean>;
 
@@ -152,7 +153,7 @@ function GroupEditor({
                     setSelected(next);
                   }}
                 />
-                {l.name}
+                {locationLabel(l)}
               </label>
             );
           })}

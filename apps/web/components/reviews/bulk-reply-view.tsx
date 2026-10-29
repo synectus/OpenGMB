@@ -5,6 +5,7 @@ import { ChooseClient } from "../choose-client";
 import { EmptyState, ErrorText, secondaryButtonClass } from "../ui";
 import { filterFieldClass, linkButtonClass } from "../page-parts";
 import { BULK_PAGE, RATING_OPTIONS, bulkRow, ratingsFromParam } from "../../lib/bulk-reply";
+import { locationLabel } from "../../lib/locations";
 import { getTimeFormat } from "../../lib/time-format-server";
 import {
   locations_list, replyTemplates_list, reviews_list_unreplied, workspaceSettings_get, workspaces_list,
@@ -91,7 +92,7 @@ export async function BulkReplyView({
         <select name="loc" aria-label={t("bulk.locationAria")} defaultValue={loc ?? ""} className={filterFieldClass}>
           <option value="">{t("bulk.allLocations", { count: locations.length })}</option>
           {locations.map((l) => (
-            <option key={l.id} value={l.id}>{l.name}</option>
+            <option key={l.id} value={l.id}>{locationLabel(l)}</option>
           ))}
         </select>
         <select name="rating" aria-label={t("bulk.ratingAria")} defaultValue={sp.rating ?? ""} className={filterFieldClass}>

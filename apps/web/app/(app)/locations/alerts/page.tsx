@@ -58,7 +58,7 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
 
   return (
     <div className="flex flex-col gap-5">
-      <LocationsHeader view="alerts" ws={scope.urlWs} alerts={openTotal} />
+      <LocationsHeader view="alerts" ws={scope.urlWs} alerts={openTotal} canManage={roleHasPermission(role, "location:manage")} />
       <p className="max-w-3xl text-sm text-muted-foreground">
         {t("alertsIntro")}
       </p>
@@ -75,7 +75,7 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
       <AlertFilters
         showGroup={showGroupFacet(scope)}
         filters={f}
-        locations={locations.map((l) => ({ id: l.id, name: l.name }))}
+        locations={locations.map((l) => ({ id: l.id, name: l.name, addressSummary: l.addressSummary, phone: l.phone }))}
         groups={groups.ok ? (groups.data as Handler<typeof locationGroupsList>).groups.map((g) => ({ id: g.id, name: g.name })) : []}
       />
       {!pubsubLive && (

@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { zonedWallToUtc } from "@opengmb/core/time";
 import { failureLabel } from "../lib/failure-labels";
+import { locationLabel } from "../lib/locations";
 import {
   categoryChip,
   fileProblemParts,
@@ -89,7 +90,7 @@ export function PhotoUpload({
 }: {
   locationId: string;
   /** The client's other locations the same photo can go to. */
-  siblings: { id: string; name: string }[];
+  siblings: { id: string; name: string; addressSummary?: string | null; phone?: string | null }[];
   /** The client's time zone: the "send at" time is a wall time in it. */
   timeZone: string;
   /** Per-location results of a batch, from media.batch; null when the call failed. */
@@ -324,7 +325,7 @@ export function PhotoUpload({
                 checked={extra.includes(l.id)}
                 onChange={(e) => setExtra((x) => (e.target.checked ? [...x, l.id] : x.filter((v) => v !== l.id)))}
               />
-              {l.name}
+              {locationLabel(l)}
             </label>
           ))}
         </fieldset>

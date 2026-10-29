@@ -92,6 +92,11 @@ export default async function PerformancePage({
   const rows = byRes?.ok ? (byRes.data as Handler<typeof performanceByLocation>).rows.map((r) => ({ ...r, lastDataDate: r.lastDataDate && tf.day(r.lastDataDate) })) : [];
   const act = actRes?.ok ? (actRes.data as Handler<typeof performanceActivity>) : null;
 
+  // performance_byLocation rows carry no address: join the request's location list (scopeData), not the action output.
+  const addressOf = (id: string) => {
+    const l = data.locations.find((x) => x.id === id);
+    return { addressSummary: l?.addressSummary, phone: l?.phone };
+  };
   const kpi = (TILE_KEYS as readonly string[]).includes(q.kpi ?? "") ? q.kpi! : "calls";
   const series = summary?.series.find((s) => s.key === kpi);
   const prevSeries = previous?.series.find((s) => s.key === kpi);
@@ -242,7 +247,7 @@ export default async function PerformancePage({
             <KeywordTable
               months={kw.months}
               keywords={kw.keywords}
-              trackLocations={canTrack ? rows.filter((r) => r.status === "active").map((r) => ({ id: r.locationId, title: r.title })) : null}
+              trackLocations={canTrack ? rows.filter((r) => r.status === "active").map((r) => ({ id: r.locationId, title: r.title, ...addressOf(r.locationId) })) : null}
             />
           )}
           {summary?.hasData && <ByLocation rows={rows} days={days} error={err(byRes as Res | null)} />}

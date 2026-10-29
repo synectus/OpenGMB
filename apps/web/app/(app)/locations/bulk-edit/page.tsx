@@ -75,7 +75,7 @@ export default async function BulkEditPage({ searchParams }: { searchParams: Pro
                 key={workspace.id}
                 workspaceId={workspace.id}
                 searchMinChars={PROFILE_METADATA.searchMinChars}
-                locations={all.map((l) => ({ id: l.id, name: l.name, status: l.status, googleLocationId: l.googleLocationId, needsRelink: l.needsRelink }))}
+                locations={all.map((l) => ({ id: l.id, name: l.name, addressSummary: l.addressSummary, phone: l.phone, status: l.status, googleLocationId: l.googleLocationId, needsRelink: l.needsRelink }))}
                 groups={(groups.data as Handler<typeof locationGroupsList>).groups.map((g) => ({ id: g.id, name: g.name, locationIds: g.locationIds }))}
               />
             ) : (
@@ -99,7 +99,7 @@ export default async function BulkEditPage({ searchParams }: { searchParams: Pro
 
   return (
     <div className="flex flex-col gap-6">
-      <LocationsHeader view="bulk-edit" ws={scope.urlWs} alerts={alerts} />
+      <LocationsHeader view="bulk-edit" ws={scope.urlWs} alerts={alerts} canManage={roleHasPermission(role, "location:manage")} />
       <p className="max-w-2xl text-sm text-muted-foreground">
         {t("bulkIntro")}
       </p>

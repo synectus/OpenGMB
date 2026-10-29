@@ -48,6 +48,15 @@ const clip = (text: string, max: number) => {
   return flat.length > max ? `${flat.slice(0, max - 1).trimEnd()}…` : flat;
 };
 
+/** A location as the queue names it: the id tells same-named listings apart, the address says which is which. */
+export type LocationRef = { id: string; name: string; addressSummary: string | null };
+const byName = (a: LocationRef, b: LocationRef) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id);
+/** `locationNames` stays (MCP clients read it); `locations` adds the id and address. */
+const locationFields = (refs: LocationRef[]) => {
+  const locations = [...refs].sort(byName);
+  return { locations, locationNames: locations.map((l) => l.name) };
+};
+
 export function replyTitle(rating: number | null, reviewer: string | null): string {
   const what = rating === null ? "an unrated" : `a ${rating}★`;
   return `Reply to ${what} review${reviewer ? ` from ${reviewer}` : ""}`;
@@ -168,7 +177,9 @@ export async function pendingReplies(tx: Tx, actor: Actor, scope: Scope, ws?: st
       reply: reviewReplies,
       review: reviews,
       workspaceName: workspaces.name,
+      locationId: locations.id,
       locationName: locations.name,
+      locationAddress: locations.addressSummary,
       createdByName: users.name,
     })
     .from(reviewReplies)
@@ -185,7 +196,7 @@ export async function pendingReplies(tx: Tx, actor: Actor, scope: Scope, ws?: st
       id: r.reply.id,
       workspaceId: r.reply.workspaceId,
       workspaceName: r.workspaceName,
-      locationNames: [r.locationName],
+      ...locationFields([{ id: r.locationId, name: r.locationName, addressSummary: r.locationAddress }]),
       submittedAt: r.reply.submittedAt?.toISOString() ?? null,
       text: r.reply.body,
       title: replyTitle(r.review.starRating, r.review.reviewerDisplayName),
@@ -204,6 +215,8 @@ export async function pendingReplies(tx: Tx, actor: Actor, scope: Scope, ws?: st
       ),
       provenance: { createdSurface: r.reply.createdSurface, createdByName: r.createdByName ?? null },
       can: { approve: c.canApprove, reject: c.canReject },
+      // Replies have no discard: they are only sent back.
+      canDiscard: false,
     };
   });
 }
@@ -221,7 +234,9 @@ export async function pendingPosts(tx: Tx, actor: Actor, scope: Scope, ws?: stri
         .select({
           postId: postTargets.postId,
           occurrence: postTargets.occurrence,
+          id: locations.id,
           name: locations.name,
+          addressSummary: locations.addressSummary,
         })
         .from(postTargets)
         .innerJoin(locations, eq(locations.id, postTargets.locationId))
@@ -239,10 +254,7 @@ export async function pendingPosts(tx: Tx, actor: Actor, scope: Scope, ws?: stri
       id: r.post.id,
       workspaceId: r.post.workspaceId,
       workspaceName: r.workspaceName,
-      locationNames: targets
-        .filter((t) => t.postId === r.post.id && t.occurrence === r.post.occurrence)
-        .map((t) => t.name)
-        .sort(),
+      ...locationFields(targets.filter((t) => t.postId === r.post.id && t.occurrence === r.post.occurrence)),
       submittedAt: r.post.submittedAt?.toISOString() ?? null,
       text: r.post.summary,
       title: postTitle(r.post.topicType, r.post.summary),
@@ -257,6 +269,8 @@ export async function pendingPosts(tx: Tx, actor: Actor, scope: Scope, ws?: stri
       ),
       provenance: { createdSurface: r.post.createdSurface, createdByName: r.createdByName ?? null },
       can: { approve: c.canApprove, reject: c.canReject },
+      // The same check posts.cancel makes.
+      canDiscard: c.canCancel,
     };
   });
 }
@@ -272,7 +286,12 @@ export async function pendingChangeSets(tx: Tx, actor: Actor, scope: Scope, ws?:
     .orderBy(profileChangeSets.submittedAt, profileChangeSets.id);
   const targets = rows.length
     ? await tx
-        .select({ changeSetId: profileChangeTargets.changeSetId, name: locations.name })
+        .select({
+          changeSetId: profileChangeTargets.changeSetId,
+          id: locations.id,
+          name: locations.name,
+          addressSummary: locations.addressSummary,
+        })
         .from(profileChangeTargets)
         .innerJoin(locations, eq(locations.id, profileChangeTargets.locationId))
         .where(
@@ -289,17 +308,17 @@ export async function pendingChangeSets(tx: Tx, actor: Actor, scope: Scope, ws?:
     : [];
   return rows.map((r) => {
     const c = changeSetCapabilities(actor, r.cs.status);
-    const names = targets.filter((t) => t.changeSetId === r.cs.id).map((t) => t.name);
+    const refs = targets.filter((t) => t.changeSetId === r.cs.id);
     const fieldNames = touchedNames(r.cs.fields as ProfileValues);
     return {
       type: "changeset" as const,
       id: r.cs.id,
       workspaceId: r.cs.workspaceId,
       workspaceName: r.workspaceName,
-      locationNames: names,
+      ...locationFields(refs),
       submittedAt: r.cs.submittedAt?.toISOString() ?? null,
       text: fieldNames.join(", "),
-      title: changeSetTitle(fieldNames, names.length),
+      title: changeSetTitle(fieldNames, refs.length),
       postId: null,
       reviewId: null,
       review: null,
@@ -308,6 +327,8 @@ export async function pendingChangeSets(tx: Tx, actor: Actor, scope: Scope, ws?:
       guardrail: guardrailSummary(r.cs.guardrailResult as GuardrailResult | null, false),
       provenance: { createdSurface: r.cs.createdSurface, createdByName: r.createdByName ?? null },
       can: { approve: c.canApprove, reject: c.canReject },
+      // The same check profile.cancel makes.
+      canDiscard: c.canCancel,
     };
   });
 }
@@ -343,7 +364,13 @@ export async function pendingPostEdits(tx: Tx, actor: Actor, scope: Scope, ws?: 
     .orderBy(postEdits.createdAt, postEdits.id);
   const targets = rows.length
     ? await tx
-        .select({ postId: postTargets.postId, name: locations.name, occurrence: postTargets.occurrence })
+        .select({
+          postId: postTargets.postId,
+          id: locations.id,
+          name: locations.name,
+          addressSummary: locations.addressSummary,
+          occurrence: postTargets.occurrence,
+        })
         .from(postTargets)
         .innerJoin(locations, eq(locations.id, postTargets.locationId))
         .where(
@@ -366,10 +393,7 @@ export async function pendingPostEdits(tx: Tx, actor: Actor, scope: Scope, ws?: 
       postId: r.post.id,
       workspaceId: r.edit.workspaceId,
       workspaceName: r.workspaceName,
-      locationNames: targets
-        .filter((t) => t.postId === r.post.id && t.occurrence === r.post.occurrence)
-        .map((t) => t.name)
-        .sort(),
+      ...locationFields(targets.filter((t) => t.postId === r.post.id && t.occurrence === r.post.occurrence)),
       submittedAt: r.edit.createdAt.toISOString(),
       text: r.edit.summary,
       title: postEditTitle(r.post.topicType, r.edit.summary),
@@ -380,6 +404,8 @@ export async function pendingPostEdits(tx: Tx, actor: Actor, scope: Scope, ws?: 
       guardrail: guardrailSummary(r.edit.guardrailResult as GuardrailResult | null, r.edit.warningsAcknowledged),
       provenance: { createdSurface: r.edit.createdSurface, createdByName: r.createdByName ?? null },
       can: { approve: mayDecide, reject: mayDecide },
+      // posts.cancelEdit needs review:draft; pending_approval is the only status in this list.
+      canDiscard: roleHasPermission(actor.role, "review:draft"),
     };
   });
 }

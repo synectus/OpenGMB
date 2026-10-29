@@ -10,6 +10,7 @@ import { TrackersView } from "../../../components/rank-tracking/trackers-view";
 import { UsageAndKeyView } from "../../../components/rank-tracking/usage-and-key-view";
 import { TabLinks } from "../../../components/page-parts";
 import { PageHeader } from "../../../components/ui";
+import { locationLabel } from "../../../lib/locations";
 import { actorContextFor } from "../../../lib/auth";
 import { requireUser } from "../../../lib/guard";
 import {
@@ -95,7 +96,7 @@ async function NewTrackerView({ canAdmin, sample }: { canAdmin: boolean; sample:
   return (
     <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_380px]">
       <TrackerSetupForm
-        locations={locs.map((l) => ({ id: l.id, label: l.title ?? l.name }))}
+        locations={locs.map((l) => ({ id: l.id, label: locationLabel(l) }))}
         drivers={(settings?.drivers ?? []).flatMap((d) =>
           d.id === "dataforseo_serp" ? [] : [{ ...d, id: d.id }],
         )}

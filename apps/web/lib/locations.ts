@@ -5,6 +5,16 @@ import { statusWords } from "./labels";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export const isUuid = (v: string | undefined): v is string => v !== undefined && UUID.test(v);
 
+/**
+ * Visible text for a location wherever one is picked or filtered: `Title (address)`. Locations with the same name
+ * are told apart by address; a service-area business has no storefront address, so fall back to its phone, then the bare name.
+ */
+export function locationLabel(l: { title?: string | null; name?: string | null; addressSummary?: string | null; phone?: string | null }): string {
+  const name = (l.title ?? l.name ?? "").trim();
+  const extra = l.addressSummary?.trim() || l.phone?.trim();
+  return extra ? `${name} (${extra})` : name;
+}
+
 export type LocationView = "list" | "health" | "alerts" | "bulk-edit";
 
 const VIEWS: { key: LocationView; label: string; path: string }[] = [

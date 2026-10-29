@@ -2,12 +2,14 @@
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { alertsHref, FIELD_GROUPS, SOURCES, type AlertFilters, type FieldGroup } from "../../lib/alerts";
+import { locationLabel } from "../../lib/locations";
 import { filterFieldClass } from "../page-parts";
 
 type Opt = { id: string; name: string };
+type LocOpt = Opt & { addressSummary?: string | null; phone?: string | null };
 
 /** `showGroup` is false under a group scope: the scope already names the group. */
-export function AlertFilters({ filters, locations, groups, showGroup = true }: { filters: AlertFilters; locations: Opt[]; groups: Opt[]; showGroup?: boolean }) {
+export function AlertFilters({ filters, locations, groups, showGroup = true }: { filters: AlertFilters; locations: LocOpt[]; groups: Opt[]; showGroup?: boolean }) {
   const t = useTranslations("locations");
   const router = useRouter();
   const go = (patch: Partial<AlertFilters>) => router.push(alertsHref(filters, patch));
@@ -32,7 +34,7 @@ export function AlertFilters({ filters, locations, groups, showGroup = true }: {
         {t("colLocation")}
         <select className={sel} value={filters.loc ?? ""} onChange={(e) => go({ loc: e.target.value || null })}>
           <option value="">{t("allLocations")}</option>
-          {locations.map((l) => <option key={l.id} value={l.id}>{l.name}</option>)}
+          {locations.map((l) => <option key={l.id} value={l.id}>{locationLabel(l)}</option>)}
         </select>
       </label>
       {showGroup && <label className="flex flex-col gap-1 text-xs font-semibold text-muted-foreground">

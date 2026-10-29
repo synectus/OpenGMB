@@ -60,6 +60,7 @@ const hi: Messages = {
       "Reply templates": "जवाब के टेम्पलेट",
       Team: "टीम",
       Organizations: "संगठन",
+      "Admin panel": "एडमिन पैनल",
       Branding: "ब्रांडिंग",
       "API tokens": "API टोकन",
       Webhooks: "वेबहुक",

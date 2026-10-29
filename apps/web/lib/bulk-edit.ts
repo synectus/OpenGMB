@@ -10,6 +10,8 @@ type Tone = "good" | "warn" | "bad" | "info" | "neutral";
 export type BulkLoc = {
   id: string;
   name: string;
+  addressSummary?: string | null;
+  phone?: string | null;
   status: string;
   googleLocationId: string | null;
   needsRelink: boolean;

@@ -17,6 +17,7 @@ import {
   isTypingTarget,
   inLocation,
   itemKey,
+  locationLabel,
   locationOptions,
   parseItemKey,
   parseTab,
@@ -35,12 +36,17 @@ const ID1 = "11111111-1111-4111-8111-111111111111";
 const ID2 = "22222222-2222-4222-8222-222222222222";
 const ID3 = "33333333-3333-4333-8333-333333333333";
 
+const LOC1 = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1";
+const LOC2 = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2";
+const LOC3 = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa3";
+
 const item = (over: Partial<ApprovalItem> = {}): ApprovalItem => ({
   type: "reply",
   id: ID1,
   workspaceId: "w",
   workspaceName: "W",
   locationNames: ["L"],
+  locations: [{ id: LOC1, name: "L", addressSummary: null }],
   submittedAt: "2026-10-01T09:00:00.000Z",
   title: "Reply to a 2★ review",
   text: "x",
@@ -51,6 +57,7 @@ const item = (over: Partial<ApprovalItem> = {}): ApprovalItem => ({
   guardrail: { blocked: false, warnings: 0, warningsAcknowledged: false },
   provenance: { createdSurface: "ui", createdByName: "Ana" },
   can: { approve: true, reject: true },
+  canDiscard: false,
   ...over,
 });
 
@@ -267,18 +274,31 @@ describe("formatting", () => {
 });
 
 describe("location filter", () => {
-  const a = item({ id: ID1, locationNames: ["Riverside"] });
-  const b = item({ id: ID2, type: "changeset", locationNames: ["Hillcrest", "Riverside"] });
-  const c = item({ id: ID3, type: "post", locationNames: ["Hillcrest"] });
-  it("lists each location once, A to Z", () => {
-    expect(locationOptions([a, b, c])).toEqual(["Hillcrest", "Riverside"]);
+  const river = { id: LOC1, name: "Riverside", addressSummary: "1 Main St, Austin" };
+  const river2 = { id: LOC2, name: "Riverside", addressSummary: "9 Oak Ave, Dallas" };
+  const hill = { id: LOC3, name: "Hillcrest", addressSummary: null };
+  const a = item({ id: ID1, locations: [river] });
+  const b = item({ id: ID2, type: "changeset", locations: [hill, river2] });
+  const c = item({ id: ID3, type: "post", locations: [hill] });
+  it("labels a location Name (address), or just the name without an address", () => {
+    expect(locationLabel(river)).toBe("Riverside (1 Main St, Austin)");
+    expect(locationLabel(hill)).toBe("Hillcrest");
+    expect(locationLabel({ name: "X", addressSummary: "  " })).toBe("X");
   });
-  it("keeps the items that touch the location, or all when none is named", () => {
-    expect(inLocation([a, b, c], "Riverside").map((i) => i.id)).toEqual([ID1, ID2]);
+  it("lists each location once by id, A to Z, so same-named listings stay apart", () => {
+    expect(locationOptions([a, b, c])).toEqual([
+      { id: LOC3, label: "Hillcrest" },
+      { id: LOC1, label: "Riverside (1 Main St, Austin)" },
+      { id: LOC2, label: "Riverside (9 Oak Ave, Dallas)" },
+    ]);
+  });
+  it("keeps the items that touch the location id, or all when none is given", () => {
+    expect(inLocation([a, b, c], LOC2).map((i) => i.id)).toEqual([ID2]);
+    expect(inLocation([a, b, c], LOC3).map((i) => i.id)).toEqual([ID2, ID3]);
     expect(inLocation([a, b, c], undefined)).toHaveLength(3);
-    expect(inLocation([a, b, c], "Nowhere")).toEqual([]);
+    expect(inLocation([a, b, c], "not-a-location")).toEqual([]);
   });
-  it("carries loc in the href", () => {
-    expect(approvalsHref({ tab: "reply", ws: "w1", loc: "Riverside" })).toBe("/approvals?tab=reply&ws=w1&loc=Riverside");
+  it("carries the location id in the href", () => {
+    expect(approvalsHref({ tab: "reply", ws: "w1", loc: LOC1 })).toBe(`/approvals?tab=reply&ws=w1&loc=${LOC1}`);
   });
 });

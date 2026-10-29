@@ -23,7 +23,7 @@ export const formatScope = (k: ScopeKey) => (k.kind === "all" ? "all" : `${k.kin
 export type ScopeData = {
   workspaces: { id: string; name: string; timeZone?: string; dateFormat?: DateFormat }[];
   groups: { id: string; workspaceId: string; name: string; locationIds: string[] }[];
-  locations: { id: string; workspaceId: string; name: string; title: string | null; status: string }[];
+  locations: { id: string; workspaceId: string; name: string; title: string | null; status: string; addressSummary?: string | null; phone?: string | null }[];
 };
 
 export type Scope = {
@@ -151,6 +151,8 @@ export type ScopeOption = {
   /** Shown in the top-bar trigger when this option is current. */
   trigger: string;
   depth: 0 | 1 | 2;
+  /** A location's address (else phone), to tell same-named locations apart. Also part of `search`. */
+  detail?: string;
   /** cmdk filter text; unique per option. */
   search: string;
 };
@@ -170,7 +172,17 @@ export function scopeOptionFor(data: ScopeData, value: string): ScopeOption | nu
   if (key.kind === "g") {
     return { value: s.value, label: s.label, meta: s.meta, trigger: s.meta, depth: 2, search: `${s.label} ${w} ${s.value}` };
   }
-  return { value: s.value, label: s.label, meta: "location", trigger: w, depth: 2, search: `${s.label} ${w} ${s.value}` };
+  const loc = data.locations.find((x) => x.id === key.id);
+  const detail = loc?.addressSummary?.trim() || loc?.phone?.trim() || undefined;
+  return {
+    value: s.value,
+    label: s.label,
+    meta: "location",
+    trigger: w,
+    depth: 2,
+    ...(detail ? { detail } : {}),
+    search: `${s.label} ${w}${detail ? ` ${detail}` : ""} ${s.value}`,
+  };
 }
 
 /** All clients, then each workspace followed by its groups and active locations (list order). */

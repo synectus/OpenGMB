@@ -16,7 +16,7 @@ import {
   reviewReplies_list,
   reviews_get,
 } from "../../app/_generated/actions";
-import { fieldLabel, formatApprovalTime, formatChangeValue, type ApprovalItem } from "../../lib/approvals";
+import { fieldLabel, formatApprovalTime, formatChangeValue, itemLocationsText, type ApprovalItem } from "../../lib/approvals";
 import { ApprovalActions } from "../approval-actions";
 import { editChangeRows } from "../../lib/post-edit-rows";
 import { Pill } from "../page-parts";
@@ -91,7 +91,7 @@ function Decision({
   return (
     <div className="flex flex-col gap-2">
       {item.can.approve || item.can.reject ? (
-        <ApprovalActions type={item.type} id={item.id} redirectTo={redirectTo} />
+        <ApprovalActions type={item.type} id={item.id} redirectTo={redirectTo} canDiscard={item.canDiscard} />
       ) : (
         <p className="border-t border-border pt-4 text-sm text-muted-foreground">
           {t("readOnly")}
@@ -136,7 +136,7 @@ async function ReplyDetail({ item, redirectTo }: { item: ApprovalItem; redirectT
   return (
     <Shell
       kind={t("replyKind")}
-      title={`${item.workspaceName} · ${item.locationNames[0] ?? ""}`}
+      title={`${item.workspaceName} · ${itemLocationsText(item)}`}
       subtitle={revision ? t("revision", { n: revision.revision, status: tRoot("pendingApproval") }) : undefined}
     >
       <div className="flex flex-col gap-2 rounded-xl border border-border bg-muted p-4">
@@ -208,7 +208,7 @@ async function PostDetail({ item, redirectTo }: { item: ApprovalItem; redirectTo
     <Shell
       kind={t("postKind", { topic: topicLabel(t, post.topicType) })}
       title={item.title}
-      subtitle={`${item.workspaceName} · ${item.locationNames.join(", ")}`}
+      subtitle={`${item.workspaceName} · ${itemLocationsText(item)}`}
     >
       <PostContentPreview post={post} />
 
@@ -222,7 +222,7 @@ async function PostDetail({ item, redirectTo }: { item: ApprovalItem; redirectTo
 
       <Dl
         rows={[
-          [t("locations"), item.locationNames.join(", ")],
+          [t("locations"), itemLocationsText(item)],
           [t("send"), post.scheduledFor ? t("sendAfterApproval", { when: formatApprovalTime(tf, post.scheduledFor, item.workspaceId) }) : t("notScheduled")],
           [
             t("draftedByLabel"),
@@ -261,7 +261,7 @@ async function PostEditDetail({ item, redirectTo }: { item: ApprovalItem; redire
     <Shell
       kind={t("postEditKind", { topic: topicLabel(t, post.topicType) })}
       title={item.title}
-      subtitle={`${item.workspaceName} · ${item.locationNames.join(", ")}`}
+      subtitle={`${item.workspaceName} · ${itemLocationsText(item)}`}
     >
       <div className="overflow-hidden rounded-xl border border-border text-[13px]">
         {rows.map((r) => (
@@ -296,7 +296,7 @@ async function PostEditDetail({ item, redirectTo }: { item: ApprovalItem; redire
 
       <Dl
         rows={[
-          [t("locations"), item.locationNames.join(", ")],
+          [t("locations"), itemLocationsText(item)],
           [
             t("proposedByLabel"),
             `${draftedByName(t, item)} · ${formatApprovalTime(tf, item.submittedAt, item.workspaceId)}`,

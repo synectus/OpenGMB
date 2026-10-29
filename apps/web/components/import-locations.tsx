@@ -8,7 +8,7 @@ import {
   locations_importStatus,
   locations_listAvailable,
 } from "../app/_generated/actions";
-import { importResultLabel, importResultTone } from "../lib/locations";
+import { importResultLabel, importResultTone, locationLabel } from "../lib/locations";
 import { buttonClass, ErrorText, linkClass, secondaryButtonClass } from "./ui";
 
 type Available = {
@@ -18,7 +18,9 @@ type Available = {
   locations: {
     locationName: string;
     title: string;
+    phone: string | null;
     addressSummary: string | null;
+    hasVoiceOfMerchant: boolean | null;
     alreadyImported: boolean;
     needsRelink: boolean;
     importedWorkspace: { name: string } | null;
@@ -67,6 +69,7 @@ export function ImportLocations({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [hideUnverified, setHideUnverified] = useState(false);
 
   const fail = (e: { code: string; message: string }) => setError(`${e.code}: ${e.message}`);
   const titleOf = (name: string) => titles[name] ?? name;
@@ -84,6 +87,17 @@ export function ImportLocations({
     setAvailable(accounts);
     setTitles(Object.fromEntries(accounts.flatMap((a) => a.locations.map((l) => [l.locationName, l.title]))));
     setPicked({});
+    setHideUnverified(false);
+  }
+
+  // Only a definite false counts as unverified; unknown (null) rows are never hidden.
+  const unverified = (l: { hasVoiceOfMerchant: boolean | null }) => l.hasVoiceOfMerchant === false;
+  const unverifiedCount = (available ?? []).reduce((n, a) => n + a.locations.filter(unverified).length, 0);
+  function toggleHideUnverified(on: boolean) {
+    setHideUnverified(on);
+    if (!on || !available) return;
+    const hidden = new Set(available.flatMap((a) => a.locations.filter(unverified).map((l) => l.locationName)));
+    setPicked((p) => Object.fromEntries(Object.entries(p).filter(([name]) => !hidden.has(name))));
   }
 
   async function doImport() {
@@ -187,10 +201,17 @@ export function ImportLocations({
         </div>
       )}
 
+      {available && unverifiedCount > 0 && (
+        <label className="flex items-center gap-2 text-sm text-foreground">
+          <input type="checkbox" className="accent-primary" checked={hideUnverified} onChange={(e) => toggleHideUnverified(e.target.checked)} />
+          {t("hideUnverified", { count: unverifiedCount })}
+        </label>
+      )}
+
       {available?.map((a) => (
         <fieldset key={a.accountName} className="flex flex-col gap-1 rounded-control border border-border p-3 text-sm">
           <legend className="px-1 font-semibold text-foreground">{t("loadedLine", { account: a.displayName, count: a.locations.length })}</legend>
-          {a.locations.map((l) => {
+          {a.locations.filter((l) => !(hideUnverified && unverified(l))).map((l) => {
             const disabled = l.alreadyImported && !l.needsRelink;
             return (
               <label key={l.locationName} className={`flex items-start gap-2 py-1 ${disabled ? "text-muted-foreground" : "text-foreground"}`}>
@@ -207,9 +228,13 @@ export function ImportLocations({
                   }}
                 />
                 <span>
-                  {l.title}
-                  {l.addressSummary ? ` (${l.addressSummary})` : ""}
+                  {locationLabel(l)}
                   {pickerNoteText(l)}
+                  {unverified(l) && (
+                    <span title={t("notVerifiedTitle")} className="ml-2 rounded-control bg-warn-bg px-2 py-0.5 text-xs font-semibold text-warn">
+                      {t("notVerified")}
+                    </span>
+                  )}
                 </span>
               </label>
             );

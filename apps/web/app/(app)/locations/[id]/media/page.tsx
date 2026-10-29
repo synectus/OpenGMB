@@ -27,9 +27,9 @@ export default async function LocationMediaPage({ params }: { params: Promise<{ 
     ? await locations_list({ workspaceId: data.location.workspaceId, status: "active" })
     : null;
   const siblings = sib?.ok
-    ? (sib.data as { locations: { id: string; name: string }[] }).locations
+    ? (sib.data as { locations: { id: string; name: string; addressSummary: string | null; phone: string | null }[] }).locations
         .filter((l) => l.id !== id)
-        .map((l) => ({ id: l.id, name: l.name }))
+        .map((l) => ({ id: l.id, name: l.name, addressSummary: l.addressSummary, phone: l.phone }))
     : [];
   const p = MEDIA_LIMITS.photo;
   // Writes fail in the worker, not on click, and only in live mode with writes off (factory.ts).

@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { TabLinks } from "../page-parts";
+import { TabLinks, primaryLinkButtonClass } from "../page-parts";
 import { PageHeader } from "../ui";
 import { viewTabs, type LocationView } from "../../lib/locations";
 
@@ -8,10 +9,13 @@ export function LocationsHeader({
   view,
   ws,
   alerts,
+  canManage,
 }: {
   view: LocationView;
   ws?: string;
   alerts?: number | null;
+  /** Show the "Import from Google" link (location:manage). */
+  canManage?: boolean;
 }) {
   const t = useTranslations("locations");
   const tabs = viewTabs(view, { ws, alerts }).map((v) => ({
@@ -23,6 +27,13 @@ export function LocationsHeader({
       <PageHeader
         title={t("title")}
         description={t("description")}
+        actions={
+          canManage ? (
+            <Link href={`/locations/import${ws ? `?ws=${ws}` : ""}`} className={primaryLinkButtonClass}>
+              {t("importFromGoogle")}
+            </Link>
+          ) : undefined
+        }
       />
       <TabLinks label={t("viewsLabel")} items={tabs} />
     </div>

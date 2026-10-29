@@ -46,6 +46,7 @@ type Item = {
   workspaceId: string;
   workspaceName: string;
   locationNames: string[];
+  locations: { id: string; name: string; addressSummary: string | null }[];
   submittedAt: string | null;
   title: string;
   text: string;
@@ -55,6 +56,7 @@ type Item = {
   guardrail: { blocked: boolean; warnings: number; warningsAcknowledged: boolean };
   provenance: { createdSurface: string; createdByName: string | null };
   can: { approve: boolean; reject: boolean };
+  canDiscard: boolean;
 };
 type Counts = { reply: number; post: number; changeset: number; postedit: number; total: number };
 type Queue = { items: Item[]; counts: Counts; truncated: boolean };
@@ -300,6 +302,31 @@ describe("approvals.queue", () => {
     const viewer = await run<Queue>(s.org.viewerA, "approvals.queue");
     expect(viewer.items).toHaveLength(4);
     expect(viewer.items.every((i) => !i.can.approve && !i.can.reject)).toBe(true);
+  });
+
+  it("canDiscard follows the cancel actions' own checks: publish for posts, profile:edit for change sets, draft for edits, never replies", async () => {
+    const discardOf = (q: Queue) => Object.fromEntries(q.items.map((i) => [i.type, i.canDiscard]));
+    const staff = discardOf(await run<Queue>(s.org.manager, "approvals.queue"));
+    expect(staff).toEqual({ reply: false, post: true, changeset: true, postedit: true });
+    // A client approver can approve but holds none of review:publish, profile:edit, review:draft.
+    const approver = await run<Queue>(s.org.approverA, "approvals.queue");
+    expect(approver.items.length).toBeGreaterThan(0);
+    expect(approver.items.every((i) => i.canDiscard === false)).toBe(true);
+    const viewer = await run<Queue>(s.org.viewerA, "approvals.queue");
+    expect(viewer.items.every((i) => i.canDiscard === false)).toBe(true);
+  });
+
+  it("each item carries locations with id, name and address, and keeps locationNames", async () => {
+    await db.update(locations).set({ addressSummary: "1 Main St, Austin" }).where(eq(locations.id, s.locA.row.id));
+    const q = await run<Queue>(s.org.owner, "approvals.queue");
+    const here = { id: s.locA.row.id, name: s.locA.row.name, addressSummary: "1 Main St, Austin" };
+    for (const id of [s.replyA, s.post, s.edit.editId, s.changeSet]) {
+      const item = q.items.find((i) => i.id === id)!;
+      expect(item.locations).toEqual([here]);
+      expect(item.locationNames).toEqual([here.name]);
+    }
+    const b = q.items.find((i) => i.id === s.replyB)!;
+    expect(b.locations).toEqual([{ id: s.locB.row.id, name: s.locB.row.name, addressSummary: null }]);
   });
 
   it("describes each kind of item", async () => {

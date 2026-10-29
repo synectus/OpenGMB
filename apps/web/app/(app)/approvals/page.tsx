@@ -64,7 +64,8 @@ export default async function ApprovalsPage({ searchParams }: { searchParams: Pr
   const surfaces = approvalSurfaces(counts);
   const ofTab = inTab(all, tab);
   const locations = locationOptions(ofTab);
-  const loc = sp.loc && locations.includes(sp.loc) ? sp.loc : undefined;
+  const locOption = locations.find((o) => o.id === sp.loc);
+  const loc = locOption?.id;
   const items = inLocation(ofTab, loc);
   const wanted = parseItemKey(sp.item);
   const selected =
@@ -117,10 +118,10 @@ export default async function ApprovalsPage({ searchParams }: { searchParams: Pr
           label={t("filterLocation")}
           items={[
             { href: approvalsHref({ tab, ws: carry }), label: t("allLocations"), current: !loc },
-            ...locations.map((name) => ({
-              href: approvalsHref({ tab, ws: carry, loc: name }),
-              label: name,
-              current: loc === name,
+            ...locations.map((o) => ({
+              href: approvalsHref({ tab, ws: carry, loc: o.id }),
+              label: o.label,
+              current: loc === o.id,
             })),
           ]}
         />
@@ -133,7 +134,7 @@ export default async function ApprovalsPage({ searchParams }: { searchParams: Pr
             </Link>
           ),
         })}
-        {loc ? ` ${t("showingInLocation", { shown: items.length, total: ofTab.length, location: loc })}` : ""}{truncated ? ` ${t("showingOldest", { shown: all.length, total: counts.total })}` : ""}
+        {locOption ? ` ${t("showingInLocation", { shown: items.length, total: ofTab.length, location: locOption.label })}` : ""}{truncated ? ` ${t("showingOldest", { shown: all.length, total: counts.total })}` : ""}
       </p>
 
       {items.length === 0 ? (

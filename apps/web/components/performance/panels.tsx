@@ -179,7 +179,7 @@ export function KeywordTable({
   months: string[];
   keywords: { keyword: string; value: number; isLowerBound: boolean; hiddenBelow: number }[];
   /** Locations a keyword can be tracked at (K4); null = the viewer cannot manage trackers, so no link. */
-  trackLocations?: { id: string; title: string }[] | null;
+  trackLocations?: { id: string; title: string; addressSummary?: string | null; phone?: string | null }[] | null;
 }) {
   const t = useTranslations("performance");
   return (

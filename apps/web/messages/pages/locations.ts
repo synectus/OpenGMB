@@ -46,6 +46,7 @@ export default namespace({
     healthScoredBody:
       "{count} checks per location, graded necessary, important and nice. Score = passed ÷ (passed + failed). Checks Google could not read are left out.",
     openHealth: "Open Health",
+    importFromGoogle: "Import from Google",
     // table
     caption: "Locations",
     colLocation: "Location",
@@ -182,6 +183,9 @@ export default namespace({
     pickerImportedNeedsRelink: " - imported in {client}, needs re-link",
     pickerAlreadyImported: " - already imported in {client}",
     pickerOtherOrg: " - active in another organization",
+    notVerified: "Not verified",
+    notVerifiedTitle: "Not verified or not in good standing: Google reports this listing as unverified, suspended or in an ownership conflict.",
+    hideUnverified: "Hide unverified ({count})",
     moreExist: "More locations exist than were loaded.",
     pickUpTo: "Pick up to {max} locations at a time.",
     selectedUpTo: "{count} selected. Up to {max} at a time.",
@@ -330,6 +334,7 @@ export default namespace({
     healthScoredBody:
       "हर स्थान पर {count} जाँचें, जिन्हें ज़रूरी, महत्वपूर्ण और बेहतर में बाँटा गया है। स्कोर = पास ÷ (पास + फ़ेल)। जो जाँचें Google पढ़ नहीं सका, वे छोड़ दी जाती हैं।",
     openHealth: "स्वास्थ्य खोलें",
+    importFromGoogle: "Google से इंपोर्ट करें",
     caption: "स्थान",
     colLocation: "स्थान",
     colStatus: "स्थिति",
@@ -456,6 +461,9 @@ export default namespace({
     pickerImportedNeedsRelink: " - {client} में इंपोर्ट है, दोबारा लिंक करना है",
     pickerAlreadyImported: " - {client} में पहले से इंपोर्ट है",
     pickerOtherOrg: " - दूसरे संगठन में सक्रिय है",
+    notVerified: "सत्यापित नहीं",
+    notVerifiedTitle: "सत्यापित नहीं या अच्छी स्थिति में नहीं: Google के अनुसार यह लिस्टिंग असत्यापित, निलंबित या स्वामित्व विवाद में है।",
+    hideUnverified: "असत्यापित छिपाएँ ({count})",
     moreExist: "लोड हुए स्थानों से ज़्यादा स्थान मौजूद हैं।",
     pickUpTo: "एक बार में अधिकतम {max} स्थान चुनें।",
     selectedUpTo: "{count} चुने गए। एक बार में अधिकतम {max}।",
@@ -603,6 +611,7 @@ export default namespace({
     healthScoredBody:
       "{count} comprobaciones por ubicación, clasificadas como necesarias, importantes y deseables. Puntuación = superadas ÷ (superadas + fallidas). Las comprobaciones que Google no pudo leer se omiten.",
     openHealth: "Abrir Salud",
+    importFromGoogle: "Importar desde Google",
     caption: "Ubicaciones",
     colLocation: "Ubicación",
     colStatus: "Estado",
@@ -729,6 +738,9 @@ export default namespace({
     pickerImportedNeedsRelink: " - importada en {client}, requiere re-vincular",
     pickerAlreadyImported: " - ya importada en {client}",
     pickerOtherOrg: " - activa en otra organización",
+    notVerified: "No verificada",
+    notVerifiedTitle: "No verificada o sin buen estado: Google indica que esta ficha no está verificada, está suspendida o tiene un conflicto de propiedad.",
+    hideUnverified: "Ocultar no verificadas ({count})",
     moreExist: "Existen más ubicaciones de las que se cargaron.",
     pickUpTo: "Elige hasta {max} ubicaciones a la vez.",
     selectedUpTo: "{count} seleccionadas. Hasta {max} a la vez.",

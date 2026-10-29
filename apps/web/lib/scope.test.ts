@@ -288,3 +288,22 @@ describe("the scope switcher on a long account (H4)", () => {
     expect(urlScopeValue(null)).toBeNull();
   });
 });
+
+describe("same-named locations are told apart", () => {
+  const twins: ScopeData = {
+    workspaces: [{ id: W1, name: "Client A" }],
+    groups: [],
+    locations: [
+      { id: L1, workspaceId: W1, name: "Ace Dental", title: "Ace Dental", status: "active", addressSummary: "1 Main St, Austin", phone: null },
+      { id: L2, workspaceId: W1, name: "Ace Dental", title: "Ace Dental", status: "active", addressSummary: null, phone: "+1 555 0100" },
+      { id: L3, workspaceId: W1, name: "Ace Dental", title: "Ace Dental", status: "active", addressSummary: null, phone: null },
+    ],
+  };
+  it("carries the address (else phone) as detail and searches on it", () => {
+    expect(scopeOptionFor(twins, `l:${L1}`)).toMatchObject({ detail: "1 Main St, Austin" });
+    expect(scopeOptionFor(twins, `l:${L1}`)!.search).toContain("Main St");
+    expect(scopeOptionFor(twins, `l:${L2}`)).toMatchObject({ detail: "+1 555 0100" });
+    expect(scopeOptionFor(twins, `l:${L3}`)!.detail).toBeUndefined();
+    expect(searchScopeOptions(twins, "ace austin", 0).options.map((o) => o.value)).toEqual([`l:${L1}`]);
+  });
+});

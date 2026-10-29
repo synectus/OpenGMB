@@ -2,7 +2,7 @@ import { GOOGLE_LIMITS } from "../config/google-limits";
 import type { GoogleLocation, ListLocationsResponse } from "../google/client";
 
 /** The fields import needs; Google requires a readMask on list. */
-export const IMPORT_READ_MASK = "name,title,phoneNumbers,storefrontAddress";
+export const IMPORT_READ_MASK = "name,title,phoneNumbers,storefrontAddress,metadata";
 /** Our own bound (not a Google number): stop following nextPageToken after this many pages. */
 export const MAX_LOCATION_PAGES = 20;
 
@@ -46,4 +46,13 @@ export function addressSummary(l: GoogleLocation): string | null {
     a.regionCode,
   ].filter((x): x is string => !!x);
   return parts.join(", ") || null;
+}
+
+/**
+ * Whether Google reports the listing as verified and in good standing (metadata.hasVoiceOfMerchant).
+ * Proto3 JSON omits false booleans: metadata present without the field is false; no metadata at all is unknown (null).
+ */
+export function hasVoiceOfMerchant(l: GoogleLocation): boolean | null {
+  if (!l.metadata) return null;
+  return l.metadata.hasVoiceOfMerchant === true;
 }

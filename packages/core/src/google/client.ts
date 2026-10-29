@@ -149,7 +149,7 @@ export interface GoogleLocation {
   };
   /** Read-only here. Google fills it from the address, and a location may not have one. Needs `latlng` in the readMask. */
   latlng?: { latitude: number; longitude: number };
-  metadata?: { placeId?: string; mapsUri?: string };
+  metadata?: { placeId?: string; mapsUri?: string; hasVoiceOfMerchant?: boolean };
 }
 
 /** Notifications v1 NotificationSetting (accounts/{id}/notificationSetting). */

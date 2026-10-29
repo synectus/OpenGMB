@@ -168,6 +168,16 @@ describe("locations.listAvailable", () => {
     expect(all.every((l) => !l.alreadyImported)).toBe(true);
   });
 
+  it("reports hasVoiceOfMerchant: true, false (metadata without the field) and null (no metadata)", async () => {
+    const r = (await run(org1.owner, "locations.listAvailable", {
+      connectionId: org1.connectionId,
+    })) as { accounts: { locations: { locationName: string; hasVoiceOfMerchant: boolean | null }[] }[] };
+    const by = Object.fromEntries(r.accounts.flatMap((a) => a.locations).map((l) => [l.locationName, l.hasVoiceOfMerchant]));
+    expect(by["locations/200000000000000001"]).toBe(true);
+    expect(by["locations/200000000000000003"]).toBe(false);
+    expect(by["locations/200000000000000004"]).toBeNull();
+  });
+
   it("is a read action that runs outside any transaction", async () => {
     const { locationsListAvailable } = await import("./actions/locations");
     expect(locationsListAvailable.kind).toBe("read");

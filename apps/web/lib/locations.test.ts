@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  locationLabel,
   SHIPPED_VIEWS,
   STATUS_FILTERS,
   filterLocations,
@@ -189,5 +190,15 @@ describe("setStatusMessage", () => {
       "NOT_FOUND: Location not found",
     );
     expect(setStatusMessage({ ok: true, data: { results: [{ locationId: "x", result: "updated" }] } })).toBeNull();
+  });
+});
+
+describe("locationLabel", () => {
+  it("is Title (address)", () => expect(locationLabel({ name: "Ace Dental", addressSummary: "1 Main St, Austin" })).toBe("Ace Dental (1 Main St, Austin)"));
+  it("prefers title over name", () => expect(locationLabel({ title: "Ace", name: "ace-1", addressSummary: "A" })).toBe("Ace (A)"));
+  it("falls back to phone for service-area businesses, then the bare name", () => {
+    expect(locationLabel({ name: "Ace", addressSummary: null, phone: "+1 555 0100" })).toBe("Ace (+1 555 0100)");
+    expect(locationLabel({ name: "Ace", addressSummary: " ", phone: "" })).toBe("Ace");
+    expect(locationLabel({ title: "Ace" })).toBe("Ace");
   });
 });

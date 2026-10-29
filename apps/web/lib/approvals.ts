@@ -46,12 +46,22 @@ export function parseItemKey(v: string | undefined): { type: ItemType; id: strin
   return null;
 }
 
-/** The location names an inbox can be narrowed to, A to Z. */
-export const locationOptions = (items: ApprovalItem[]): string[] =>
-  [...new Set(items.flatMap((i) => i.locationNames))].sort((a, b) => a.localeCompare(b));
-/** Items that touch the named location; every item when none is named. */
+/** `Name (address)`, or the name alone when the listing has no address. */
+export const locationLabel = (l: { name: string; addressSummary: string | null }): string => {
+  const address = l.addressSummary?.trim();
+  return address ? `${l.name} (${address})` : l.name;
+};
+/** The locations an inbox can be narrowed to, once each by id, A to Z by label. */
+export function locationOptions(items: ApprovalItem[]): { id: string; label: string }[] {
+  const byId = new Map<string, string>();
+  for (const l of items.flatMap((i) => i.locations)) byId.set(l.id, locationLabel(l));
+  return [...byId].map(([id, label]) => ({ id, label })).sort((x, y) => x.label.localeCompare(y.label) || x.id.localeCompare(y.id));
+}
+/** Items that touch the location with this id; every item when none is given. */
 export const inLocation = (items: ApprovalItem[], loc: string | undefined): ApprovalItem[] =>
-  loc ? items.filter((i) => i.locationNames.includes(loc)) : items;
+  loc ? items.filter((i) => i.locations.some((l) => l.id === loc)) : items;
+/** Where an item is for, as labels joined: the list subtitle and the detail Locations row. */
+export const itemLocationsText = (item: ApprovalItem): string => item.locations.map(locationLabel).join(", ");
 
 export function approvalsHref(o: { tab?: Tab; ws?: string; loc?: string; item?: string | null }): string {
   const p = new URLSearchParams();

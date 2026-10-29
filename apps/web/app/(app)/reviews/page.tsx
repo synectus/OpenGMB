@@ -45,6 +45,7 @@ import { dayRange, parseQuery, parseSort, SORT_OPTIONS } from "../../../lib/revi
 import { parseSentiment, parseTopic } from "../../../lib/review-topics";
 import type { TimeFormat } from "../../../lib/time-format";
 import { getTimeFormat } from "../../../lib/time-format-server";
+import { locationLabel } from "../../../lib/locations";
 import { parseView } from "../../../lib/reviews-views";
 import { autoApproveIds, narrowNote, scopeFilter } from "../../../lib/scope";
 import { currentScope } from "../../../lib/scope-server";
@@ -667,7 +668,7 @@ export default async function ReviewsPage({ searchParams }: { searchParams: Prom
       {view === "requests" && scope.onlyWorkspaceId && (
         <RequestsView
           sp={{ ws: scope.onlyWorkspaceId, loc }}
-          locations={locationOptions.map((l) => ({ id: l.id, name: l.name, workspaceId: l.workspaceId }))}
+          locations={locationOptions.map((l) => ({ id: l.id, name: l.name, addressSummary: l.addressSummary, phone: l.phone, workspaceId: l.workspaceId }))}
           origin={process.env.BETTER_AUTH_URL || "http://localhost:3000"}
           canManage={canSync}
         />
@@ -693,7 +694,7 @@ export default async function ReviewsPage({ searchParams }: { searchParams: Prom
                 <option value="">{t("filters.allLocations")}</option>
                 {locationOptions.map((l) => (
                   <option key={l.id} value={l.id}>
-                    {l.name}
+                    {locationLabel(l)}
                   </option>
                 ))}
               </select>

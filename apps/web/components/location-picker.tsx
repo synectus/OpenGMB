@@ -10,6 +10,7 @@ import {
   type BulkGroup,
   type BulkLoc,
 } from "../lib/bulk-edit";
+import { locationLabel } from "../lib/locations";
 import { secondaryButtonClass } from "./ui";
 
 /** The location checkboxes with "All" and the group quick-selects. Shared by Bulk edit and Copy services. */
@@ -45,7 +46,7 @@ export function LocationPicker({
             }`}>
               <input type="checkbox" checked={on} disabled={Boolean(why)}
                 onChange={() => onPick(on ? picked.filter((id) => id !== l.id) : [...picked, l.id])} />
-              {l.name}
+              {locationLabel(l)}
               {why && <span className="ml-auto text-xs">{why}</span>}
             </label>
           );

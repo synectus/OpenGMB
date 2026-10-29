@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { Pencil } from "lucide-react";
 import type { locationsList, postsGoogleList } from "@opengmb/core";
 import { locations_list, posts_googleList, posts_syncGoogle } from "../../app/_generated/actions";
+import { locationLabel } from "../../lib/locations";
 import { getTimeFormat } from "../../lib/time-format-server";
 import { ctaFullName, googleHeadline, googleNote, googleState, postsHref, typeName } from "../../lib/posts-lists";
 import { Pill, filterFieldClass, linkButtonClass } from "../page-parts";
@@ -68,7 +69,7 @@ export async function GoogleView({
           <select name="loc" defaultValue={current.id} className={filterFieldClass}>
             {locations.map((l) => (
               <option key={l.id} value={l.id}>
-                {l.title ?? l.name}
+                {locationLabel(l)}
               </option>
             ))}
           </select>
