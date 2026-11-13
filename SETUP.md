@@ -11,7 +11,7 @@ Out of the box the Google client runs in `mock` mode (no live Google calls). Goi
 - A Linux server or workstation with Docker Engine 24+ and the Compose plugin (`docker compose version`).
 - About 4 GB of RAM free during the image build and 2 GB of disk for the image.
 - A public hostname with HTTPS for the web app and the worker (Google OAuth and Pub/Sub push need it). Put a reverse proxy (Caddy, nginx, Traefik) in front of the host ports below; the stack does not do TLS.
-- A Google account that can create Google Cloud projects. Optional: a Resend account for email, an Anthropic key for AI features, and a DataForSEO account for rank tracking.
+- A Google account that can create Google Cloud projects. Optional: a Resend account for email, an Anthropic key for AI features, and a DataForSEO account for rank tracking and keyword research.
 
 Default host ports are **8080** (web), **8081** (MCP) and **8082** (worker), so on the machine itself the web app is at <http://localhost:8080>. Change them in `.env` (`WEB_HOST_PORT`, `MCP_HOST_PORT`, `WORKER_HOST_PORT`) if they are taken. Postgres is not published to the host.
 
@@ -43,7 +43,7 @@ After you change `.env`, apply it with `docker compose up -d` (it recreates the 
 Your own API keys go in the same file. Each feature stays off until its key is set, and the rest of the app keeps working:
 
 - `ANTHROPIC_API_KEY` for AI drafts, review reply suggestions and report summaries.
-- `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` for rank tracking (or save a key in the app, step 5).
+- `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` for rank tracking and keyword research (rank tracking can also use a key saved in the app, step 5).
 - `PIXABAY_API_KEY` for stock photos on posts, and `OPENAI_API_KEY` for AI-generated post images.
 - `RESEND_API_KEY` and `EMAIL_FROM` for email (step 4).
 
@@ -80,7 +80,7 @@ With `RESEND_API_KEY` empty the daily notification digest is skipped (logged, no
 
 ## 5. DataForSEO and Google Maps (optional)
 
-Rank tracking uses DataForSEO with your own account. Create one at <https://dataforseo.com/> and copy the **API login** and **API password** from the API Access page (the API password is generated for you and is not your account password). You can add them in either of two ways:
+Rank tracking and keyword research use DataForSEO with your own account. Create one at <https://dataforseo.com/> and copy the **API login** and **API password** from the API Access page (the API password is generated for you and is not your account password). You can add them in either of two ways:
 
 - **In the app:** sign in as the owner, open **Rank tracking**, then **Usage and cost**, and use **Your own DataForSEO key** (login, password, then **Verify**). Takes effect at once, no restart.
 - **In `.env`:** set `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` and restart the web, worker and MCP services.

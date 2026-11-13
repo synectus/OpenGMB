@@ -72,7 +72,8 @@ So we built the tool we wanted, used it for our own work, and opened the core.
 
 Also in the community edition:
 
-- **Rank tracking** on a geo-grid around each location, next to its competitors, with your own DataForSEO account.
+- **Rank tracking** on a geo-grid around each location, next to its competitors, with your own DataForSEO account. Add the key in the app (Rank tracking, then Usage and cost) or in `.env`.
+- **Keyword research** at `/seo/keywords`: enter a seed keyword, a country and optionally a city, and get up to 300 ideas with national difficulty, intent and cost per click, plus the city's monthly searches. It uses your own DataForSEO account, with no credits. It reads the key from `.env`.
 - **AI drafts** for replies, posts and descriptions with your own Anthropic key. No credits, no markup.
 - **Review requests** with tracked links, QR codes and public location pages, and no review gating.
 - **Approvals inbox**, location groups, white-label branding on reports.
@@ -81,7 +82,7 @@ Also in the community edition:
 
 ## Built for AI agents
 
-The MCP server exposes around 250 tools, one for every action in the app: list reviews, draft and submit replies, schedule posts, edit hours, pull performance, run a health check, and more. Writes go through the same guardrails and approvals as the web app.
+The MCP server exposes a tool for every action in the app: list reviews, draft and submit replies, schedule posts, edit hours, pull performance, run a health check, and more. Writes go through the same guardrails and approvals as the web app.
 
 Connect claude.ai, ChatGPT and Claude Code by pasting a URL (OAuth), or use API tokens. The URL way is in [SETUP.md](SETUP.md#connect-ai-apps).
 
@@ -170,6 +171,7 @@ The `docker-compose.yml` at the repository root is only a development Postgres f
 | Google Cloud project and API approval | Yours | Ours |
 | Clients and locations | Unlimited | Unlimited |
 | Reviews, posts, edits, reports, rank tracking | Yes | Yes |
+| Keyword research | Your own DataForSEO account, no credits | Charged from prepaid credit, price shown before each search |
 | MCP server, REST API, webhooks | Yes | Yes |
 | AI | Your Anthropic key | Included, paid from credit |
 | Teams and roles | One owner login | Yes |
