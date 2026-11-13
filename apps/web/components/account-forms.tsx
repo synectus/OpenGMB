@@ -195,8 +195,8 @@ export function TwoFactorPanel({
       return;
     setPending(true);
     setError(null);
-    // No reset endpoint exists: disable, then the normal setup. The gate (MFA_REQUIRED) keeps the
-    // account locked to /mfa/setup until a new app is verified.
+    // No reset endpoint exists: disable, then the normal setup. For a platform admin the gate (MFA_REQUIRED) keeps
+    // the account locked to /mfa/setup until a new app is verified; anyone else may leave the setup page.
     const { error } = await authClient.twoFactor.disable(body);
     if (error) {
       setPending(false);

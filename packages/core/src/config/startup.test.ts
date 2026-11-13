@@ -17,6 +17,16 @@ const good = {
 };
 
 describe("startup config report", () => {
+  it("web and mcp print the oauth line; the worker does not", () => {
+    const env = { ...good, BETTER_AUTH_URL: "https://app.example.test", MCP_PUBLIC_URL: "https://app.example.test/mcp" };
+    for (const s of ["web", "mcp"] as const) {
+      expect(buildStartupReport(s, env).lines).toContain(
+        `[startup] ${s}: oauth=on issuer=https://app.example.test resource=https://app.example.test/mcp`,
+      );
+    }
+    expect(buildStartupReport("worker", env).lines.some((l) => l.includes("oauth="))).toBe(false);
+  });
+
   it("DATAFORSEO_API_BASE: empty or a known host is fine, anything else is a problem; keys never printed", () => {
     expect(buildStartupReport("web", { ...good, DATAFORSEO_API_BASE: "" }).problems).toEqual([]);
     expect(

@@ -244,7 +244,7 @@ export const profileChangesDismiss = defineAction({
 export const profileChangesRevert = defineAction({
   name: "profile.changes.revert",
   description:
-    "Revert a profile change found by the nightly snapshot: creates a profile change set that restores the previous values of the changed fields (profile.changeSets.get shows it) and marks the change reverted. Nothing is written to Google here: the change set waits for approval (review:approve) and is applied by profile.apply with the usual conflict check, so if the field changed again on Google since the change was detected, that location fails with `conflict` and nothing is written. Not available for Google-suggested changes (the merchant value already equals the restored value): accept or dismiss those. A reverted change whose change set was cancelled, blocked or failed can be reverted again.",
+    "Revert a profile change found by the nightly snapshot: creates a profile change set that restores the previous values of the changed fields (profile.changeSets.get shows it) and marks the change reverted. Nothing is written to Google here: the change set waits for approval (review:approve) and is applied by a person in OpenGMB with the usual conflict check, so if the field changed again on Google since the change was detected, that location fails with `conflict` and nothing is written. Not available for Google-suggested changes (the merchant value already equals the restored value): accept or dismiss those. A reverted change whose change set was cancelled, blocked or failed can be reverted again.",
   input: z.object({ id: z.uuid() }),
   output: z.object({
     change: changeOut,

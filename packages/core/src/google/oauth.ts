@@ -254,7 +254,7 @@ export async function completeGoogleConnection(
       .values({ orgId: state.orgId, googleAccountId: sub, ...values })
       .onConflictDoUpdate({
         target: [googleConnections.orgId, googleConnections.googleAccountId],
-        set: { ...values, updatedAt: new Date() },
+        set: { ...values, accessLostAt: null, updatedAt: new Date() },
       })
       .returning();
     await writeAudit(tx, {

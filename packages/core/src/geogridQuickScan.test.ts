@@ -109,6 +109,16 @@ describe("geogrid.quickScans.create", () => {
     expect(out.runs[0]!.costEstimateUsd).toBeGreaterThan(0);
   });
 
+  it("finds the centre from the place id when coordinates are omitted (fixture Places)", async () => {
+    const { centerLat, centerLng, ...noCenter } = scanInput(o, { placeId: "ChIJfixtureplumbing0001" });
+    void centerLat;
+    void centerLng;
+    const out = (await run(o.manager, "geogrid.quickScans.create", noCenter)) as Scan & { scan: { centerLat: number; centerLng: number } };
+    expect(out.scan).toMatchObject({ centerLat: 39.78, centerLng: -89.65 });
+    expect(await codeOf(run(o.manager, "geogrid.quickScans.create", { ...noCenter, placeId: PLACE }))).toMatch(/^INVALID_INPUT/);
+    expect(await codeOf(run(o.manager, "geogrid.quickScans.create", { ...noCenter, placeId: "ChIJfixtureplumbing0001", gridSize: 99 }))).toMatch(/^INVALID_INPUT/);
+  });
+
   it("is hidden from the tracker lists and shown with kind=quick_scan (trackers unchanged)", async () => {
     const tracker = (await run(o.manager, "geogrid.configs.create", {
       locationId: o.loc,

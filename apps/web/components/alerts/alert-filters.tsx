@@ -30,7 +30,7 @@ export function AlertFilters({ filters, locations, groups, showGroup = true }: {
           {Object.keys(FIELD_GROUPS).map((k) => <option key={k} value={k}>{t(`field_${k as FieldGroup}`)}</option>)}
         </select>
       </label>
-      <label className="flex flex-col gap-1 text-xs font-semibold text-muted-foreground">
+      <label className="flex max-w-full flex-col gap-1 text-xs font-semibold text-muted-foreground">
         {t("colLocation")}
         <select className={sel} value={filters.loc ?? ""} onChange={(e) => go({ loc: e.target.value || null })}>
           <option value="">{t("allLocations")}</option>

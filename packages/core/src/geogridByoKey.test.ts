@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { eq, inArray } from "drizzle-orm";
 import { PgBoss } from "pg-boss";
 import {
@@ -93,6 +93,10 @@ async function createConfig(o: Org) {
   return r.config.id;
 }
 
+// verify talks to DataForSEO as the org (the key's own source, not the server's): answer it offline.
+const dfsAnswer = (body: unknown, status = 200) => vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify(body), { status })));
+afterEach(() => vi.unstubAllGlobals());
+
 // Live data source, offline transport: runs record real-looking costs and nothing leaves the process.
 beforeAll(async () => {
   setGeogridDriversForTests(
@@ -133,6 +137,7 @@ describe("geogrid.byoKey", () => {
     expect(row!.passwordEnc.startsWith("v1:")).toBe(true);
     expect(decryptSecret(row!.passwordEnc)).toBe(PASSWORD);
 
+    dfsAnswer({ status_code: 20000, tasks: [{ status_code: 20000, result: [{ money: { balance: 5 } }] }] });
     const verify = await run(o.owner, "geogrid.byoKey.verify");
     expect(verify).toMatchObject({ ok: true });
     const got = await run(o.owner, "geogrid.byoKey.get");
@@ -170,6 +175,7 @@ describe("geogrid.byoKey", () => {
   it("verify reports failure for a bad key and does not mark it verified", async () => {
     const o = await makeOrg();
     await run(o.owner, "geogrid.byoKey.set", { login: "x@invalid.test", password: PASSWORD });
+    dfsAnswer({ status_code: 40100, status_message: "Authorization failed" }, 401);
     const v = (await run(o.owner, "geogrid.byoKey.verify")) as { ok: boolean; message: string };
     expect(v.ok).toBe(false);
     expect(v.message).not.toContain(PASSWORD);
@@ -298,6 +304,44 @@ describe("BYO runs", () => {
     const [failed] = await db.select().from(gridRuns).where(eq(gridRuns.id, out.runs[0]!.runId));
     expect(failed).toMatchObject({ status: "failed", costChargedUsd: "0.0000" });
     expect(failed!.error).toContain("byo_key_missing");
+  });
+});
+
+describe("BYO collect after the key is deleted", () => {
+  it("on the final attempt the task is collect_failed and the run settles with no charge", async () => {
+    const o = await makeOrg();
+    const id = await createConfig(o);
+    await run(o.owner, "geogrid.byoKey.set", { login: LOGIN, password: PASSWORD });
+    const out = (await run(o.manager, "geogrid.run", { configId: id })) as { runs: { runId: string }[] };
+    const runId = out.runs[0]!.runId;
+    const urls = new Map<string, string>();
+    const drivers = createDriverRegistry({
+      source: () => "live",
+      liveByoDataForSeo: (creds) => {
+        const base = fixtureByoTransport(creds);
+        return {
+          ...base,
+          taskPost: async (items) => {
+            const res = await base.taskPost(items);
+            res.tasks.forEach((t, i) => urls.set(t.id, items[i]!.pingback_url!));
+            return res;
+          },
+        };
+      },
+    });
+    expect(await processGridRun(db, runId, { drivers, pingbackBaseUrl: "https://worker.test" })).toBe("running");
+    const tasks = await db.select().from(gridTasks).where(eq(gridTasks.runId, runId));
+    await run(o.owner, "geogrid.byoKey.delete");
+    for (const t of tasks) {
+      const token = new URL(urls.get(t.taskRef!)!).searchParams.get("token")!;
+      expect(await acceptPingback(db, { taskRef: t.taskRef!, token })).toBe("accepted");
+      expect(await processGridCollect(db, t.id, { drivers, isFinalAttempt: true })).toBe("failed");
+    }
+    const after = await db.select().from(gridTasks).where(eq(gridTasks.runId, runId));
+    expect(after.every((t) => t.status === "failed" && t.error?.startsWith("collect_failed: byo_key_missing"))).toBe(true);
+    const [settled] = await db.select().from(gridRuns).where(eq(gridRuns.id, runId));
+    expect(settled!.status).not.toBe("running");
+    expect(Number(settled!.costChargedUsd)).toBe(0);
   });
 });
 

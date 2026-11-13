@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
+import { KeyHelp } from "./sample-key-help";
 
 const chip = "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold";
 
@@ -29,7 +30,10 @@ export function NotLiveNote({ children }: { children: ReactNode }) {
   return (
     <p className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
       <NotLiveBadge />
-      <span>{children}</span>
+      <span>
+        {children}
+        <KeyHelp />
+      </span>
     </p>
   );
 }

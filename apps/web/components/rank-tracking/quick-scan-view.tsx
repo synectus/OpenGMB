@@ -12,6 +12,7 @@ import { geogridHref } from "../../lib/rank-tracking";
 import { getTimeFormat } from "../../lib/time-format-server";
 import { primaryLinkButtonClass, TableWrap, tdClass, thClass } from "../page-parts";
 import { EmptyState, ErrorText } from "../ui";
+import { KeyHelp } from "./sample-key-help";
 import { NotLiveBadge, SampleBadge } from "./badges";
 import { PreviewAndRun } from "./preview-and-run";
 import { QuickScanForm } from "./quick-scan-form";
@@ -67,7 +68,10 @@ export async function QuickScanView({
           <p className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
             <NotLiveBadge />
             <SampleBadge />
-            {t("scan.sampleNote")}
+            <span>
+              {t("scan.sampleNote")}
+              <KeyHelp />
+            </span>
           </p>
         )}
       </div>

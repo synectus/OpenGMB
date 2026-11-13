@@ -1,5 +1,5 @@
 import { decryptSecret } from "../crypto";
-import { GoogleApiError } from "./errors";
+import { GoogleApiError, GoogleTokenRefreshError } from "./errors";
 import { getGoogleOAuthConfig } from "./oauth";
 
 const HTTP_TIMEOUT_MS = 10_000;
@@ -54,11 +54,7 @@ export function createAccessTokenProvider(
     if (!res.ok || typeof b.access_token !== "string" || !b.access_token) {
       // Only the OAuth error code is kept; the body never carries our secrets.
       const err = (body as { error?: unknown } | null)?.error;
-      throw new GoogleApiError(
-        res.ok ? 502 : res.status,
-        typeof err === "string" ? { error: err } : null,
-        "Google token refresh failed",
-      );
+      throw new GoogleTokenRefreshError(res.ok ? 502 : res.status, typeof err === "string" ? { error: err } : null);
     }
     const ttlMs = (typeof b.expires_in === "number" ? b.expires_in : 3600) * 1000;
     cached = { token: b.access_token, expiresAt: now() + ttlMs };

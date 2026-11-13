@@ -15,6 +15,7 @@
     "scale": "tsx scripts/scale/run.ts"
   },
   "dependencies": {
+    "@better-auth/oauth-provider": "1.7.7",
     "@next/env": "^16.4.1",
     "@opengmb/core": "workspace:*",
     "@opengmb/db": "workspace:*",

@@ -5,7 +5,8 @@ import { GOOGLE_LIMITS } from "../config/google-limits";
 import type { GoogleReview, ListReviewsResponse } from "../google/client";
 import { createGoogleClient } from "../google/factory";
 import { enqueueJob } from "../jobs";
-import { isGoogleRateLimit, googleRetryAfterMs } from "../google/errors";
+import { googleAccessKept } from "../google/access-lost";
+import { isGoogleAccessLost, isGoogleNotFound, isGoogleRateLimit, googleRetryAfterMs } from "../google/errors";
 import { orgStagger, rateLimitDelaySec } from "../google/rate-limit-retry";
 import { syncGooglePosts } from "../posts/google-sync";
 import { syncGoogleMedia } from "../media/google-sync";
@@ -113,6 +114,7 @@ export async function enqueueScheduledReviewSyncs(
         isNotNull(locations.connectionId),
         opts.orgIds ? inArray(locations.orgId, opts.orgIds) : undefined,
         orgIsActive(locations.orgId),
+        googleAccessKept(locations.connectionId), // OPS3: a connection whose access was removed waits for a reconnect
       ),
     );
   let queued = 0;
@@ -280,7 +282,16 @@ export async function processReviewMirror(
     if (!conn) return "skipped";
     client = createGoogleClient({ db, connection: conn });
   }
-  await runMirrorStep(db, loc, client, job.step);
+  try {
+    await runMirrorStep(db, loc, client, job.step);
+  } catch (e) {
+    // OPS3: retrying cannot fix these; the review sync records them for the customer.
+    if (isGoogleAccessLost(e) || isGoogleNotFound(e)) {
+      console.warn(`[reviews.mirror_sync] location ${loc.id} ${job.step} skipped: ${isGoogleAccessLost(e) ? "google_access_lost" : "google_location_not_found"}`);
+      return "skipped";
+    }
+    throw e;
+  }
   return "done";
 }
 
@@ -328,6 +339,16 @@ async function processReviewSyncReviews(
   try {
     fetched = await fetchAllReviews(client, loc.googleAccountName, loc.googleLocationId);
   } catch (e) {
+    // OPS3: permanent failures settle now. No throw, so no retries and no admin error; the customer sees the reason.
+    // 404 does not pause the location: the schedule keeps probing it and it recovers when Google answers again.
+    if (isGoogleAccessLost(e)) {
+      await failReviewSync(db, syncId, "google_access_lost");
+      return null;
+    }
+    if (isGoogleNotFound(e)) {
+      await failReviewSync(db, syncId, "google_location_not_found");
+      return null;
+    }
     // OPS2: a rate limit the worker will re-queue must leave the sync pending; once re-queues are
     // used up (deferRateLimit false) it fails like any final attempt.
     const final =

@@ -8,6 +8,7 @@ export type ErrorSource = "web" | "worker" | "mcp";
 export type ErrorInfo = { name: string; message: string; stack?: string };
 
 const MAX_MESSAGE = 300;
+const MAX_CONTEXT = 300;
 
 /**
  * A message that is safe to store and email: connection strings, bearer tokens, key=value secrets,
@@ -27,6 +28,20 @@ export function sanitizeMessage(raw: string): string {
     .replace(/\s+/g, " ")
     .trim()
     .slice(0, MAX_MESSAGE);
+}
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * OPS3: which records a failed job was about. Keeps ONLY top-level keys ending in `Id` whose value is a uuid string
+ * (`locationId=...`); no other payload text ever passes. Null when there is nothing to keep.
+ */
+export function jobContext(data: unknown): string | null {
+  if (!data || typeof data !== "object" || Array.isArray(data)) return null;
+  const parts = Object.entries(data as Record<string, unknown>)
+    .filter(([k, v]) => /^[a-z][A-Za-z]{0,40}Id$/.test(k) && typeof v === "string" && UUID.test(v))
+    .map(([k, v]) => `${k}=${v}`);
+  return parts.length ? parts.join(", ").slice(0, MAX_CONTEXT) : null;
 }
 
 /** The first stack line inside our own code, without line numbers, so the same bug keeps one fingerprint. */
@@ -62,16 +77,22 @@ export async function recordError(
   source: ErrorSource,
   info: ErrorInfo,
   now: Date = new Date(),
+  /** OPS3: `jobContext` of the failed job. Stored as the latest context; not part of the fingerprint or the count. */
+  context: string | null = null,
 ): Promise<boolean> {
   try {
     const fingerprint = fingerprintOf(source, info);
     const message = sanitizeMessage(`${info.name}: ${info.message}`);
     await db
       .insert(errorEvents)
-      .values({ fingerprint, source, message, firstSeenAt: now, lastSeenAt: now })
+      .values({ fingerprint, source, message, firstSeenAt: now, lastSeenAt: now, lastContext: context })
       .onConflictDoUpdate({
         target: errorEvents.fingerprint,
-        set: { count: sql`${errorEvents.count} + 1`, lastSeenAt: now },
+        set: {
+          count: sql`${errorEvents.count} + 1`,
+          lastSeenAt: now,
+          ...(context ? { lastContext: context } : {}),
+        },
       });
     // One statement claims the alert, so web replicas racing on the same error send one email.
     const windowStart = new Date(now.getTime() - MONITORING.alertWindowMs);

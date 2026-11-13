@@ -58,7 +58,7 @@ export function OwnKeyPanel({ keyState }: { keyState: Key }) {
   }
 
   return (
-    <section aria-label={t("key.panelLabel")} className="flex flex-col gap-3 rounded-panel border border-border bg-card p-(--panel-p) shadow-card">
+    <section id="own-key" aria-label={t("key.panelLabel")} className="flex scroll-mt-4 flex-col gap-3 rounded-panel border border-border bg-card p-(--panel-p) shadow-card">
       <h2 className="font-display text-base font-bold text-foreground">{t("key.heading")}</h2>
       <p className="text-sm text-foreground">{keyStatusLine(keyState, tf, t, tc)}</p>
       <p className="text-xs text-muted-foreground">

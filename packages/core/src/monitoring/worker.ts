@@ -2,7 +2,7 @@ import { eq, sql } from "drizzle-orm";
 import { monitorState, type Db, type Tx } from "@opengmb/db";
 import { MONITORING } from "../config/monitoring";
 import { sendAlert } from "./alert";
-import { recordError, sanitizeMessage } from "./errors";
+import { jobContext, recordError, sanitizeMessage } from "./errors";
 
 const HEARTBEAT = "worker_heartbeat";
 const DOWN = "worker_down";
@@ -66,16 +66,17 @@ export async function collectFailedJobs(db: Db, now: Date = new Date()): Promise
   // Kept as the database's own text so microseconds are not lost and a job is never read twice.
   const cursorText = cur.value ?? now.toISOString();
   const rows = (await db.execute(sql`
-    select name, output, completed_on::text as completed_at from pgboss.job
+    select name, output, data, completed_on::text as completed_at from pgboss.job
     where state = 'failed' and completed_on > ${cursorText}::timestamptz
     order by completed_on asc limit 200`)) as unknown as {
     name: string;
     output: { message?: string } | null;
+    data: unknown;
     completed_at: string;
   }[];
   for (const r of rows) {
     const message = typeof r.output?.message === "string" ? r.output.message : "job failed";
-    await recordError(db, "worker", { name: `job:${r.name}`, message: sanitizeMessage(message) }, now);
+    await recordError(db, "worker", { name: `job:${r.name}`, message: sanitizeMessage(message) }, now, jobContext(r.data));
   }
   if (rows.length > 0) {
     await db

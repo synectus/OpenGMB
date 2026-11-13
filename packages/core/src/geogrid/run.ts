@@ -113,7 +113,7 @@ export async function requestGridRuns(
   // The org budget is checked for every non-BYO request (a fixture request is a dry run of it).
   if (!byo) await assertWithinBudget(tx, config.orgId, total, now);
   // Snapshot where this run's data comes from. Collect always uses the run's own source.
-  const dataSource = p.drivers.dataSource(config.driverId);
+  const dataSource = p.drivers.dataSource(config.driverId, { byo });
   const live = dataSource === "live";
   const providerPerRun = roundUpUsd(pointCount(config) * taskPriceUsd(config.driverId, speed));
   // Our key pays: the platform's daily cap applies. BYO, fixture and sandbox runs spend none of it.
@@ -538,11 +538,12 @@ export async function processGridCollect(
   const { task, run, config } = row;
   // AP3b: suspended or deleted. The task stays `received`; the job is re-queued for later.
   if (await deferIfBlocked(db, run.orgId, GRID_COLLECT_QUEUE, { taskId })) return "skipped";
-  const driver = await driverForRun(db, deps.drivers, run);
   const target = { name: config.targetName, placeId: config.targetPlaceId, domain: config.targetDomain };
 
   let results;
   try {
+    // Inside the try: a key deleted since the request fails the task on the final attempt instead of throwing forever.
+    const driver = await driverForRun(db, deps.drivers, run);
     results = await driver.collect({ row: task.row, col: task.col, ref: task.taskRef! });
   } catch (e) {
     if (e instanceof DfsNotReadyError) {

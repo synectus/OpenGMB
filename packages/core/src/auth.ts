@@ -22,6 +22,14 @@ import { socialSignInMfaChallenge } from "./social-mfa";
 import { magicLinkPlugins } from "./magic-link";
 import {
   accounts,
+  jwks,
+  oauthAccessTokens,
+  oauthClientAssertions,
+  oauthClientResources,
+  oauthClients,
+  oauthConsents,
+  oauthRefreshTokens,
+  oauthResources,
   sessions,
   twoFactors,
   users,
@@ -29,6 +37,9 @@ import {
   type Db,
   type Tx,
 } from "@opengmb/db";
+import { oauthAddresses } from "./oauth/addresses";
+import { OAUTH_DISABLED_PATHS, oauthBeforeHook, oauthPlugins } from "./oauth/provider";
+import { registerRateRule } from "./oauth/trusted-registration";
 
 // ---------------------------------------------------------------------------
 // Session timeout policy (single source of truth).
@@ -87,6 +98,8 @@ export interface AuthOptions {
    * rows are inserted. Throwing here must roll back the user, account and session as well.
    */
   onProvisionOrganization?: (tx: Tx, userId: string) => Promise<void>;
+  /** Overrides oauthAddresses(process.env); tests pass their own. */
+  oauthEnv?: Record<string, string | undefined>;
 }
 
 /** The Drizzle transaction Better-Auth is currently running its adapter calls in. */
@@ -114,6 +127,7 @@ export function isGoogleConfigured(
 export function createAuth(db: Db, opts: AuthOptions = {}) {
   const clientId = opts.googleClientId ?? process.env.GOOGLE_CLIENT_ID;
   const clientSecret = opts.googleClientSecret ?? process.env.GOOGLE_CLIENT_SECRET;
+  const oauth = oauthAddresses(opts.oauthEnv ?? { ...process.env, BETTER_AUTH_URL: opts.baseURL ?? process.env.BETTER_AUTH_URL });
 
   // Better-Auth runs the adapter inside `db.transaction(tx => ...)` but never exposes `tx`.
   // Re-publish it through AsyncLocalStorage so our hook inserts on the same connection.
@@ -148,7 +162,7 @@ export function createAuth(db: Db, opts: AuthOptions = {}) {
     },
     ...(opts.enforceOriginCheck ? { advanced: { disableOriginCheck: false } } : {}),
     // usePlural maps model "user" -> schema.users, "twoFactor" -> schema.twoFactors, etc.
-    // The schema is passed explicitly so only the five Better-Auth tables are visible to it.
+    // The schema is passed explicitly so only the Better-Auth tables and the OAuth provider tables are visible to it.
     database: drizzleAdapter(txCapturingDb, {
       provider: "pg",
       // Wrap every request that creates a user in one DB transaction; see txStorage.
@@ -160,8 +174,19 @@ export function createAuth(db: Db, opts: AuthOptions = {}) {
         accounts,
         verifications,
         twoFactors,
+        oauthClients,
+        oauthResources,
+        oauthClientResources,
+        oauthRefreshTokens,
+        oauthAccessTokens,
+        oauthConsents,
+        oauthClientAssertions,
+        // usePlural looks the jwt plugin's model "jwks" up as "jwkss" (verified 2026-11-10, better-auth 1.7.7).
+        jwkss: jwks,
       },
     }),
+    disabledPaths: OAUTH_DISABLED_PATHS,
+    hooks: { before: oauthBeforeHook(db) },
     emailAndPassword: {
       enabled: true,
       disableSignUp: !signupEnabled(),
@@ -190,7 +215,11 @@ export function createAuth(db: Db, opts: AuthOptions = {}) {
     },
     rateLimit: {
       enabled: opts.rateLimitEnabled ?? process.env.NODE_ENV === "production",
-      customRules: { ...AUTH_RATE_LIMIT_RULES },
+      customRules: {
+        ...AUTH_RATE_LIMIT_RULES,
+        // Claude registers a client on every fresh connection, all from Anthropic's range (trusted-registration.ts).
+        "/oauth2/register": (req: Request, current: { window: number; max: number }) => registerRateRule(req, current),
+      },
     },
     databaseHooks: {
       // AP3b: every sign-in path (password, 2FA step, Google, magic link) creates a session, so this one check
@@ -250,6 +279,7 @@ export function createAuth(db: Db, opts: AuthOptions = {}) {
       passwordResetLimit(),
       // Client users can sign in with an emailed link; MFA still applies (see social-mfa.ts).
       ...magicLinkPlugins(db, opts.baseURL),
+      ...(oauth ? oauthPlugins(db, oauth) : []),
       ...(opts.plugins ?? []),
     ],
   });
@@ -274,11 +304,19 @@ export async function hasCredentialPassword(db: Db, userId: string): Promise<boo
 }
 
 /**
- * How many unused backup codes the user has. viewBackupCodes is server-only and returns the
- * decrypted codes, so only the count leaves this function. Throws if the user has no two-factor
- * row (callers run after requireAuthenticatedUser, which guarantees one).
+ * How many unused backup codes the user has, or null when they have no two-factor row (they never
+ * turned it on, or turned it off): viewBackupCodes throws BACKUP_CODES_NOT_ENABLED then, and null
+ * keeps "not set up" apart from "used every code" (0). Two-factor is optional (except for platform
+ * admins), so the Account page calls this for users who have none. viewBackupCodes is server-only
+ * and returns the decrypted codes, so only the count leaves this function.
  */
-export async function countBackupCodes(auth: Auth, userId: string): Promise<number> {
+export async function countBackupCodes(db: Db, auth: Auth, userId: string): Promise<number | null> {
+  const [row] = await db
+    .select({ id: twoFactors.id })
+    .from(twoFactors)
+    .where(eq(twoFactors.userId, userId))
+    .limit(1);
+  if (!row) return null;
   const out = await auth.api.viewBackupCodes({ body: { userId } });
   return out.backupCodes.length;
 }

@@ -12,6 +12,7 @@ import {
 import { AccessError, type Actor } from "../actor";
 import { CoreError } from "../errors";
 import { isClientRole } from "../client-role";
+import { endOAuthGrants } from "../oauth/connections";
 import { defineAction } from "../registry";
 
 const memberOut = z.object({
@@ -142,6 +143,8 @@ export const membersRemove = defineAction({
           after: { id: t.id, name: t.name, userId: target.userId, reason: "member removed" },
         });
       }
+      // The plugin's consents and refresh tokens too, or reconnecting would skip the consent page (oauth/connections.ts).
+      await endOAuthGrants(tx, { userId: target.userId, orgId: actor.orgId });
     }
     return { removed: true };
   },

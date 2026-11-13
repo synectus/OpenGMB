@@ -2,6 +2,7 @@ import { and, eq, isNotNull, isNull, sql } from "drizzle-orm";
 import { locations, type Db } from "@opengmb/db";
 import { enqueueJob } from "../jobs";
 import { LOCATION_CENTER_QUEUE, type LocationCenterJob } from "./center";
+import { googleAccessKept } from "../google/access-lost";
 
 /**
  * One-off backfill: queue a coordinate lookup for every active, Google-linked location that has none
@@ -23,6 +24,7 @@ export async function enqueueLocationCenterBackfill(
         isNotNull(locations.googleLocationId),
         isNotNull(locations.connectionId),
         opts.orgId ? eq(locations.orgId, opts.orgId) : undefined,
+        googleAccessKept(locations.connectionId), // OPS3
       ),
     );
   if (opts.dryRun) return { candidates: rows.length, enqueued: 0 };

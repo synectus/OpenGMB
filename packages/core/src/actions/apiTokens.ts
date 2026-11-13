@@ -80,11 +80,22 @@ export const apiTokensRevoke = defineAction({
   async preview({ actor, readTx }, input) {
     const [row] = await readTx((tx) =>
       tx
-        .select({ name: apiTokens.name, userId: apiTokens.userId, revokedAt: apiTokens.revokedAt })
+        .select({
+          name: apiTokens.name,
+          userId: apiTokens.userId,
+          revokedAt: apiTokens.revokedAt,
+          oauthClientId: apiTokens.oauthClientId,
+        })
         .from(apiTokens)
         .where(and(eq(apiTokens.id, input.id), eq(apiTokens.orgId, actor.orgId))),
     );
     if (!row) throw new AccessError("NOT_FOUND", "API token not found");
+    if (row.oauthClientId) {
+      return {
+        summary: `"${row.name}" is a connected app; revoking would fail with CONFLICT. Disconnect it instead.`,
+        diff: { before: { revoked: row.revokedAt !== null }, after: { revoked: true } },
+      };
+    }
     return {
       summary: row.revokedAt
         ? `API token "${row.name}" is already revoked; revoking would fail with CONFLICT.`

@@ -83,7 +83,9 @@ Also in the community edition:
 
 The MCP server exposes around 250 tools, one for every action in the app: list reviews, draft and submit replies, schedule posts, edit hours, pull performance, run a health check, and more. Writes go through the same guardrails and approvals as the web app.
 
-Create a token in **Settings → API tokens** (read only, or read and write), then add the server to your client. For Claude Code:
+Connect claude.ai, ChatGPT and Claude Code by pasting a URL (OAuth), or use API tokens. The URL way is in [SETUP.md](SETUP.md#connect-ai-apps).
+
+To use a token, create it in **Settings → API tokens** (read only, or read and write), then add the server to your client. For Claude Code with a token:
 
 ```sh
 claude mcp add --transport http opengmb https://your-mcp-host/mcp \

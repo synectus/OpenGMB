@@ -104,6 +104,9 @@ async function assistantActor(db: Db, actor: Actor): Promise<Actor> {
           eq(apiTokens.orgId, actor.orgId),
           eq(apiTokens.userId, actor.userId),
           inArray(apiTokens.name, [ASSISTANT.tokenName, ...ASSISTANT.legacyTokenNames]),
+          // A connected app's row takes its name from the app's own client_name, so a look-alike app could be named
+          // like the assistant: only a hidden token row (no OAuth client) is ever the assistant's.
+          isNull(apiTokens.oauthClientId),
           isNull(apiTokens.revokedAt),
         ),
       )

@@ -10,6 +10,8 @@ import {
   isCentre,
   legendFor,
   mapsScriptUrl,
+  pinLinkName,
+  pinMapsUrl,
   MAX_ZOOM,
   MIN_ZOOM,
   pinClass,
@@ -125,5 +127,23 @@ describe("mapsScriptUrl", () => {
     expect(mapsScriptUrl("AIza test&x", "cb")).toBe(
       "https://maps.googleapis.com/maps/api/js?key=AIza+test%26x&v=quarterly&loading=async&callback=cb",
     );
+  });
+});
+
+describe("pinMapsUrl", () => {
+  it("links a grid point to the same search on Google Maps at that spot", () => {
+    expect(pinMapsUrl({ lat: 30.2672, lng: -97.7431 }, "pizza near me", 13)).toBe(
+      "https://www.google.com/maps/search/pizza%20near%20me/@30.2672,-97.7431,13z",
+    );
+  });
+});
+
+describe("pinLinkName", () => {
+  it("keeps the rank in the link's accessible name next to the Maps hint", () => {
+    const pt = { row: 0, col: 1, lat: 1, lng: 2, rank: 3, pending: false };
+    const name = pinLinkName(pinTitle(pt, 5, "Acme"), "Check this pin on Google Maps (row 1, column 2)");
+    expect(name).toBe("rank 3. Check this pin on Google Maps (row 1, column 2)");
+    expect(name).toContain("rank 3");
+    expect(pinLinkName(pinTitle({ ...pt, rank: null }, 5, "Acme"), "x")).toContain("not found");
   });
 });

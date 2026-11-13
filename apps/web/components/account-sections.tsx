@@ -38,6 +38,7 @@ export async function AccountSections({ userId, email }: { userId: string; email
   ]);
   const t = await getTranslations("account");
   const tc = await getTranslations("common");
+  const tf = await getTranslations("twoFactor");
   const client = isClientRole(ctx.role);
   let workspaceNames: string[] = [];
   if (client) {
@@ -67,7 +68,14 @@ export async function AccountSections({ userId, email }: { userId: string; email
       </Panel>
 
       <Panel title={t("twoFactor")}>
-        <TwoFactorPanel hasPassword={hasPassword} left={left} total={BACKUP_CODE_COUNT} />
+        {session?.user.twoFactorEnabled && left !== null ? (
+          <TwoFactorPanel hasPassword={hasPassword} left={left} total={BACKUP_CODE_COUNT} />
+        ) : (
+          <div className="flex flex-col gap-3 text-sm">
+            <p>{tf("offNote")}</p>
+            <Link href="/mfa/setup" className={`${secondaryButtonClass} self-start`}>{tf("turnOn")}</Link>
+          </div>
+        )}
       </Panel>
 
       <Panel title={t("display")}>

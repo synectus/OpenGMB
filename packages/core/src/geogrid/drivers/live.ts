@@ -1,7 +1,7 @@
 import { livePlacesTransport, placesServerKey, placesSource } from "../../places/client";
 import { createDriverRegistry } from "./index";
 import { liveDataForSeoTransport } from "./live-dataforseo";
-import { platformDataForSeoCredentials, rankSource } from "./source";
+import { byoRankSource, platformDataForSeoCredentials, rankSource } from "./source";
 
 /**
  * The registry production code uses: live DataForSEO and Places when the server has the keys, fixtures
@@ -10,6 +10,7 @@ import { platformDataForSeoCredentials, rankSource } from "./source";
 export function createLiveDriverRegistry() {
   return createDriverRegistry({
     source: () => rankSource(),
+    byoSource: () => byoRankSource(),
     placesSource: () => placesSource(),
     liveDataForSeo: (baseUrl) =>
       liveDataForSeoTransport({ baseUrl, credentials: platformDataForSeoCredentials }),

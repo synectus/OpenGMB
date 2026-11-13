@@ -154,7 +154,7 @@ export const postsBulkPreview = defineAction({
 
 export const postsBulkCreateDrafts = defineAction({
   name: "posts.bulkCreateDrafts",
-  description: `Create one DRAFT post per row of a CSV (same format and variables as posts.bulkPreview, at most ${BULK_POST_LIMITS.maxRows} rows). ALL OR NOTHING: the file is re-validated here, and if the file or any row has an error nothing is created (INVALID_INPUT lists the first problems; run posts.bulkPreview and fix them). Each draft is made exactly as posts.createDraft makes it (one location, the workspace's default language, audit row per draft), so it still needs posts.submit, approval and posts.schedule: nothing is submitted, scheduled or sent. Guardrail findings do not stop a draft (posts.check shows them; submit blocks).`,
+  description: `Create one DRAFT post per row of a CSV (same format and variables as posts.bulkPreview, at most ${BULK_POST_LIMITS.maxRows} rows). ALL OR NOTHING: the file is re-validated here, and if the file or any row has an error nothing is created (INVALID_INPUT lists the first problems; run posts.bulkPreview and fix them). Each draft is made exactly as posts.createDraft makes it (one location, the workspace's default language, audit row per draft), so it still needs posts.submit and a person's approval and scheduling in OpenGMB: nothing is submitted, scheduled or sent. Guardrail findings do not stop a draft (posts.check shows them; submit blocks).`,
   input: z.object(inputShape),
   output: z.object({
     created: z.number().int(),

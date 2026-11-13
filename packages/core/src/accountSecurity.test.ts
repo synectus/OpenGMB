@@ -77,18 +77,39 @@ async function enrolled() {
   return { c, email, password, uri, userId: s!.user.id, codes: enable.json!.backupCodes! };
 }
 
+describe("backup codes without two-factor", () => {
+  it("countBackupCodes is null (not 0, not a throw) for a user who never turned two-factor on; /account renders for them", async () => {
+    const c = new Client();
+    const email = `nofa-${Date.now()}-${Math.random().toString(36).slice(2, 8)}@example.test`;
+    expect((await c.post("/sign-up/email", { name: "No2fa", email, password: "correct-horse-battery-staple" })).res.status).toBe(200);
+    const s = await c.session();
+    expect(await countBackupCodes(db, auth, s!.user.id)).toBeNull();
+    // Canary: the raw call is what crashed /account in production (APIError 400 BACKUP_CODES_NOT_ENABLED).
+    await expect(auth.api.viewBackupCodes({ body: { userId: s!.user.id } })).rejects.toMatchObject({
+      status: "BAD_REQUEST",
+      body: { code: "BACKUP_CODES_NOT_ENABLED" },
+    });
+  });
+
+  it("is null again after the user turns two-factor off", async () => {
+    const u = await enrolled();
+    expect((await u.c.post("/two-factor/disable", { password: u.password })).res.status).toBe(200);
+    expect(await countBackupCodes(db, auth, u.userId)).toBeNull();
+  });
+});
+
 describe("backup codes", () => {
   it("enable hands out BACKUP_CODE_COUNT codes and countBackupCodes reads the same number", async () => {
     expect(BACKUP_CODE_COUNT).toBe(10);
     const u = await enrolled();
     expect(u.codes).toHaveLength(BACKUP_CODE_COUNT);
-    expect(await countBackupCodes(auth, u.userId)).toBe(BACKUP_CODE_COUNT);
+    expect(await countBackupCodes(db, auth, u.userId)).toBe(BACKUP_CODE_COUNT);
   });
 
   it("a used code is gone; new codes need the password and replace the whole set", async () => {
     const u = await enrolled();
     expect((await u.c.post("/two-factor/verify-backup-code", { code: u.codes[0] })).res.status).toBe(200);
-    expect(await countBackupCodes(auth, u.userId)).toBe(BACKUP_CODE_COUNT - 1);
+    expect(await countBackupCodes(db, auth, u.userId)).toBe(BACKUP_CODE_COUNT - 1);
 
     expect((await u.c.post("/two-factor/generate-backup-codes", {})).res.status).toBe(400);
     const wrong = await u.c.post("/two-factor/generate-backup-codes", { password: "nope-nope-nope" });
@@ -98,24 +119,24 @@ describe("backup codes", () => {
     const fresh = await u.c.post("/two-factor/generate-backup-codes", { password: u.password });
     expect(fresh.res.status).toBe(200);
     expect(fresh.json!.backupCodes).toHaveLength(BACKUP_CODE_COUNT);
-    expect(await countBackupCodes(auth, u.userId)).toBe(BACKUP_CODE_COUNT);
+    expect(await countBackupCodes(db, auth, u.userId)).toBe(BACKUP_CODE_COUNT);
     // An old code no longer works.
     expect((await u.c.post("/two-factor/verify-backup-code", { code: u.codes[1] })).res.status).toBe(401);
   });
 });
 
 describe("reset authenticator app = disable, then the normal setup", () => {
-  it("disable sends the person to setup (MFA_REQUIRED); enrolling again gives a new secret and full codes", async () => {
+  it("disable leaves a non-admin signed in (two-factor is optional); enrolling again gives a new secret and full codes", async () => {
     const u = await enrolled();
     expect((await u.c.post("/two-factor/disable", { password: u.password })).res.status).toBe(200);
-    expect(gate(await u.c.session())).toBe("MFA_REQUIRED");
+    expect(gate(await u.c.session())).toBe("ok");
 
     const again = await u.c.post("/two-factor/enable", { password: u.password });
     expect(again.res.status).toBe(200);
     expect(again.json!.totpURI).not.toBe(u.uri);
     await u.c.post("/two-factor/verify-totp", { code: await totp(again.json!.totpURI!) });
     expect(gate(await u.c.session())).toBe("ok");
-    expect(await countBackupCodes(auth, u.userId)).toBe(BACKUP_CODE_COUNT);
+    expect(await countBackupCodes(db, auth, u.userId)).toBe(BACKUP_CODE_COUNT);
   });
 
   it("enable on an enrolled account is refused, which is why reset goes through disable (canary)", async () => {

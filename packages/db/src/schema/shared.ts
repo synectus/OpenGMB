@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import {
+  type AnyPgColumn,
   bigint,
   bigserial,
   boolean,
@@ -114,6 +115,195 @@ export const twoFactors = pgTable(
 );
 
 // ---------------------------------------------------------------------------
+// @better-auth/oauth-provider 1.7.7 and the jwt plugin (remote MCP over OAuth). Field names and
+// required flags follow the plugin schema; the adapter maps model "oauthClient" -> oauthClients
+// (usePlural). Verified against node_modules/@better-auth/oauth-provider/dist (2026-11-10).
+// ---------------------------------------------------------------------------
+const tsz = (name: string) => timestamp(name, { withTimezone: true });
+
+export const oauthClients = pgTable(
+  "oauth_clients",
+  {
+    id: text("id").primaryKey(),
+    clientId: text("client_id").notNull().unique(),
+    clientSecret: text("client_secret"),
+    clientDiscoveryId: text("client_discovery_id"),
+    disabled: boolean("disabled").default(false),
+    skipConsent: boolean("skip_consent"),
+    enableEndSession: boolean("enable_end_session"),
+    subjectType: text("subject_type"),
+    scopes: text("scopes").array(),
+    clientCredentialsScopes: text("client_credentials_scopes").array().default(sql`'{}'::text[]`),
+    userId: text("user_id").references(() => users.id, { onDelete: "cascade" }),
+    createdAt: tsz("created_at").defaultNow(),
+    updatedAt: tsz("updated_at").defaultNow(),
+    name: text("name"),
+    uri: text("uri"),
+    icon: text("icon"),
+    contacts: text("contacts").array(),
+    tos: text("tos"),
+    policy: text("policy"),
+    softwareId: text("software_id"),
+    softwareVersion: text("software_version"),
+    softwareStatement: text("software_statement"),
+    redirectUris: text("redirect_uris").array().notNull(),
+    postLogoutRedirectUris: text("post_logout_redirect_uris").array(),
+    backchannelLogoutUri: text("backchannel_logout_uri"),
+    backchannelLogoutSessionRequired: boolean("backchannel_logout_session_required"),
+    tokenEndpointAuthMethod: text("token_endpoint_auth_method"),
+    applicationType: text("application_type"),
+    jwks: text("jwks"),
+    jwksUri: text("jwks_uri"),
+    grantTypes: text("grant_types").array(),
+    responseTypes: text("response_types").array(),
+    requirePKCE: boolean("require_pkce"),
+    dpopBoundAccessTokens: boolean("dpop_bound_access_tokens").default(false),
+    referenceId: text("reference_id"),
+    metadata: jsonb("metadata"),
+  },
+  (t) => [index("oauth_clients_user_id_idx").on(t.userId)],
+);
+
+export const oauthResources = pgTable("oauth_resources", {
+  id: text("id").primaryKey(),
+  identifier: text("identifier").notNull().unique(),
+  name: text("name").notNull(),
+  accessTokenTtl: integer("access_token_ttl"),
+  refreshTokenTtl: integer("refresh_token_ttl"),
+  signingAlgorithm: text("signing_algorithm"),
+  signingKeyId: text("signing_key_id"),
+  allowedScopes: text("allowed_scopes").array(),
+  customClaims: jsonb("custom_claims"),
+  dpopBoundAccessTokensRequired: boolean("dpop_bound_access_tokens_required").default(false),
+  disabled: boolean("disabled").default(false),
+  createdAt: tsz("created_at").defaultNow(),
+  updatedAt: tsz("updated_at").defaultNow(),
+  policyVersion: integer("policy_version").default(1),
+  metadata: jsonb("metadata"),
+});
+
+export const oauthClientResources = pgTable(
+  "oauth_client_resources",
+  {
+    id: text("id").primaryKey(),
+    clientId: text("client_id")
+      .notNull()
+      .references(() => oauthClients.clientId, { onDelete: "cascade" }),
+    resourceId: text("resource_id")
+      .notNull()
+      .references(() => oauthResources.identifier, { onDelete: "cascade" }),
+    metadata: jsonb("metadata"),
+    createdAt: tsz("created_at").defaultNow(),
+  },
+  (t) => [
+    index("oauth_client_resources_client_id_idx").on(t.clientId),
+    index("oauth_client_resources_resource_id_idx").on(t.resourceId),
+    uniqueIndex("oauth_client_resources_client_resource_unique").on(t.clientId, t.resourceId),
+  ],
+);
+
+export const oauthRefreshTokens = pgTable(
+  "oauth_refresh_tokens",
+  {
+    id: text("id").primaryKey(),
+    token: text("token").notNull().unique(),
+    clientId: text("client_id")
+      .notNull()
+      .references(() => oauthClients.clientId, { onDelete: "cascade" }),
+    sessionId: text("session_id").references(() => sessions.id, { onDelete: "set null" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    referenceId: text("reference_id"),
+    authorizationCodeId: text("authorization_code_id"),
+    resources: text("resources").array(),
+    requestedUserInfoClaims: text("requested_user_info_claims").array(),
+    expiresAt: tsz("expires_at"),
+    createdAt: tsz("created_at").defaultNow(),
+    revoked: tsz("revoked"),
+    rotatedAt: tsz("rotated_at"),
+    rotationReplayResponse: text("rotation_replay_response"),
+    rotationReplayExpiresAt: tsz("rotation_replay_expires_at"),
+    authTime: tsz("auth_time"),
+    confirmation: jsonb("confirmation"),
+    scopes: text("scopes").array().notNull(),
+  },
+  (t) => [
+    index("oauth_refresh_tokens_client_id_idx").on(t.clientId),
+    index("oauth_refresh_tokens_session_id_idx").on(t.sessionId),
+    index("oauth_refresh_tokens_user_id_idx").on(t.userId),
+    index("oauth_refresh_tokens_authorization_code_id_idx").on(t.authorizationCodeId),
+  ],
+);
+
+export const oauthAccessTokens = pgTable(
+  "oauth_access_tokens",
+  {
+    id: text("id").primaryKey(),
+    token: text("token").unique(),
+    clientId: text("client_id")
+      .notNull()
+      .references(() => oauthClients.clientId, { onDelete: "cascade" }),
+    sessionId: text("session_id").references(() => sessions.id, { onDelete: "set null" }),
+    userId: text("user_id").references(() => users.id, { onDelete: "cascade" }),
+    referenceId: text("reference_id"),
+    authorizationCodeId: text("authorization_code_id"),
+    resources: text("resources").array(),
+    requestedUserInfoClaims: text("requested_user_info_claims").array(),
+    refreshId: text("refresh_id").references(() => oauthRefreshTokens.id, { onDelete: "cascade" }),
+    expiresAt: tsz("expires_at"),
+    createdAt: tsz("created_at").defaultNow(),
+    revoked: tsz("revoked"),
+    confirmation: jsonb("confirmation"),
+    scopes: text("scopes").array().notNull(),
+  },
+  (t) => [
+    index("oauth_access_tokens_client_id_idx").on(t.clientId),
+    index("oauth_access_tokens_session_id_idx").on(t.sessionId),
+    index("oauth_access_tokens_user_id_idx").on(t.userId),
+    index("oauth_access_tokens_authorization_code_id_idx").on(t.authorizationCodeId),
+    index("oauth_access_tokens_refresh_id_idx").on(t.refreshId),
+  ],
+);
+
+export const oauthConsents = pgTable(
+  "oauth_consents",
+  {
+    id: text("id").primaryKey(),
+    clientId: text("client_id")
+      .notNull()
+      .references(() => oauthClients.clientId, { onDelete: "cascade" }),
+    userId: text("user_id").references(() => users.id, { onDelete: "cascade" }),
+    referenceId: text("reference_id"),
+    resources: text("resources").array(),
+    requestedUserInfoClaims: text("requested_user_info_claims").array(),
+    scopes: text("scopes").array().notNull(),
+    createdAt: tsz("created_at").defaultNow(),
+    updatedAt: tsz("updated_at").defaultNow(),
+  },
+  (t) => [
+    index("oauth_consents_client_id_idx").on(t.clientId),
+    index("oauth_consents_user_id_idx").on(t.userId),
+  ],
+);
+
+export const oauthClientAssertions = pgTable("oauth_client_assertions", {
+  id: text("id").primaryKey(),
+  expiresAt: tsz("expires_at").notNull(),
+});
+
+/** The jwt plugin's signing keys. publicKey is a JSON public JWK; privateKey is encrypted with BETTER_AUTH_SECRET. */
+export const jwks = pgTable("jwks", {
+  id: text("id").primaryKey(),
+  publicKey: text("public_key").notNull(),
+  privateKey: text("private_key").notNull(),
+  createdAt: tsz("created_at").notNull().defaultNow(),
+  expiresAt: tsz("expires_at"),
+  alg: text("alg"),
+  crv: text("crv"),
+});
+
+// ---------------------------------------------------------------------------
 // Tenant tables. Every one except organizations carries org_id NOT NULL.
 // ---------------------------------------------------------------------------
 export const membershipRole = pgEnum("membership_role", [
@@ -134,6 +324,8 @@ export const organizations = pgTable("organizations", {
   setupDismissedAt: timestamp("setup_dismissed_at", { withTimezone: true }),
   /** An owner switched AI features off for the whole account. While set, no content is sent to Anthropic or OpenAI. */
   aiDisabledAt: timestamp("ai_disabled_at", { withTimezone: true }),
+  /** ON2: the review the one free first reply draft was written for; set once per organization, on the user's click. */
+  firstDraftReviewId: uuid("first_draft_review_id").references((): AnyPgColumn => reviews.id, { onDelete: "set null" }),
   createdAt: createdAt(),
 });
 
@@ -379,6 +571,8 @@ export const googleConnections = pgTable(
     googleAccountEmail: text("google_account_email").notNull(),
     refreshTokenEnc: text("refresh_token_enc").notNull(),
     scopes: text("scopes").array().notNull(),
+    /** OPS3: set when Google says the refresh token is dead (customer removed access); cleared by a good refresh or a reconnect. */
+    accessLostAt: timestamp("access_lost_at", { withTimezone: true }),
     createdAt: createdAt(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
@@ -445,25 +639,41 @@ export const auditCheckpoints = pgTable("audit_checkpoints", {
   signature: text("signature").notNull(),
 });
 
-export const apiTokens = pgTable("api_tokens", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  orgId: orgId(),
-  userId: text("user_id")
-    .notNull()
-    .references(() => users.id),
-  name: text("name").notNull(),
-  tokenHash: text("token_hash").notNull().unique(),
-  /** 'read' and/or 'write'. Existing tokens keep read+write. Enforced in core (executor), never in MCP code. */
-  scopes: text("scopes")
-    .array()
-    .notNull()
-    .default(sql`ARRAY['read','write']::text[]`),
-  /** 'human_in_the_loop' (default, also for tokens that predate this setting) or 'full_autonomy'. Enforced in core authorizeAction. */
-  mode: text("mode").notNull().default("human_in_the_loop"),
-  createdAt: createdAt(),
-  lastUsedAt: timestamp("last_used_at", { withTimezone: true }),
-  revokedAt: timestamp("revoked_at", { withTimezone: true }),
-});
+export const apiTokens = pgTable(
+  "api_tokens",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: orgId(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id),
+    name: text("name").notNull(),
+    tokenHash: text("token_hash").notNull().unique(),
+    /** 'read' and/or 'write'. Existing tokens keep read+write. Enforced in core (executor), never in MCP code. */
+    scopes: text("scopes")
+      .array()
+      .notNull()
+      .default(sql`ARRAY['read','write']::text[]`),
+    /** 'human_in_the_loop' (default, also for tokens that predate this setting) or 'full_autonomy'. Enforced in core authorizeAction. */
+    mode: text("mode").notNull().default("human_in_the_loop"),
+    createdAt: createdAt(),
+    lastUsedAt: timestamp("last_used_at", { withTimezone: true }),
+    revokedAt: timestamp("revoked_at", { withTimezone: true }),
+    /**
+     * Set for a connection made over OAuth (Connected apps): the plugin's client_id. Such a row's token_hash is the
+     * hash of a random secret nobody holds, so no sgmb_ token can match it. Null for an ordinary token.
+     */
+    oauthClientId: text("oauth_client_id"),
+    /** OAuth rows only: the host the app's redirect URI points at, shown on Connected apps. */
+    redirectHost: text("redirect_host"),
+  },
+  (t) => [
+    // One live connection per person, organization and app; a revoked row is never revived (spec step 5).
+    uniqueIndex("api_tokens_live_oauth_unique")
+      .on(t.userId, t.orgId, t.oauthClientId)
+      .where(sql`${t.revokedAt} is null and ${t.oauthClientId} is not null`),
+  ],
+);
 
 /**
  * Fixed-window counters for the Google API throttler, shared by every process (web, mcp, worker)
@@ -726,7 +936,7 @@ export const reviewSyncs = pgTable("review_syncs", {
   error: text("error"),
   createdAt: createdAt(),
   finishedAt: timestamp("finished_at", { withTimezone: true }),
-});
+}, (t) => [index("review_syncs_location_finished_idx").on(t.locationId, t.finishedAt.desc())]);
 
 /**
  * One row per review the draft-on-arrival job has handled. The primary key is the idempotency
@@ -1697,6 +1907,59 @@ export const aiVisibilityResults = pgTable(
   (t) => [index("ai_visibility_results_run_idx").on(t.runId)],
 );
 
+export const seoResearchStatuses = ["queued", "running", "done", "failed"] as const;
+/** SEO1: one keyword research search. Rows are stored inline (at most 300). */
+export const seoKeywordResearchRuns = pgTable(
+  "seo_keyword_research_runs",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: orgId(),
+    workspaceId: uuid("workspace_id").notNull().references(() => workspaces.id, { onDelete: "cascade" }),
+    locationId: uuid("location_id").references(() => locations.id, { onDelete: "set null" }),
+    seed: text("seed").notNull(),
+    countryIso: text("country_iso").notNull(),
+    languageCode: text("language_code").notNull(),
+    /** DataForSEO canonical geotarget name, for example "Austin,Texas,United States". Null = national only. */
+    cityLocationName: text("city_location_name"),
+    rowLimit: integer("row_limit").notNull(),
+    cacheKey: text("cache_key").notNull(),
+    dataSource: text("data_source", { enum: ["fixture", "sandbox", "live"] }).notNull(),
+    status: text("status", { enum: seoResearchStatuses }).notNull().default("queued"),
+    /** Reserved at request time: estimate x (1 + markup). The charge never exceeds it. */
+    estimateChargeUsd: numeric("estimate_charge_usd", { precision: 12, scale: 4 }).notNull(),
+    providerCostUsd: numeric("provider_cost_usd", { precision: 12, scale: 6 }),
+    chargedUsd: numeric("charged_usd", { precision: 12, scale: 4 }),
+    spendId: uuid("spend_id"),
+    rows: jsonb("rows").notNull().default([]),
+    /** Why local volume is missing (Ads call failed or no keyword was valid); the Labs rows still stand. */
+    localVolumeNote: text("local_volume_note"),
+    error: text("error"),
+    createdBy: text("created_by"),
+    createdAt: createdAt(),
+    /** Set when the worker claims the run; a run left running past the stale age is re-claimed or failed. */
+    startedAt: timestamp("started_at", { withTimezone: true }),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+  },
+  (t) => [
+    index("seo_kr_runs_ws_idx").on(t.workspaceId, t.createdAt),
+    index("seo_kr_runs_cache_idx").on(t.cacheKey, t.createdAt),
+    index("seo_kr_runs_org_idx").on(t.orgId, t.createdAt),
+  ],
+);
+
+/** SEO1: DataForSEO Google Ads geotargets for the city picker. Platform data, not tenant data. */
+export const dfsGeoLocations = pgTable(
+  "dfs_geo_locations",
+  {
+    countryIso: text("country_iso").notNull(),
+    locationCode: integer("location_code").notNull(),
+    locationName: text("location_name").notNull(),
+    locationType: text("location_type").notNull(),
+    fetchedAt: timestamp("fetched_at", { withTimezone: true }).notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.countryIso, t.locationCode] }), index("dfs_geo_locations_name_idx").on(t.countryIso, t.locationName)],
+);
+
 /**
  * One driver task per grid point. For pingback drivers `token_hash` is sha256 of the per-task
  * secret embedded in the pingback URL; the secret itself is never stored.
@@ -2602,6 +2865,8 @@ export const errorEvents = pgTable(
     firstSeenAt: timestamp("first_seen_at", { withTimezone: true }).notNull(),
     lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).notNull(),
     lastAlertedAt: timestamp("last_alerted_at", { withTimezone: true }),
+    /** OPS3: ids (`...Id` keys with uuid values) from the newest failed job's data. Platform admins only; not part of the fingerprint. */
+    lastContext: text("last_context"),
   },
   (t) => [index("error_events_last_seen_idx").on(t.lastSeenAt)],
 );

@@ -36,3 +36,7 @@ export async function isReadOnlyAccount(_tx: Tx, _orgId: string, _now: Date, _en
 export function assertHumanBillingCaller(actor: Pick<Actor, "actorType">): void {
   if (actor.actorType === "api_token") throw new AccessError("FORBIDDEN", "API tokens cannot change this setting");
 }
+
+export async function availableCreditUsd(_tx: Tx, _orgId: string, _now: Date, _env?: Env): Promise<number | null> {
+  return null;
+}

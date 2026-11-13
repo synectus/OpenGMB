@@ -23,12 +23,14 @@ const connectionOut = z.object({
   createdAt: z.string(),
   updatedAt: z.string(),
   connectedBy: z.string(),
+  /** OPS3: true when Google refused our refresh token (the customer removed access). Reviews, posts and stats are not updating; reconnecting the SAME Google account fixes it. */
+  accessLost: z.boolean(),
 });
 
 export const googleConnectionsList = defineAction({
   name: "googleConnections.list",
   description:
-    "List the Google accounts connected to the caller's organization for Business Profile access, newest first. Never returns token material. configured is false when the server has no Google OAuth credentials, in which case connecting is unavailable. sampleAvailable is true only in mock mode (GOOGLE_BUSINESS_API_MODE=mock), where googleConnections.connectSample can add the sample Google account.",
+    "List the Google accounts connected to the caller's organization for Business Profile access, newest first. accessLost is true when Google removed our access (reconnect the same Google account to resume updates). Never returns token material. configured is false when the server has no Google OAuth credentials, in which case connecting is unavailable. sampleAvailable is true only in mock mode (GOOGLE_BUSINESS_API_MODE=mock), where googleConnections.connectSample can add the sample Google account.",
   input: z.object({}),
   output: z.object({ configured: z.boolean(), sampleAvailable: z.boolean(), connections: z.array(connectionOut) }),
   permission: "google:read",
@@ -51,6 +53,7 @@ export const googleConnectionsList = defineAction({
         createdAt: c.createdAt.toISOString(),
         updatedAt: c.updatedAt.toISOString(),
         connectedBy,
+        accessLost: c.accessLostAt !== null,
       })),
     };
   },

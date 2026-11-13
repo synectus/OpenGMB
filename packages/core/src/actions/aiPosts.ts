@@ -107,7 +107,7 @@ export function parseIdeas(text: string): string[] {
 
 export const aiPostIdeas = defineAction({
   name: "ai.postIdeas",
-  description: `Suggest ${IDEA_COUNT} short Google post ideas for one location with AI, drawn from its services, a general theme of its recent positive reviews (never a quote or a reviewer's name; none at all for healthcare clients) and the occasions coming up in the next 60 days for the client's market (US, AU or IN, from the client's time zone). One AI call, metered and audited like ai.draftText. status 'ok' returns ideas; status 'blocked' returns blockedRuleIds and no ideas. Pick one, then call ai.draftPost with it. Refused with AI_BUDGET_EXCEEDED over the monthly cap, NOT_CONFIGURED when this server has no AI key. Nothing is saved. Needs review:draft (owner, admin, manager).`,
+  description: `Suggest ${IDEA_COUNT} short Google post ideas for one location with AI, drawn from its services, a general theme of its recent positive reviews (never a quote or a reviewer's name; none at all for healthcare clients) and the occasions coming up in the next 60 days for the client's market (US, AU or IN, from the client's time zone). One AI call, metered and audited like ai.draftText. status 'ok' returns ideas; status 'blocked' returns blockedRuleIds and no ideas. An idea can be passed to ai.draftPost to become a draft. Refused with AI_BUDGET_EXCEEDED over the monthly cap, NOT_CONFIGURED when this server has no AI key. Nothing is saved. Needs review:draft (owner, admin, manager).`,
   input: z.object({
     workspaceId: z.uuid(),
     locationId: z.uuid(),

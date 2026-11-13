@@ -231,6 +231,20 @@ describe("sending, one reminder, clicks and opt-out (fixed clock, fake sender)",
     expect(emails.flatMap(to)).toHaveLength(3);
   });
 
+  it("rows dated after the sweep's clock do not use up today's allowance", async () => {
+    // The allowance counts the whole server: clear sends left on these fixed days by earlier runs.
+    await db.delete(reviewRequestRecipients).where(and(gte(reviewRequestRecipients.sentAt, at(25, 0)), lte(reviewRequestRecipients.sentAt, at(27, 0))));
+    const other = await setup();
+    const oid = await mkCampaign(other.org, other.loc);
+    for (let i = 0; i < 2; i++) await addOne(other.org, oid, mail());
+    await db.update(reviewRequestRecipients).set({ status: "sent", sentAt: at(26, 23), reminderSentAt: at(26, 23) }).where(eq(reviewRequestRecipients.campaignId, oid));
+    const { org, loc } = await setup();
+    const id = await mkCampaign(org, loc);
+    await addOne(org, id, mail());
+    await start(org, id);
+    expect(await sweep(org, at(26), { dailyLimit: 2 })).toMatchObject({ sent: 1 });
+  });
+
   it("does nothing when the public URL is missing, and a cancelled campaign sends nothing", async () => {
     const { org, loc } = await setup();
     const id = await mkCampaign(org, loc);

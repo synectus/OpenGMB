@@ -136,7 +136,7 @@ export const primaryLinkButtonClass =
 
 /** Compact form controls for filter bars. */
 export const filterFieldClass =
-  "min-h-(--control-h) rounded-control border border-input bg-card px-2 py-1.5 text-sm font-normal text-foreground";
+  "min-h-(--control-h) max-w-full rounded-control border border-input bg-card px-2 py-1.5 text-sm font-normal text-foreground";
 
 /** Table pieces: header cell and body cell with comfortable density. */
 export const thClass = "px-3 py-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground";

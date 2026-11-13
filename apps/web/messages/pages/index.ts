@@ -21,6 +21,8 @@ import reviews from "./reviews";
 import reviewTopics from "./reviewTopics";
 import reviewsTools from "./reviewsTools";
 import scope from "./scope";
+import seoKeywords from "./seoKeywords";
+import seoKeywordsCost from "./seoKeywordsCost";
 import settings from "./settings";
 import settingsStatus from "./settingsStatus";
 import settingsTeam from "./settingsTeam";
@@ -53,6 +55,8 @@ export const PAGES = {
   reviewTopics,
   reviewsTools,
   scope,
+  seoKeywords,
+  seoKeywordsCost,
   settings,
   settingsStatus,
   settingsTeam,

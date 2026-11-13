@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  firstImportPick,
   locationLabel,
   SHIPPED_VIEWS,
   STATUS_FILTERS,
@@ -200,5 +201,18 @@ describe("locationLabel", () => {
     expect(locationLabel({ name: "Ace", addressSummary: null, phone: "+1 555 0100" })).toBe("Ace (+1 555 0100)");
     expect(locationLabel({ name: "Ace", addressSummary: " ", phone: "" })).toBe("Ace");
     expect(locationLabel({ title: "Ace" })).toBe("Ace");
+  });
+});
+
+describe("firstImportPick", () => {
+  const acc = (locs: object[]) => [{ accountName: "accounts/1", displayName: "A", truncated: false, locations: locs }] as Parameters<typeof firstImportPick>[0];
+  const loc = (n: string, o: object = {}) => ({ locationName: n, title: n, phone: null, addressSummary: null, hasVoiceOfMerchant: true, alreadyImported: false, needsRelink: false, importedWorkspace: null, ...o });
+  it("picks the first importable, verified location", () => {
+    expect(firstImportPick(acc([loc("l/1", { alreadyImported: true }), loc("l/2", { hasVoiceOfMerchant: false }), loc("l/3")]))).toEqual({ "l/3": "accounts/1" });
+  });
+  it("treats unknown verification and a needed relink as importable, and returns {} when nothing qualifies", () => {
+    expect(firstImportPick(acc([loc("l/4", { hasVoiceOfMerchant: null })]))).toEqual({ "l/4": "accounts/1" });
+    expect(firstImportPick(acc([loc("l/6", { alreadyImported: true, needsRelink: true })]))).toEqual({ "l/6": "accounts/1" });
+    expect(firstImportPick(acc([loc("l/5", { alreadyImported: true })]))).toEqual({});
   });
 });

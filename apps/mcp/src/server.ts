@@ -3,9 +3,11 @@ import { z } from "zod";
 import {
   CoreError,
   approvalOf,
+  destructiveHintFor,
   executeToolCall,
   isExternalEffect,
   toolNameFor,
+  toolTitleFor,
   type Actor,
   type AnyAction,
   recordError,
@@ -27,17 +29,17 @@ const dryRun = z
 
 const WRITE_NOTE: Record<"two_phase" | "own_flow", string> = {
   two_phase:
-    " [Write: this call only creates a proposal and returns { proposalId, expiresAt, preview: { summary, diff, findings } }. Review it, then call mcp_proposals_apply with the proposalId.]",
+    " [Write: returns a proposal { proposalId, expiresAt, preview: { summary, diff, findings } } and changes nothing until mcp_proposals_apply runs it.]",
   own_flow:
-    " [Write with its own approval flow: executes directly. Pass dryRun true to get a preview without side effects.]",
+    " [Write with its own approval flow: runs directly. With dryRun true it returns a preview and changes nothing.]",
 };
 
 /** Tools that change something outside OpenGMB (Google, an email, a payment, a public link): a token can only propose them. */
 const EXTERNAL_NOTE: Record<"two_phase" | "own_flow", string> = {
   two_phase:
-    " [Write outside OpenGMB: this call only creates a proposal and returns { proposalId, expiresAt, preview }. You cannot apply it: mcp_proposals_apply is refused for it. A person must approve this in OpenGMB (the Agents page); tell them the proposal is waiting.]",
+    " [Write outside OpenGMB: returns a proposal { proposalId, expiresAt, preview }. mcp_proposals_apply refuses it; it runs only after a person approves it on the Agents page in OpenGMB.]",
   own_flow:
-    " [Write outside OpenGMB: refused to API tokens, because a person must approve this in OpenGMB. Pass dryRun true to get a preview.]",
+    " [Write outside OpenGMB: refused to API tokens and connected apps, because a person approves it in OpenGMB. With dryRun true it returns a preview.]",
 };
 
 const noteFor = (name: string, mode: "two_phase" | "own_flow") =>
@@ -71,7 +73,12 @@ export function createMcpServer(opts: {
               preview: z.unknown().optional(),
             }).shape
           : action.output.shape,
-        annotations: { readOnlyHint: action.kind === "read" },
+        title: toolTitleFor(action.name),
+        annotations: {
+          title: toolTitleFor(action.name),
+          readOnlyHint: action.kind === "read",
+          destructiveHint: destructiveHintFor(action),
+        },
       },
       async (args: unknown) => {
         try {

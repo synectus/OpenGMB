@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { redirectClientHome } from "../../lib/client-home";
 import { getTranslations } from "next-intl/server";
-import { emailConfigured, isMockGoogleMode, roleHasPermission, type Role, integrationEnv } from "@opengmb/core";
-import { actorContextFor } from "../../lib/auth";
+import { billingMode, emailConfigured, locationsNotFoundAmong, isMockGoogleMode, placesServerKey, reviewLinkSearchMode, roleHasPermission, type Role, integrationEnv } from "@opengmb/core";
+import { actorContextFor, getAuth, getDb } from "../../lib/auth";
 import { requireUser } from "../../lib/guard";
 import { resumePath } from "../../lib/sign-up-entry";
 import { HIDDEN_SETUP_STEPS } from "../../lib/nav-private";
@@ -17,10 +18,14 @@ import { ClientMessages } from "../../components/client-messages";
 import { AutoApproveChipView } from "../../components/auto-approve-chip-view";
 import { AgencyHome, Tiles } from "../../components/home/agency-home";
 import { OwnerHome } from "../../components/home/owner-home";
+import { TwoFactorNudge } from "../../components/home/two-factor-nudge";
 import { TrialWelcome } from "../../components/billing/trial";
-import { AllClear, ConnectGoogle, HomeSkeleton, NewAccount, NoLocations, QueueError, RelinkNotes, WaitingToPublish } from "../../components/home/states";
+import { FirstDraft, type FirstDraftState } from "../../components/home/first-draft";
+import { geogridHref } from "../../lib/rank-tracking";
+import { reviewHref } from "../../lib/search-targets";
+import { AllClear, ConnectGoogle, GoogleAccessLostNote, HomeSkeleton, LocationNotFoundNote, NewAccount, NoLocations, QueueError, RelinkNotes, WaitingToPublish } from "../../components/home/states";
 import { PageHeader, secondaryButtonClass } from "../../components/ui";
-import { attention_counts, attention_queue } from "../_generated/actions";
+import { attention_counts, attention_queue, googleConnections_list, onboarding_get } from "../_generated/actions";
 
 const QUEUE_LIMIT = 50;
 
@@ -47,9 +52,12 @@ async function Home({ searchParams }: HomeProps) {
   const { type } = parseHomeSearch(sp);
   const scope = await currentScope(sp.ws);
   const t = await getTranslations("home");
+  // Two-factor is optional: offer it, with a dismissible card, to people who have not turned it on.
+  const session = await getAuth().api.getSession({ headers: await headers() });
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-5">
       <PageHeader title={t("title")} />
+      {session && !session.user.twoFactorEnabled ? <TwoFactorNudge /> : null}
       <Suspense fallback={null}>
         <TrialWelcome role={role} />
       </Suspense>
@@ -67,10 +75,17 @@ async function HomeBody({ scope, type, role }: { scope: Scope; type: TypeFilter;
   const ws = scope.urlWs ?? null; // a ?ws= deep link survives the pills and tiles
   const input = wsId ? { workspaceId: wsId, limit: QUEUE_LIMIT } : { limit: QUEUE_LIMIT };
   // Two independent reads: one failing never blanks the page.
-  const [queueRes, countsRes] = await Promise.all([
+  const canManageGoogle = roleHasPermission(role, "google:manage");
+  const [queueRes, countsRes, onboardingRes, connectionsRes] = await Promise.all([
     attention_queue(input),
     attention_counts(wsId ? { workspaceId: wsId } : {}),
+    onboarding_get({}),
+    canManageGoogle ? googleConnections_list() : null,
   ]);
+  // OPS3: Google removed our access to a connection. Only people who can reconnect see it.
+  const accessLost = !!connectionsRes?.ok && (connectionsRes.data as { connections: { accessLost: boolean }[] }).connections.some((c) => c.accessLost);
+  // Google answers "not found" for a location: only people who can fix the Google connection see it, and only for locations in their scope.
+  const notFound = canManageGoogle ? await locationsNotFoundAmong(getDb(), scope.locationIds) : [];
   const now = new Date().getTime(); // not Date.now(): react-hooks/purity rejects it in a component
   const writesOff = liveStatus(integrationEnv(), emailConfigured()).rows.find((r) => r.key === "writes")?.state !== "live";
   if (!queueRes.ok) {
@@ -87,7 +102,15 @@ async function HomeBody({ scope, type, role }: { scope: Scope; type: TypeFilter;
   const mode = homeMode(q, scope.activeLocations);
   const steps = setupSteps(q.setup, t, HIDDEN_SETUP_STEPS);
   if (mode === "no_workspace") return <NewAccount steps={steps} />;
-  if (mode === "no_google") return <ConnectGoogle steps={steps} canConnect={roleHasPermission(role, "google:manage")} sampleAvailable={isMockGoogleMode()} />;
+  if (mode === "no_google") {
+    // The preview scan is paid from the trial credit, needs Places search, and works in one client.
+    const scanWs = scope.workspaceId ?? scope.onlyWorkspaceId;
+    const firstScan =
+      billingMode() === "hosted" && roleHasPermission(role, "geogrid:manage") && reviewLinkSearchMode(process.env, !!(await placesServerKey().catch(() => null))?.trim()) !== "off" && scanWs
+        ? { workspaceId: scanWs }
+        : null;
+    return <ConnectGoogle steps={steps} canConnect={roleHasPermission(role, "google:manage")} sampleAvailable={isMockGoogleMode()} firstScan={firstScan} />;
+  }
   if (mode === "no_locations") return <NoLocations anyInactive={q.setup.locations > 0} steps={steps} />;
 
   const synced = syncedText(q.lastReviewSyncAt, ageText(q.lastReviewSyncAt, now, t), t);
@@ -110,6 +133,17 @@ async function HomeBody({ scope, type, role }: { scope: Scope; type: TypeFilter;
           ) : null}
         </div>
       </div>
+      {onboardingRes.ok ? (
+        <FirstDraft
+          state={(onboardingRes.data as { firstDraft: FirstDraftState }).firstDraft}
+          canDraft={roleHasPermission(role, "review:draft")}
+          hasLocations={scope.activeLocations > 0}
+          reviewHref={reviewHref((onboardingRes.data as { firstDraft: FirstDraftState }).firstDraft.reviewId ?? "")}
+          rankHref={geogridHref({ view: "new" })}
+        />
+      ) : null}
+      {accessLost ? <GoogleAccessLostNote /> : null}
+      {notFound.length > 0 ? <LocationNotFoundNote name={notFound[0]!.name} more={notFound.length - 1} /> : null}
       <RelinkNotes relink={q.relink} />
       <WaitingToPublish n={q.counts.waitingToPublish} writesOff={writesOff} />
       {q.counts.total === 0 && mode === "agency" ? (

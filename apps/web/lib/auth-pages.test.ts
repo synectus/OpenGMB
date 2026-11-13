@@ -68,10 +68,10 @@ describe("invitation copy", () => {
     expect(invitePlace({ ...base, workspaceName: "Northside Chiro" })).toBe("Northside Chiro");
     expect(invitePlace({ ...base, workspaceName: null })).toBe("Synectus");
     expect(inviteAccessLine({ ...base, workspaceName: "Northside Chiro" })).toBe(
-      "Accepting gives access only to Northside Chiro. Two-factor authentication is required.",
+      "Accepting gives access only to Northside Chiro. Two-factor authentication is recommended.",
     );
     expect(inviteAccessLine({ ...base, workspaceName: null })).toBe(
-      "Two-factor authentication is required.",
+      "Two-factor authentication is recommended.",
     );
   });
 

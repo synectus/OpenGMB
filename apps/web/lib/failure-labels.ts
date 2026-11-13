@@ -12,6 +12,9 @@ const FAILURE_LABELS: Record<string, string> = {
   google_rate_limited: "Google is limiting requests; the send gave up",
   google_http_403: "Google refused: check the connection's permissions",
   google_http_404: "Google could not find this location or post",
+  google_access_lost: "Google access was removed. Reconnect Google in Settings.",
+  google_location_not_found:
+    "Google returned 'not found' for this location's reviews. Check that the profile still exists, is verified, and that this Google account can still manage it.",
 };
 
 export function failureLabel(code: string): string {

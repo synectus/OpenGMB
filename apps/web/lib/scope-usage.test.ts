@@ -56,6 +56,7 @@ const MANIFEST: Record<string, { mode: Mode; files?: string[] }> = {
   "agents/page.tsx": { mode: "org-wide" },
   "audit/page.tsx": { mode: "org-wide" },
   "geogrid/page.tsx": { mode: "org-wide" },
+  "seo/keywords/page.tsx": { mode: "works" },
   "account/page.tsx": { mode: "org-wide" },
   "workspaces/page.tsx": { mode: "org-wide" },
   "settings/page.tsx": { mode: "org-wide" },

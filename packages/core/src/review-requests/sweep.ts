@@ -55,7 +55,7 @@ export async function sweepReviewRequests(
   const since = new Date(now.getTime() - DAY);
   const [used] = await db
     .select({
-      n: sql<number>`(count(*) filter (where ${reviewRequestRecipients.sentAt} > ${since.toISOString()}::timestamptz) + count(*) filter (where ${reviewRequestRecipients.reminderSentAt} > ${since.toISOString()}::timestamptz))::int`,
+      n: sql<number>`(count(*) filter (where ${reviewRequestRecipients.sentAt} > ${since.toISOString()}::timestamptz and ${reviewRequestRecipients.sentAt} <= ${now.toISOString()}::timestamptz) + count(*) filter (where ${reviewRequestRecipients.reminderSentAt} > ${since.toISOString()}::timestamptz and ${reviewRequestRecipients.reminderSentAt} <= ${now.toISOString()}::timestamptz))::int`,
     })
     .from(reviewRequestRecipients);
   const capacity = Math.min((deps.dailyLimit ?? reviewRequestDailyLimit()) - (used?.n ?? 0), deps.batch ?? SWEEP_BATCH);
@@ -66,7 +66,7 @@ export async function sweepReviewRequests(
   const wsUsedRows = await db
     .select({
       workspaceId: reviewRequestRecipients.workspaceId,
-      n: sql<number>`(count(*) filter (where ${reviewRequestRecipients.sentAt} > ${since.toISOString()}::timestamptz) + count(*) filter (where ${reviewRequestRecipients.reminderSentAt} > ${since.toISOString()}::timestamptz))::int`,
+      n: sql<number>`(count(*) filter (where ${reviewRequestRecipients.sentAt} > ${since.toISOString()}::timestamptz and ${reviewRequestRecipients.sentAt} <= ${now.toISOString()}::timestamptz) + count(*) filter (where ${reviewRequestRecipients.reminderSentAt} > ${since.toISOString()}::timestamptz and ${reviewRequestRecipients.reminderSentAt} <= ${now.toISOString()}::timestamptz))::int`,
     })
     .from(reviewRequestRecipients)
     .groupBy(reviewRequestRecipients.workspaceId);

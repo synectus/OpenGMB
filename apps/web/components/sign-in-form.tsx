@@ -61,6 +61,8 @@ export function SignInForm({ googleEnabled }: { googleEnabled: boolean }) {
       return setError(t("confirmEmailFirst"));
     }
     if (error) return setError(error.message ?? t("signInFailed"));
+    // In an OAuth flow the auth client follows { redirect, url } itself (to the consent page or the app).
+    if (data && "redirect" in data && data.redirect) return;
     if (data && !("twoFactorRedirect" in data && data.twoFactorRedirect)) {
       window.location.href = "/";
     }

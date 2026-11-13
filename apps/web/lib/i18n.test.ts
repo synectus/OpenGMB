@@ -15,8 +15,37 @@ export function flatten(obj: unknown, prefix = ""): Record<string, string> {
   return out;
 }
 
-/** ICU placeholders such as {email}, sorted: a translation must keep every one. */
-const placeholders = (s: string) => [...s.matchAll(/\{(\w+)/g)].map((m) => m[1]).sort();
+/**
+ * ICU argument names such as {email}, sorted and unique: a translation must keep every one. The branch keywords of
+ * select and plural ("over", "other", "one") and the words inside a branch are text, not arguments; arguments used
+ * inside a branch count. Unique, because a translation may repeat an argument in each branch.
+ */
+export function placeholders(s: string): string[] {
+  const names = new Set<string>();
+  const walk = (text: string) => {
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] !== "{") continue;
+      let depth = 1;
+      let j = i + 1;
+      for (; j < text.length && depth > 0; j++) depth += text[j] === "{" ? 1 : text[j] === "}" ? -1 : 0;
+      const m = /^\s*(\w+)\s*(?:,\s*(\w+)\s*(?:,([\s\S]*))?)?$/.exec(text.slice(i + 1, j - 1));
+      if (m) {
+        names.add(m[1]!);
+        if (m[3] !== undefined && /^(select|plural|selectordinal)$/.test(m[2]!)) {
+          let d = 0;
+          let from = 0;
+          for (let k = 0; k < m[3].length; k++) {
+            if (m[3][k] === "{" && d++ === 0) from = k + 1;
+            else if (m[3][k] === "}" && --d === 0) walk(m[3].slice(from, k));
+          }
+        }
+      }
+      i = j - 1;
+    }
+  };
+  walk(s);
+  return [...names].sort();
+}
 
 /** The checker: what is wrong between the reference language and another. Empty means fine. */
 export function problems(reference: Record<string, string>, other: Record<string, string>): string[] {
@@ -46,6 +75,13 @@ describe("message files", () => {
     expect(problems(ref, { "a.one": "Hola {name}", "a.two": " " })).toEqual(["empty: a.two"]);
     expect(problems(ref, { "a.one": "Hola", "a.two": "Dos" })).toEqual(["placeholders differ: a.one"]);
     expect(problems(ref, { "a.one": "Hola {name}", "a.two": "Dos", "a.three": "x" })).toEqual(["extra: a.three"]);
+  });
+
+  it("canary: select and plural branch words are not placeholders, arguments inside a branch are", () => {
+    expect(placeholders("{kind, select, over {over} other {about}} {n, number}")).toEqual(["kind", "n"]);
+    expect(placeholders("{kind, select, over {{n, number} más} other {unos {n, number}}} {grid} x {grid}")).toEqual(["grid", "kind", "n"]);
+    expect(placeholders("{count, plural, one {# result} other {# results}} in {where}")).toEqual(["count", "where"]);
+    expect(problems({ "a.k": "{k, select, over {over} other {about}} {n}" }, { "a.k": "{k, select, over {más} other {unos}}" })).toEqual(["placeholders differ: a.k"]);
   });
 
   for (const locale of LOCALES) {

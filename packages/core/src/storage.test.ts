@@ -207,7 +207,10 @@ describe("tenant isolation and serving", () => {
     expect((await handleFileGet(f.id, { db, getSession: async () => session(org.approverB.userId, true) })).status).toBe(404);
     expect((await handleFileGet(f.id, { db, getSession: async () => session(other.ownerId, true) })).status).toBe(404);
     expect((await handleFileGet(f.id, { db, getSession: async () => null })).status).toBe(401);
+    // Two-factor is optional except for platform admins (PLATFORM_ADMIN_EMAILS).
+    vi.stubEnv("PLATFORM_ADMIN_EMAILS", "t@example.test");
     expect((await handleFileGet(f.id, { db, getSession: async () => session(org.ownerId, false) })).status).toBe(403);
+    vi.unstubAllEnvs();
   });
 });
 
@@ -251,7 +254,9 @@ describe("upload, remove and erase", () => {
     const call = (r: Request, userId: string | null, mfa = true) =>
       handleLogoUpload(r, { db, getSession: async () => (userId ? session(userId, mfa) : null) });
     expect((await call(req(png()), null)).status).toBe(401);
+    vi.stubEnv("PLATFORM_ADMIN_EMAILS", "t@example.test");
     expect((await call(req(png()), org.ownerId, false)).status).toBe(403);
+    vi.unstubAllEnvs();
     const ok = await call(req(png(1_200, 50), org.a), org.ownerId);
     expect(ok.status).toBe(201);
     expect(((await ok.json()) as { file: { byteSize: number } }).file.byteSize).toBe(1_200);

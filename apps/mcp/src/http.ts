@@ -1,7 +1,20 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import type { AddressInfo } from "node:net";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-import { CoreError, actions as registry, recordError, startIntegrations, toErrorInfo, verifyApiToken, type AnyAction } from "@opengmb/core";
+import {
+  API_TOKEN_PREFIX,
+  CoreError,
+  actions as registry,
+  directoryActions,
+  oauthAddresses,
+  recordError,
+  startIntegrations,
+  toErrorInfo,
+  verifyApiToken,
+  verifyOAuthAccessToken,
+  type AnyAction,
+  type OAuthAddresses,
+} from "@opengmb/core";
 import { createDb, type Db } from "@opengmb/db";
 import { createMcpServer } from "./server";
 import { clientIp, createMcpLimiters, rateLimitsFromEnv, type McpRateLimits } from "./rateLimit";
@@ -27,6 +40,8 @@ export type StartOptions = {
   db?: Db;
   actions?: readonly AnyAction[];
   rateLimits?: McpRateLimits;
+  /** OAuth issuer and resource; default oauthAddresses(process.env). null turns the JWT branch off. */
+  oauth?: OAuthAddresses | null;
 };
 
 /**
@@ -47,6 +62,7 @@ export async function startServer(port: number, opts: StartOptions = {}) {
   const useDb = db;
   const useActions = opts.actions ?? registry;
   const limits = createMcpLimiters(opts.rateLimits ?? rateLimitsFromEnv());
+  const oauth = opts.oauth !== undefined ? opts.oauth : oauthAddresses(process.env);
 
   const http = createServer(async (req, res) => {
     try {
@@ -72,14 +88,23 @@ export async function startServer(port: number, opts: StartOptions = {}) {
 
       const header = req.headers.authorization ?? "";
       const token = /^Bearer (.+)$/i.exec(header)?.[1];
+      // /mcp only: tell an OAuth client where to start (RFC 9728). /v1 keeps the bare header and sgmb_ tokens only.
+      const challenge = !isRest && oauth ? `Bearer resource_metadata="${oauth.protectedResourceMetadataUrl}"` : "Bearer";
       let actor;
+      let oauthCaller = false;
       try {
         if (!token) throw new CoreError("UNAUTHENTICATED", "Missing bearer token");
-        actor = await verifyApiToken(useDb, token);
+        oauthCaller = !isRest && !token.startsWith(API_TOKEN_PREFIX);
+        actor =
+          isRest || token.startsWith(API_TOKEN_PREFIX)
+            ? await verifyApiToken(useDb, token)
+            : await verifyOAuthAccessToken(useDb, token, oauth);
       } catch (e) {
         if (e instanceof CoreError) {
-          limits.authFailures.hit(ip);
-          return deny(401, "UNAUTHENTICATED", "Missing or invalid API token", { "www-authenticate": "Bearer" });
+          // No Authorization header on /mcp is the required first discovery step (RFC 9728), and claude.ai and ChatGPT make it
+          // from shared server addresses: do not count it. A present-but-invalid token, and any failure on /v1, still counts.
+          if (header || isRest) limits.authFailures.hit(ip);
+          return deny(401, "UNAUTHENTICATED", "Missing or invalid API token", { "www-authenticate": challenge });
         }
         throw e;
       }
@@ -95,7 +120,10 @@ export async function startServer(port: number, opts: StartOptions = {}) {
         return json(res, 400, { error: "invalid_json" });
       }
 
-      const mcp = createMcpServer({ db: useDb, actor, actions: useActions });
+      // OAuth connections (claude.ai, ChatGPT, the Connectors Directory) get the directory profile: no AI image generation,
+      // no billing, no tools that are always refused to a token (mcp-tool-meta.ts). sgmb_ tokens and /v1 keep every tool.
+      const toolset = oauthCaller ? directoryActions(useActions) : useActions;
+      const mcp = createMcpServer({ db: useDb, actor, actions: toolset });
       const transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: undefined,
         enableJsonResponse: true,

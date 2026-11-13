@@ -172,7 +172,7 @@ export async function runNotificationRegistration(db: Db, job: RegisterJob): Pro
     .select({ id: googleConnections.id, orgId: googleConnections.orgId, refreshTokenEnc: googleConnections.refreshTokenEnc })
     .from(googleConnections)
     // AP3b: a suspended or deleted org's accounts are left alone; the daily run repairs them after unsuspend.
-    .where(and(job.connectionId ? eq(googleConnections.id, job.connectionId) : undefined, orgIsActive(googleConnections.orgId)));
+    .where(and(job.connectionId ? eq(googleConnections.id, job.connectionId) : undefined, orgIsActive(googleConnections.orgId))); // OPS3: lost-access connections stay in: this daily refresh is their self-recovery probe
   for (const c of conns) {
     const s = await registerConnectionNotifications(db, c, job.scope);
     total.accounts += s.accounts;

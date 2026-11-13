@@ -1,4 +1,5 @@
 import { afterAll, describe, expect, it } from "vitest";
+import { randomBytes, randomUUID } from "node:crypto";
 import { and, eq } from "drizzle-orm";
 import {
   apiTokens,
@@ -17,11 +18,12 @@ import {
   hashApiToken,
   resolveRevokeTarget,
   revokeApiTokenAsCli,
+  verifyApiToken,
   type ActiveTokenMatch,
 } from "./apiTokens";
 import { verifyAuditChain } from "./audit";
 import { CoreError } from "./errors";
-import { executeAction } from "./executor";
+import { executeAction, executeToolCall } from "./executor";
 import type { Role } from "./permissions";
 
 const url = process.env.DATABASE_URL_TEST;
@@ -311,5 +313,99 @@ describe("resolveRevokeTarget", () => {
       kind: "one",
       match: a1,
     });
+  });
+});
+
+async function oauthRow(orgId: string, userId: string, name = "Claude") {
+  const [row] = await db
+    .insert(apiTokens)
+    .values({
+      orgId,
+      userId,
+      name,
+      scopes: ["read", "write"],
+      tokenHash: hashApiToken(randomUUID()),
+      oauthClientId: `client-${uniq()}`,
+      redirectHost: "claude.ai",
+    })
+    .returning();
+  return row!;
+}
+
+describe("OAuth rows (connected apps)", () => {
+  it("apiTokens.list leaves them out (canary: the ordinary token is listed)", async () => {
+    const org = await makeOrg(db);
+    const me = await makeMember(db, org, "owner");
+    const made = await create(me.actor, "plain");
+    const oauth = await oauthRow(org, me.id);
+    const ids = (await list(me.actor)).map((t) => t.id);
+    expect(ids).toContain(made.apiToken.id);
+    expect(ids).not.toContain(oauth.id);
+  });
+
+  it("apiTokens.revoke refuses one with CONFLICT naming Disconnect, and it stays live", async () => {
+    const org = await makeOrg(db);
+    const me = await makeMember(db, org, "owner");
+    const oauth = await oauthRow(org, me.id);
+    await expect(revoke(me.actor, oauth.id)).rejects.toMatchObject({
+      code: "CONFLICT",
+      message: expect.stringMatching(/Disconnect/),
+    });
+    const [row] = await db.select().from(apiTokens).where(eq(apiTokens.id, oauth.id));
+    expect(row!.revokedAt).toBeNull();
+  });
+
+  it("the revoke preview calls it a connected app", async () => {
+    const org = await makeOrg(db);
+    const me = await makeMember(db, org, "owner");
+    const oauth = await oauthRow(org, me.id, "Claude");
+    const plain = await create(me.actor, "plain");
+    const caller: Actor = {
+      ...me.actor,
+      surface: "mcp",
+      actorType: "api_token",
+      apiTokenId: plain.apiToken.id,
+      scopes: ["read", "write"],
+    };
+    const prev = async (id: string) =>
+      (await executeToolCall(db, caller, "apiTokens.revoke", { id, dryRun: true })) as {
+        preview: { summary: string };
+      };
+    expect((await prev(oauth.id)).preview.summary).toMatch(/connected app/);
+    expect((await prev(plain.apiToken.id)).preview.summary).toMatch(/Would revoke API token/);
+  });
+
+  it("apiTokens.current describes the connection when the caller is one", async () => {
+    const org = await makeOrg(db);
+    const me = await makeMember(db, org, "owner");
+    const oauth = await oauthRow(org, me.id, "Claude");
+    const caller: Actor = {
+      ...me.actor,
+      surface: "mcp",
+      actorType: "api_token",
+      apiTokenId: oauth.id,
+      scopes: ["read", "write"],
+    };
+    const out = (await executeAction(db, caller, "apiTokens.current", {})) as {
+      token: { id: string; name: string } | null;
+    };
+    expect(out.token).toMatchObject({ id: oauth.id, name: "Claude" });
+  });
+
+  it("token:revoke by name ignores them (canary: an ordinary token of that name is found)", async () => {
+    const org = await makeOrg(db);
+    const me = await makeMember(db, org, "owner");
+    const name = `Claude-${uniq()}`;
+    const oauth = await oauthRow(org, me.id, name);
+    const made = await create(me.actor, name);
+    const ids = (await findActiveTokensByName(db, name)).map((m) => m.id);
+    expect(ids).toContain(made.apiToken.id);
+    expect(ids).not.toContain(oauth.id);
+  });
+
+  it("no sgmb_ token verifies against one", async () => {
+    await expect(
+      verifyApiToken(db, "sgmb_" + randomBytes(32).toString("base64url")),
+    ).rejects.toMatchObject({ code: "UNAUTHENTICATED" });
   });
 });

@@ -1,3 +1,4 @@
+import { GEOGRID_DEFAULTS } from "@opengmb/core";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import type { MapPoint } from "../../lib/rank-map";
@@ -89,7 +90,7 @@ export function QuickScanResult({
             sample={sampleRun}
           />
           <RankLegend points={detail.points} />
-          <RankTable points={detail.points} size={detail.gridSize} targetName={scan.targetName} open={apiKey === null} />
+          <RankTable points={detail.points} size={detail.gridSize} targetName={scan.targetName} keyword={r.keyword} zoom={GEOGRID_DEFAULTS.mapsZoom} open={apiKey === null} />
         </div>
         <div className="flex flex-col gap-3">
           <dl className="grid grid-cols-3 gap-2 xl:grid-cols-1">

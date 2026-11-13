@@ -1,6 +1,7 @@
 import type { Db } from "@opengmb/db";
 import { recordConnectionError, recordConnectionOk } from "../admin-capture";
 import { CoreError } from "../errors";
+import { clearGoogleAccessLost, markGoogleAccessLost } from "./access-lost";
 import type { GoogleClient } from "./client";
 import { createAccessTokenProvider } from "./access-token";
 import { LiveGoogleClient } from "./live-client";
@@ -37,8 +38,18 @@ export function createGoogleClient(p: {
     const health = id && orgId ? { connectionId: id, orgId } : null;
     const live = new LiveGoogleClient({
       getAccessToken: createAccessTokenProvider(p.connection, {
-        onRefreshOk: health ? () => recordConnectionOk(p.db, health) : undefined,
-        onRefreshError: health ? (code) => recordConnectionError(p.db, health, code) : undefined,
+        onRefreshOk: id
+          ? async () => {
+              if (health) await recordConnectionOk(p.db, health);
+              await clearGoogleAccessLost(p.db, id); // OPS3: a good refresh means access is back
+            }
+          : undefined,
+        onRefreshError: id
+          ? async (code) => {
+              if (health) await recordConnectionError(p.db, health, code);
+              if (code === "invalid_grant") await markGoogleAccessLost(p.db, id, p.connection.refreshTokenEnc); // OPS3: only while that token is still the stored one
+            }
+          : undefined,
       }),
     });
     const writes = process.env.GOOGLE_BUSINESS_WRITES?.trim() || "off";

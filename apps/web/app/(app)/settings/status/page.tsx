@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { SYSTEM_STATUS_LOCATION_CAP, emailConfigured, isPlatformAdmin, roleHasPermission, type systemStatus, integrationEnv } from "@opengmb/core";
+import { SYSTEM_STATUS_LOCATION_CAP, emailConfigured, billingMode, isPlatformAdmin, orgRankSource, roleHasPermission, type systemStatus, integrationEnv } from "@opengmb/core";
 import { TableWrap, tdClass, thClass } from "../../../../components/page-parts";
 import { SyncLocationButton } from "../../../../components/sync-location-button";
 import { SettingsShell } from "../../../../components/settings/settings-shell";
 import { EmptyState, ErrorText, Panel, linkClass, secondaryButtonClass } from "../../../../components/ui";
 import { actorContextFor, getDb } from "../../../../lib/auth";
 import { requireUser } from "../../../../lib/guard";
+import { failureLabel } from "../../../../lib/failure-labels";
 import { liveStatus } from "../../../../lib/live-status";
 import { pushFacts } from "../../../../lib/push-facts";
 import { getTimeFormat } from "../../../../lib/time-format-server";
@@ -24,11 +25,13 @@ type Out = Awaited<ReturnType<typeof systemStatus.handler>>;
 export default async function SystemStatusPage() {
   const t = await getTranslations("settingsStatus");
   const { userId } = await requireUser();
-  const { role } = await actorContextFor(userId);
+  const { role, organization } = await actorContextFor(userId);
   // Setting names are for platform admins only (PLATFORM_ADMIN_EMAILS); customers get plain words.
   const showSettingNames = await isPlatformAdmin(getDb(), userId);
   const canSync = roleHasPermission(role, "review:draft");
-  const status = liveStatus(integrationEnv(), emailConfigured(), await pushFacts());
+  // The rank row follows this organization: its own DataForSEO key makes rank tracking live even when the server has none.
+  const rankLive = (await orgRankSource(getDb(), organization.id, integrationEnv())) === "live";
+  const status = liveStatus(integrationEnv(), emailConfigured(), await pushFacts(), { rankLive, community: billingMode() === "off" });
   const alertsLive = status.rows.find((r) => r.key === "pubsub")?.state === "live";
   const res = await system_status({});
   const tf = await getTimeFormat();
@@ -182,6 +185,7 @@ export default async function SystemStatusPage() {
                             {l.reviewsLastStatus === "failed" && l.reviewsLastError && (
                               <p className="text-xs text-bad">
                                 {t("status.lastAttemptFailed")} <code className="font-mono">{l.reviewsLastError}</code>
+                                {failureLabel(l.reviewsLastError) !== l.reviewsLastError && <span className="block">{failureLabel(l.reviewsLastError)}</span>}
                               </p>
                             )}
                           </td>

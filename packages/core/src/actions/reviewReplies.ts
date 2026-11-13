@@ -605,7 +605,7 @@ export const reviewRepliesDeletePublished = defineAction({
 export const reviewRepliesList = defineAction({
   name: "reviewReplies.list",
   description:
-    "All reply revisions of one review, newest revision first, with each revision's status, guardrail result and what the caller may do next (can.edit/submit/approve/reject/publish). The review block says whether the caller can start a draft (canDraft: no open revision), delete the Google reply, and whether a Google reply exists. Poll this after reviewReplies.publish.",
+    "All reply revisions of one review, newest revision first, with each revision's status, guardrail result and what the caller may do next (can.edit/submit/approve/reject/publish). The review block says whether the caller can start a draft (canDraft: no open revision), delete the Google reply, and whether a Google reply exists. Check this after a person publishes a reply.",
   input: z.object({ reviewId: z.uuid() }),
   output: z.object({
     revisions: z.array(replyOut),

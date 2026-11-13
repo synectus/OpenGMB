@@ -496,12 +496,15 @@ describe("POST /api/media/upload handler", () => {
   const rowsFor = async () =>
     (await db.select().from(mediaUploads).where(eq(mediaUploads.locationId, loc.row.id))).length;
 
-  it("rejects no session (401) and a session without MFA (403) before reading the file or touching the database", async () => {
+  it("rejects no session (401) and a platform admin session without MFA (403) before reading the file or touching the database", async () => {
     const n = await rowsFor();
     const none = await call(req(png(800, 600)), null);
     expect(none.status).toBe(401);
     expect(((await none.json()) as J).error.code).toBe("UNAUTHENTICATED");
+    // Two-factor is optional except for platform admins: a non-admin without it is let through to the checks below.
+    vi.stubEnv("PLATFORM_ADMIN_EMAILS", session(org.ownerId, false).user.email);
     const noMfa = await call(req(png(800, 600)), session(org.ownerId, false));
+    vi.unstubAllEnvs();
     expect(noMfa.status).toBe(403);
     expect(((await noMfa.json()) as J).error.code).toBe("MFA_REQUIRED");
     expect(await rowsFor()).toBe(n);

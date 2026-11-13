@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import type { apiTokensList } from "@opengmb/core";
+import { oauthAddresses, type apiTokensList, type connectedAppsList } from "@opengmb/core";
+import { ConnectedApps } from "../../../../components/connected-apps";
 import { CreateTokenForm } from "../../../../components/create-token-form";
 import { Pill, TableWrap, primaryLinkButtonClass, tdClass, thClass } from "../../../../components/page-parts";
 import { RevokeTokenButton } from "../../../../components/revoke-token-button";
@@ -9,11 +10,11 @@ import { EmptyState, ErrorText, Panel } from "../../../../components/ui";
 import { actorContextFor } from "../../../../lib/auth";
 import { requireUser } from "../../../../lib/guard";
 import { getTimeFormat } from "../../../../lib/time-format-server";
-import { mcpUrlFrom } from "../../../../lib/mcp-connect";
 import { tokenCreated } from "../../../../lib/tokens-view";
-import { apiTokens_list } from "../../../_generated/actions";
+import { apiTokens_list, connectedApps_list } from "../../../_generated/actions";
 
 type Listed = Awaited<ReturnType<typeof apiTokensList.handler>>;
+type ListedApps = Awaited<ReturnType<typeof connectedAppsList.handler>>;
 
 export default async function TokensPage() {
   const { userId } = await requireUser();
@@ -21,6 +22,9 @@ export default async function TokensPage() {
   const t = await getTranslations("settingsTeam.tokens");
   const result = await apiTokens_list();
   const tokens = result.ok ? (result.data as Listed).tokens : [];
+  const tc = await getTranslations("settingsTeam.connectedApps");
+  const appsResult = await connectedApps_list();
+  const apps = appsResult.ok ? (appsResult.data as ListedApps).apps : [];
   const tf = await getTimeFormat();
   const showOwner = tokens.some((x) => x.ownerUserId !== userId);
 
@@ -32,7 +36,7 @@ export default async function TokensPage() {
       description={t("description")}
     >
       <Panel title={t("createToken")}>
-        <CreateTokenForm readOnlyOnly={role === "client_viewer"} mcpUrl={mcpUrlFrom(process.env)} />
+        <CreateTokenForm readOnlyOnly={role === "client_viewer"} mcpUrl={oauthAddresses(process.env)?.resource ?? null} />
       </Panel>
 
       {!result.ok ? (
@@ -85,6 +89,21 @@ export default async function TokensPage() {
           </p>
         </div>
       )}
+
+      <Panel title={tc("title")} description={tc("description")}>
+        {!appsResult.ok ? (
+          <ErrorText message={`${appsResult.error.code}: ${appsResult.error.message}`} />
+        ) : apps.length === 0 ? (
+          <EmptyState title={tc("emptyTitle")}>{tc("emptyBody")}</EmptyState>
+        ) : (
+          <ConnectedApps
+            apps={apps}
+            currentUserId={userId}
+            readOnlyOnly={role === "client_viewer"}
+            lastUsed={Object.fromEntries(apps.filter((a) => a.lastUsedAt).map((a) => [a.id, tf.dateTime(a.lastUsedAt!)]))}
+          />
+        )}
+      </Panel>
 
       <section
         aria-label={t("connectLabel")}

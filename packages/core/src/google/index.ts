@@ -12,3 +12,4 @@ export * from "./oauth";
 export * from "./dev-seed";
 export * from "./rate-limit-retry";
 export * from "./notification-registration";
+export * from "./access-lost";

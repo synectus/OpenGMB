@@ -56,3 +56,6 @@ export function connectionSummary(
   if (relink > 0) parts.push(`${relink} not linked to Google`);
   return parts.join(" · ");
 }
+
+/** Where the OAuth callback sends the person: a Google account new to this organization starts the guided import. */
+export const afterConnectPath = (created: boolean) => (created ? "/locations/import?guided=1&connected=1" : "/settings/google?connected=1");

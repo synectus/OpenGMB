@@ -55,6 +55,14 @@ describe("liveStatus", () => {
     expect(rank(keys).detail).not.toContain("l@example.test");
   });
 
+  it("an organization's own key makes the rank row live with no server key; the community sample text points at Rank tracking, not Settings > Integrations", () => {
+    const rank = (opts: { rankLive?: boolean; community?: boolean }) => liveStatus({}, true, FLOWING, opts).rows.find((r) => r.key === "rank")!;
+    expect(rank({ rankLive: true }).state).toBe("live");
+    expect(rank({ rankLive: false }).detail).toContain("Settings > Integrations");
+    expect(rank({ rankLive: false, community: true }).detail).toContain("Rank tracking > Usage and cost");
+    expect(rank({ rankLive: false, community: true }).detail).not.toContain("Settings > Integrations");
+  });
+
   it("counts every state except live and sample data (this server: 3 parts not live)", () => {
     const s = liveStatus({ GOOGLE_BUSINESS_API_MODE: "live" }, false);
     expect(s.rows.map((r) => r.state)).toEqual(["live", "off", "not_set_up", "sample", "not_set_up"]);

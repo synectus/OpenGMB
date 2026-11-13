@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { BUSINESS_MANAGE_SCOPE, GOOGLE_OAUTH_BRAND } from "@opengmb/core";
-import { BUSINESS_SCOPE, GOOGLE_APP_NAME, connectionSummary, googleCallbackError, scopeLabels } from "./google-connection";
+import { BUSINESS_SCOPE, GOOGLE_APP_NAME, afterConnectPath, connectionSummary, googleCallbackError, scopeLabels } from "./google-connection";
 
 describe("googleCallbackError", () => {
   it("uses the canvas copy for the five callback errors it draws", () => {
@@ -58,4 +58,11 @@ describe("connectionSummary", () => {
 
 it("GOOGLE_APP_NAME is core's GOOGLE_OAUTH_BRAND.appName (pinned, like BUSINESS_SCOPE)", () => {
   expect(GOOGLE_APP_NAME).toBe(GOOGLE_OAUTH_BRAND.appName.value);
+});
+
+describe("afterConnectPath", () => {
+  it("a new Google account goes to guided import; a reconnect goes back to settings", () => {
+    expect(afterConnectPath(true)).toBe("/locations/import?guided=1&connected=1");
+    expect(afterConnectPath(false)).toBe("/settings/google?connected=1");
+  });
 });

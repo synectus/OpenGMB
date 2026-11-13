@@ -7,6 +7,11 @@ export default namespace({
       title: "Google connection",
       description: "Connect the Google account that manages your business profiles.",
       connected: "Google account connected.",
+      lostTitle: "Google access was removed",
+      lostBody:
+        "Reviews, posts and stats have stopped updating for {email}. Reconnect with the same Google account ({email}). A different account creates a new connection and your locations stay on this one.",
+      lostAskAdmin: "Ask an owner or admin to reconnect it.",
+      lostBadge: "Access removed",
       revokeWarning:
         "Disconnected in OpenGMB, but Google could not revoke the token. Remove {googleAppName} from your Google account’s <link>third-party access</link> to be sure.",
       accountsLabel: "Connected Google accounts",
@@ -31,6 +36,7 @@ export default namespace({
     connectButton: {
       sending: "Sending you to Google…",
       connect: "Connect Google account",
+      reconnect: "Reconnect Google",
       expires: "The link to Google expires in 10 minutes.",
       redirect: "You will be sent to Google. Tick the Business Profile box on the consent screen.",
     },
@@ -63,6 +69,7 @@ export default namespace({
       noErrors: "No errors recorded",
       noErrorsBody: "Server errors will be listed here, newest first.",
       colWhat: "What happened",
+      about: "About:",
       colWhere: "Where",
       colTimes: "Times",
       colFirst: "First seen",
@@ -179,6 +186,11 @@ export default namespace({
       title: "Google कनेक्शन",
       description: "वह Google खाता जोड़ें जो आपके बिज़नेस प्रोफ़ाइल सँभालता है।",
       connected: "Google खाता जुड़ गया।",
+      lostTitle: "Google की पहुँच हटा दी गई",
+      lostBody:
+        "{email} के लिए समीक्षाएँ, पोस्ट और आँकड़े अपडेट होना बंद हैं। उसी Google खाते ({email}) से दोबारा जोड़ें। दूसरा खाता नया कनेक्शन बनाता है और आपके स्थान इसी पुराने कनेक्शन पर रहते हैं।",
+      lostAskAdmin: "किसी ओनर या एडमिन से इसे दोबारा जोड़ने को कहें।",
+      lostBadge: "पहुँच हटाई गई",
       revokeWarning:
         "OpenGMB में डिस्कनेक्ट हो गया, लेकिन Google टोकन रद्द नहीं कर सका। पक्का करने के लिए {googleAppName} को अपने Google खाते की <link>तीसरे पक्ष की पहुँच</link> से हटा दें।",
       accountsLabel: "जुड़े हुए Google खाते",
@@ -203,6 +215,7 @@ export default namespace({
     connectButton: {
       sending: "आपको Google पर भेजा जा रहा है…",
       connect: "Google खाता जोड़ें",
+      reconnect: "Google दोबारा जोड़ें",
       expires: "Google का लिंक 10 मिनट में खत्म हो जाता है।",
       redirect: "आपको Google पर भेजा जाएगा। सहमति स्क्रीन पर Business Profile वाला बॉक्स चुनें।",
     },
@@ -235,6 +248,7 @@ export default namespace({
       noErrors: "कोई गड़बड़ी दर्ज नहीं",
       noErrorsBody: "सर्वर की गड़बड़ियाँ यहाँ सबसे नई पहले दिखेंगी।",
       colWhat: "क्या हुआ",
+      about: "संबंधित:",
       colWhere: "कहाँ",
       colTimes: "बार",
       colFirst: "पहली बार",
@@ -351,6 +365,11 @@ export default namespace({
       title: "Conexión con Google",
       description: "Conecta la cuenta de Google que gestiona tus perfiles de empresa.",
       connected: "Cuenta de Google conectada.",
+      lostTitle: "Se quitó el acceso a Google",
+      lostBody:
+        "Las reseñas, las publicaciones y las estadísticas han dejado de actualizarse para {email}. Vuelve a conectar con la misma cuenta de Google ({email}). Una cuenta distinta crea una conexión nueva y tus ubicaciones se quedan en esta.",
+      lostAskAdmin: "Pide a un propietario o administrador que la vuelva a conectar.",
+      lostBadge: "Acceso quitado",
       revokeWarning:
         "Desconectada en OpenGMB, pero Google no pudo revocar el token. Para asegurarte, quita {googleAppName} del <link>acceso de terceros</link> de tu cuenta de Google.",
       accountsLabel: "Cuentas de Google conectadas",
@@ -375,6 +394,7 @@ export default namespace({
     connectButton: {
       sending: "Te llevamos a Google…",
       connect: "Conectar cuenta de Google",
+      reconnect: "Volver a conectar Google",
       expires: "El enlace a Google caduca en 10 minutos.",
       redirect: "Te enviaremos a Google. Marca la casilla de Business Profile en la pantalla de consentimiento.",
     },
@@ -407,6 +427,7 @@ export default namespace({
       noErrors: "No hay errores registrados",
       noErrorsBody: "Los errores del servidor aparecerán aquí, los más recientes primero.",
       colWhat: "Qué pasó",
+      about: "Sobre:",
       colWhere: "Dónde",
       colTimes: "Veces",
       colFirst: "Primera vez",

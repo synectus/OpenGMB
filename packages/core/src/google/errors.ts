@@ -23,6 +23,14 @@ export class GoogleApiError extends Error {
   }
 }
 
+/** A refresh-token exchange at Google's token endpoint failed. `body` is `{ error: <OAuth code> }` or null; never a token. */
+export class GoogleTokenRefreshError extends GoogleApiError {
+  constructor(status: number, body: unknown) {
+    super(status, body, "Google token refresh failed");
+    this.name = "GoogleTokenRefreshError";
+  }
+}
+
 /** Thrown by the throttled client once 429 retries are used up. `cause` is the last 429. */
 export class GoogleRetriesExhaustedError extends Error {
   constructor(
@@ -101,4 +109,31 @@ export function isGooglePermissionDenied(e: unknown, notLocationSpecific: readon
   const reasons = (err?.details ?? []).map((d) => d?.reason).filter((r): r is string => typeof r === "string");
   if (reasons.some((r) => notLocationSpecific.includes(r))) return false;
   return err?.status === "PERMISSION_DENIED" || /does not have permission/i.test(String(err?.message ?? e.message));
+}
+
+/**
+ * OPS3: the connection's refresh token no longer works because the customer removed our access (OAuth
+ * `invalid_grant`). Classified by the OAuth code, not the HTTP status. Retrying never helps; only a reconnect does.
+ */
+export function isGoogleAccessLost(e: unknown, depth = 0): boolean {
+  if (!e || typeof e !== "object" || depth > 3) return false;
+  if (e instanceof GoogleTokenRefreshError) return (e.body as { error?: unknown } | null)?.error === "invalid_grant";
+  return isGoogleAccessLost((e as { cause?: unknown }).cause, depth + 1);
+}
+
+/** OPS3: Google answered 404 to a call about a location (not a token refresh failure). */
+export function isGoogleNotFound(e: unknown, depth = 0): boolean {
+  if (!e || typeof e !== "object" || depth > 3) return false;
+  if (e instanceof GoogleApiError) return !(e instanceof GoogleTokenRefreshError) && e.status === 404;
+  return isGoogleNotFound((e as { cause?: unknown }).cause, depth + 1);
+}
+
+/**
+ * OPS3 for scheduled per-location reads: why retrying a Google error cannot help, or null when the error is something else
+ * (500, 403, rate limit, a bug) and the job must keep failing loudly. Returns a code only, never the error text.
+ */
+export function googleGoneReason(e: unknown): "google_access_lost" | "google_location_not_found" | null {
+  if (isGoogleAccessLost(e)) return "google_access_lost";
+  if (isGoogleNotFound(e)) return "google_location_not_found";
+  return null;
 }

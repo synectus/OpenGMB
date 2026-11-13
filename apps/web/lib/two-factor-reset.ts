@@ -10,7 +10,7 @@ export function canResetTwoFactor(i: {
 }
 
 export const resetTwoFactorConfirm = (name: string): string =>
-  `Reset two-factor authentication for ${name}? They are signed out everywhere. Until they set up a new authenticator app at their next sign-in, their password alone signs them in.`;
+  `Reset two-factor authentication for ${name}? They are signed out everywhere. Until they turn two-factor on again, their password alone signs them in.`;
 
 export const resetTwoFactorDone = (name: string): string =>
-  `Two-factor reset. ${name} sets it up again at their next sign-in.`;
+  `Two-factor reset. ${name} can turn it on again in Settings.`;

@@ -14,6 +14,7 @@ const LINK_LABEL: Record<string, string> = {
   "google.google_update": "See changes",
   "media.customer_photo": "View photo",
   "geogrid.budget_exceeded": "See usage",
+  "google.access_lost": "Reconnect Google",
 };
 
 /** The action link's text, or null when the notification has no link (Google notifications). */
@@ -36,6 +37,7 @@ export const PREFERENCE_ROWS: { kind: string; label: string; inApp: boolean; ema
   { kind: "google.google_update", label: "Google suggested edit", inApp: true, email: false, digest: true },
   { kind: "media.customer_photo", label: "Customer photo", inApp: true, email: false, digest: true },
   { kind: "geogrid.budget_exceeded", label: "Rank tracking budget reached", inApp: true, email: false, digest: true },
+  { kind: "google.access_lost", label: "Google access removed", inApp: true, email: false, digest: true },
 ];
 
 export function parseShow(v: string | undefined): number {

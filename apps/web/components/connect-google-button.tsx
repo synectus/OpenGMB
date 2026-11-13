@@ -4,7 +4,7 @@ import { useState } from "react";
 import { googleConnections_connect } from "../app/_generated/actions";
 import { buttonClass, ErrorText } from "./ui";
 
-export function ConnectGoogleButton() {
+export function ConnectGoogleButton({ reconnect = false }: { reconnect?: boolean }) {
   const t = useTranslations("settingsStatus.connectButton");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -23,7 +23,7 @@ export function ConnectGoogleButton() {
   return (
     <div className="flex flex-col items-start gap-2">
       <button type="button" onClick={onClick} disabled={pending} className={buttonClass}>
-        {pending ? t("sending") : t("connect")}
+        {pending ? t("sending") : reconnect ? t("reconnect") : t("connect")}
       </button>
       <p className="text-sm text-muted-foreground">
         {pending

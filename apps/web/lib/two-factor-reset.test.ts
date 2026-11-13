@@ -17,10 +17,10 @@ describe("canResetTwoFactor", () => {
 describe("copy", () => {
   it("names the person in the confirm and the result", () => {
     expect(resetTwoFactorConfirm("Priya")).toBe(
-      "Reset two-factor authentication for Priya? They are signed out everywhere. Until they set up a new authenticator app at their next sign-in, their password alone signs them in.",
+      "Reset two-factor authentication for Priya? They are signed out everywhere. Until they turn two-factor on again, their password alone signs them in.",
     );
     expect(resetTwoFactorDone("Priya")).toBe(
-      "Two-factor reset. Priya sets it up again at their next sign-in.",
+      "Two-factor reset. Priya can turn it on again in Settings.",
     );
   });
 });

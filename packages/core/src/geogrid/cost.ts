@@ -1,5 +1,5 @@
 import { and, eq, gte, lt, sql } from "drizzle-orm";
-import { aiVisibilityRuns, competitorProfileTasks, gridRuns, orgGridSettings, platformDfsSpend, type Db, type Tx } from "@opengmb/db";
+import { aiVisibilityRuns, competitorProfileTasks, gridRuns, orgGridSettings, platformDfsSpend, seoKeywordResearchRuns, type Db, type Tx } from "@opengmb/db";
 import { meteredMarkupPercent } from "../billing";
 import { platformLimit } from "../limits/platform-limits";
 import { DEFAULT_GRID_SPEED, GEOGRID_DEFAULTS, taskPriceUsd, type GEOGRID_PRICING, type GridSpeed } from "../config/geogrid";
@@ -128,7 +128,12 @@ export async function monthToDateUsd(db: Db | Tx, orgId: string, now: Date): Pro
     .select({ total: sql<string>`coalesce(sum(${aiVisibilityRuns.chargedUsd}), 0)` })
     .from(aiVisibilityRuns)
     .where(and(eq(aiVisibilityRuns.orgId, orgId), eq(aiVisibilityRuns.dataSource, "live"), gte(aiVisibilityRuns.createdAt, start), lt(aiVisibilityRuns.createdAt, end)));
-  return Number(row?.total ?? 0) + Number(profiles?.total ?? 0) + Number(ai?.total ?? 0);
+  // SEO1: keyword research: queued and running at the reserved charge, settled at what was charged.
+  const [seo] = await db
+    .select({ total: sql<string>`coalesce(sum(case when ${seoKeywordResearchRuns.status} in ('queued','running') then ${seoKeywordResearchRuns.estimateChargeUsd} else coalesce(${seoKeywordResearchRuns.chargedUsd}, 0) end), 0)` })
+    .from(seoKeywordResearchRuns)
+    .where(and(eq(seoKeywordResearchRuns.orgId, orgId), eq(seoKeywordResearchRuns.dataSource, "live"), gte(seoKeywordResearchRuns.createdAt, start), lt(seoKeywordResearchRuns.createdAt, end)));
+  return Number(row?.total ?? 0) + Number(profiles?.total ?? 0) + Number(ai?.total ?? 0) + Number(seo?.total ?? 0);
 }
 
 /** Throws BudgetExceededError when `estimateUsd` does not fit in what is left this month. */

@@ -92,7 +92,14 @@ export default async function SystemHealthPage() {
               <tbody className="divide-y divide-border">
                 {d.errors.map((e) => (
                   <tr key={e.fingerprint}>
-                    <td className={`${tdClass} max-w-[360px] break-words`}>{e.message}</td>
+                    <td className={`${tdClass} max-w-[360px] break-words`}>
+                      {e.message}
+                      {e.context && (
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {t("health.about")} <code className="font-mono">{e.context}</code>
+                        </p>
+                      )}
+                    </td>
                     <td className={tdClass}>{SOURCE[e.source]}</td>
                     <td className={`${tdClass} tabular-nums`}>{e.count}</td>
                     <td className={`${tdClass} tabular-nums`}>{when(e.firstSeenAt)}</td>

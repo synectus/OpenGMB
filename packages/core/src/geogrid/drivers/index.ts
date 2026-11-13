@@ -28,6 +28,8 @@ export type DriverDeps = {
   source?: () => RankSource;
   /** Where the relevance check gets its data right now. Default: fixtures. */
   placesSource?: () => "live" | "fixture";
+  /** Where a run paid with an org's own key gets its data. Left out, such a run follows `source`. */
+  byoSource?: () => RankSource;
   /** Builds the live platform transport for a DataForSEO host (called once per host; reads credentials per call). */
   liveDataForSeo?: (baseUrl: string) => DataForSeoTransport;
   livePlaces?: () => PlacesTransport;
@@ -54,6 +56,7 @@ const hostFor = (ds: RankSource) =>
  */
 export function createDriverRegistry(deps: DriverDeps = {}) {
   const source = deps.source ?? (() => "fixture" as RankSource);
+  const byoNow = deps.byoSource ?? source;
   const placesNow = deps.placesSource ?? (() => "fixture" as const);
   const byoFixture = deps.byoDataForSeo ?? fixtureByoTransport;
   const fixtureRank: Record<GridSpeed, GridDriver> = {
@@ -109,11 +112,11 @@ export function createDriverRegistry(deps: DriverDeps = {}) {
   };
   return Object.assign(lookup, {
     /** Where a run requested now for this driver would get its data. */
-    dataSource: (driverId: string): RankSource =>
-      driverId === "places_relevance" ? placesNow() : source(),
+    dataSource: (driverId: string, opts: { byo?: boolean } = {}): RankSource =>
+      driverId === "places_relevance" ? placesNow() : opts.byo ? byoNow() : source(),
     /** The credential check of the DataForSEO transport for these credentials. */
     checkDataForSeoCredentials: async (creds: DfsCredentials): Promise<DfsCredentialCheck> =>
-      (await byoTransport(creds, source()).checkCredentials?.()) ?? {
+      (await byoTransport(creds, byoNow()).checkCredentials?.()) ?? {
         ok: false,
         message: "This transport has no credential check",
       },

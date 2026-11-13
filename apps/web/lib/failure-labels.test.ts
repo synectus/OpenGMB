@@ -33,3 +33,12 @@ describe("failureLabel for post sends", () => {
     );
   });
 });
+
+describe("failureLabel for permanent Google failures (OPS3)", () => {
+  it("canary: both review sync codes say what was seen, not a conclusion", () => {
+    expect(failureLabel("google_access_lost")).toBe("Google access was removed. Reconnect Google in Settings.");
+    expect(failureLabel("google_location_not_found")).toBe(
+      "Google returned 'not found' for this location's reviews. Check that the profile still exists, is verified, and that this Google account can still manage it.",
+    );
+  });
+});

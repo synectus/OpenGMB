@@ -35,6 +35,7 @@ import {
 import { hasByoKey } from "../geogrid/byo";
 import { createLiveDriverRegistry, normalizeDomain, type DriverRegistry } from "../geogrid/drivers";
 import { buildGrid } from "../geogrid/math";
+import { resolveScanCenter, scanLocate } from "../geogrid/quick-scan-center";
 import { pointCount, requestGridRuns } from "../geogrid/run";
 import { nextScheduledRunAt } from "../geogrid/schedule";
 import { defineAction } from "../registry";
@@ -649,7 +650,7 @@ const PLACE_ID = /^[A-Za-z0-9_-]{10,300}$/;
 export const geogridQuickScansCreate = defineAction({
   name: "geogrid.quickScans.create",
   description:
-    "Quick scan of any business (for example a prospect) that is not a managed location: one keyword over a grid around centerLat/centerLng, matched by its Google place id (placeId, required; business search is not available on this server, so the id is pasted). Creates a quick-scan configuration (kind 'quick_scan', no location, schedule manual) in workspaceId and queues its first run in the same step; uses the same budget, prices and own-key rules as trackers and fails with FORBIDDEN 'BUDGET_EXCEEDED' (nothing created) when the estimate does not fit (see geogrid.preview). Re-run with geogrid.run, read with geogrid.runs.list kind 'quick_scan' and geogrid.runs.get, remove with geogrid.configs.delete. Needs geogrid:manage (owner, admin, manager).",
+    "Quick scan of any business (for example a prospect) that is not a managed location: one keyword over a grid around centerLat/centerLng, matched by its Google place id (placeId, required). centerLat/centerLng are optional: when omitted, the place's own location is read from Google Places. Creates a quick-scan configuration (kind 'quick_scan', no location, schedule manual) in workspaceId and queues its first run in the same step; uses the same budget, prices and own-key rules as trackers and fails with FORBIDDEN 'BUDGET_EXCEEDED' (nothing created) when the estimate does not fit (see geogrid.preview). Re-run with geogrid.run, read with geogrid.runs.list kind 'quick_scan' and geogrid.runs.get, remove with geogrid.configs.delete. Needs geogrid:manage (owner, admin, manager).",
   input: z.object({
     workspaceId: z.uuid(),
     businessName: z.string().trim().min(1).max(200),
@@ -659,8 +660,8 @@ export const geogridQuickScansCreate = defineAction({
     speed: speedEnum.optional(),
     gridSize: z.number().int(),
     radiusM: z.number().int(),
-    centerLat: z.number(),
-    centerLng: z.number(),
+    centerLat: z.number().optional(),
+    centerLng: z.number().optional(),
   }),
   output: z.object({
     scan: configOut,
@@ -678,11 +679,23 @@ export const geogridQuickScansCreate = defineAction({
     if (!PLACE_ID.test(input.placeId)) {
       throw new CoreError("INVALID_INPUT", "That does not look like a Google place id");
     }
+    // Grid size and radius are checked before the (paid) Places lookup; the real centre is checked after it.
     validateShape({
       gridSize: input.gridSize,
       radiusM: input.radiusM,
-      centerLat: input.centerLat,
-      centerLng: input.centerLng,
+      centerLat: input.centerLat ?? 0,
+      centerLng: input.centerLng ?? 0,
+      driverId: "dataforseo_standard",
+      targetPlaceId: input.placeId,
+      keywords: [input.keyword],
+    });
+    // The Places lookup runs inside the action transaction, bounded by 5 s (see scanLocate).
+    const c = await resolveScanCenter(input.placeId, input, scanLocate);
+    validateShape({
+      gridSize: input.gridSize,
+      radiusM: input.radiusM,
+      centerLat: c.lat,
+      centerLng: c.lng,
       driverId: "dataforseo_standard",
       targetPlaceId: input.placeId,
       keywords: [input.keyword],
@@ -697,8 +710,8 @@ export const geogridQuickScansCreate = defineAction({
         keywords: [input.keyword],
         gridSize: input.gridSize,
         radiusM: input.radiusM,
-        centerLat: input.centerLat,
-        centerLng: input.centerLng,
+        centerLat: c.lat,
+        centerLng: c.lng,
         targetName: input.businessName,
         targetPlaceId: input.placeId,
         driverId: "dataforseo_standard",

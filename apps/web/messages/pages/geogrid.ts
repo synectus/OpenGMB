@@ -148,6 +148,7 @@ export default namespace({
     table: {
       summary: "Show ranks as a table",
       label: "Rank heatmap, north at the top",
+      checkPin: "Check this pin on Google Maps (row {row}, column {col})",
     },
     map: {
       label: "Rank map, north at the top",
@@ -240,6 +241,8 @@ export default namespace({
       removeNote: "Remove asks you to confirm. It is off until a key is saved.",
       verifiedOk: "Key verified.",
       verifyFailed: "Verification failed: {message}",
+      addLink: "Add your DataForSEO key",
+      addEnv: "You can also set DATAFORSEO_LOGIN and DATAFORSEO_PASSWORD in your .env file and restart.",
     },
     usage: {
       label: "Usage and cost",
@@ -526,6 +529,7 @@ export default namespace({
     table: {
       summary: "रैंक तालिका के रूप में दिखाएँ",
       label: "रैंक हीटमैप, उत्तर ऊपर",
+      checkPin: "इस पिन को Google Maps पर जाँचें (पंक्ति {row}, स्तंभ {col})",
     },
     map: {
       label: "रैंक मैप, उत्तर ऊपर",
@@ -618,6 +622,8 @@ export default namespace({
       removeNote: "हटाने से पहले पुष्टि माँगी जाती है। कुंजी सहेजे जाने तक यह बंद रहता है।",
       verifiedOk: "कुंजी सत्यापित हो गई।",
       verifyFailed: "सत्यापन विफल: {message}",
+      addLink: "अपनी DataForSEO कुंजी जोड़ें",
+      addEnv: "आप अपनी .env फ़ाइल में DATAFORSEO_LOGIN और DATAFORSEO_PASSWORD भी सेट कर सकते हैं और फिर से शुरू कर सकते हैं।",
     },
     usage: {
       label: "उपयोग और लागत",
@@ -904,6 +910,7 @@ export default namespace({
     table: {
       summary: "Mostrar posiciones como tabla",
       label: "Mapa de calor de posiciones, norte arriba",
+      checkPin: "Comprobar este punto en Google Maps (fila {row}, columna {col})",
     },
     map: {
       label: "Mapa de posiciones, norte arriba",
@@ -996,6 +1003,8 @@ export default namespace({
       removeNote: "Quitar pide confirmación. Está desactivado hasta que se guarde una clave.",
       verifiedOk: "Clave verificada.",
       verifyFailed: "La verificación falló: {message}",
+      addLink: "Añade tu clave de DataForSEO",
+      addEnv: "También puedes definir DATAFORSEO_LOGIN y DATAFORSEO_PASSWORD en tu archivo .env y reiniciar.",
     },
     usage: {
       label: "Uso y costo",

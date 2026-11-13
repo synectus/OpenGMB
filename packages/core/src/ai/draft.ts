@@ -48,6 +48,8 @@ export type DraftRun = {
    * instruction; still over, the text is cut at a sentence boundary. Text over the limit is never returned.
    */
   maxChars?: number;
+  /** ON2: the platform pays this call: no credit check and no debit. Usage is still metered and capped. */
+  waiveCharge?: boolean;
 };
 
 export type DraftRunResult = DraftResult & {
@@ -110,7 +112,8 @@ export async function runDraft(
       throw new AccessError("FORBIDDEN", "AI_BUDGET_EXCEEDED: this client's monthly AI limit is reached");
     }
     // Hosted billing: the account must cover the worst case plus markup. Lock order: platform budget (held), then this org.
-    await assertCredit(tx, actor.orgId, withMarkupMicro(worst), now, env);
+    // ON2: the one free first draft is paid by the platform, never by the user's credit.
+    if (!p.waiveCharge) await assertCredit(tx, actor.orgId, withMarkupMicro(worst), now, env);
     const res = await model!({
       model: modelId,
       system,
@@ -134,8 +137,10 @@ export async function runDraft(
       })
       .returning({ id: aiUsage.id });
     // ai_usage keeps the raw cost (the platform cap reads it); the account is charged cost plus markup, once.
-    const charged = await debit(tx, { orgId: actor.orgId, reason: "ai", refId: usage!.id, microUsd: withMarkupMicro(cost), now, env });
-    if (charged.shortfallMicro > 0) console.error(`[billing] ai shortfall org=${actor.orgId} usage=${usage!.id} micro=${charged.shortfallMicro}`);
+    if (!p.waiveCharge) {
+      const charged = await debit(tx, { orgId: actor.orgId, reason: "ai", refId: usage!.id, microUsd: withMarkupMicro(cost), now, env });
+      if (charged.shortfallMicro > 0) console.error(`[billing] ai shortfall org=${actor.orgId} usage=${usage!.id} micro=${charged.shortfallMicro}`);
+    }
     return { res, cost, usageId: usage!.id };
   }
 

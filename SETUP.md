@@ -43,7 +43,7 @@ After you change `.env`, apply it with `docker compose up -d` (it recreates the 
 Your own API keys go in the same file. Each feature stays off until its key is set, and the rest of the app keeps working:
 
 - `ANTHROPIC_API_KEY` for AI drafts, review reply suggestions and report summaries.
-- `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` for rank tracking.
+- `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` for rank tracking (or save a key in the app, step 5).
 - `PIXABAY_API_KEY` for stock photos on posts, and `OPENAI_API_KEY` for AI-generated post images.
 - `RESEND_API_KEY` and `EMAIL_FROM` for email (step 4).
 
@@ -80,7 +80,12 @@ With `RESEND_API_KEY` empty the daily notification digest is skipped (logged, no
 
 ## 5. DataForSEO and Google Maps (optional)
 
-Rank tracking uses DataForSEO with your own account. Create one at <https://dataforseo.com/>, copy the **API login** and **API password** from the API Access page (the API password is generated for you and is not your account password), and set `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD`. Runs are billed to you at DataForSEO's price.
+Rank tracking uses DataForSEO with your own account. Create one at <https://dataforseo.com/> and copy the **API login** and **API password** from the API Access page (the API password is generated for you and is not your account password). You can add them in either of two ways:
+
+- **In the app:** sign in as the owner, open **Rank tracking**, then **Usage and cost**, and use **Your own DataForSEO key** (login, password, then **Verify**). Takes effect at once, no restart.
+- **In `.env`:** set `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` and restart the web, worker and MCP services.
+
+If both are set, geo-grid and quick-scan runs use the key saved in the app. The key saved in the app is used for those runs only: keyword research (the SEO page) and the competitor profile refresh do not use it, they need the `.env` key. Runs are billed to you at DataForSEO's price. Until a key is set, rank data is sample data and is labelled as such.
 
 The rank tracking run detail draws its grid over a Google Maps JavaScript API map. Without a key it shows a placeholder and the rank table instead; nothing else changes.
 
@@ -110,6 +115,18 @@ The first command builds the image once (a few minutes) and then starts everythi
 
    It refuses to run, and exits with an error, on an empty database.
 5. To use the MCP server (`POST <MCP url>/mcp`, health at `/healthz`), create an API token: in the web app at `/settings/tokens`, or `docker compose run --rm --no-deps mcp pnpm token:create you@example.com "my laptop"` (the `claude mcp add` line it prints uses the container port; replace it with your public MCP URL).
+
+## Connect AI apps
+
+There are no new settings for this. Your web address, `WEB_URL`, is also the sign-in address the apps are told about (the compose file passes it on as `BETTER_AUTH_URL`). The MCP address is `<WEB_URL>/mcp`, unless you set `MCP_PUBLIC_URL`, which stays optional. The Agents page in the app shows the address to paste.
+
+To connect, paste that address into the app, choose Connect, sign in to OpenGMB (with your authenticator code), then choose Read only or Read and write and approve. Nobody has to type a client ID or secret. API tokens (step 5 above) still work as before.
+
+- **A public https address** (for example `https://gmb.example.com`): every client works. That means claude.ai, Claude mobile, Claude Desktop Connectors, Claude Code and Cursor. ChatGPT should work too, but it has not been tried yet.
+- **Localhost or a home network only**: Claude Code and Cursor on the same computer work, because their sign-in comes back to that computer. claude.ai, Claude mobile and ChatGPT cannot, because their servers have to reach your address from the internet.
+- Signing keys are created in the database the first time they are needed. Your normal database backups cover them.
+- At start, the web and mcp logs print a line like `oauth=on issuer=... resource=...`. It shows what clients will be told. A WARNING next to it means the address is not https.
+- To remove access, open Settings, then API tokens, then Connected apps, and choose Disconnect.
 
 ## 7. Backups
 

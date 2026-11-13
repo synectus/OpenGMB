@@ -89,6 +89,21 @@ export async function apiTokens_current(input: unknown = {}) {
   return runAction("apiTokens.current", input);
 }
 
+/** List apps connected to the caller's organization over OAuth (claude.ai, ChatGPT and other connectors), newest first: app name, the site it returns to, owner, access (read or write), whether it may publish without approval, and last use. Members see their own; owners and admins see everyone's. Ordinary API tokens are listed by apiTokens.list. */
+export async function connectedApps_list(input: unknown = {}) {
+  return runAction("connectedApps.list", input);
+}
+
+/** Change a connected app's access (read or write) and whether it may publish without approval. Only the person who connected it, in the web app. Not available to callers authenticated by an API token or a connected app. Takes effect on the app's next call. */
+export async function connectedApps_update(input: unknown = {}) {
+  return runAction("connectedApps.update", input);
+}
+
+/** Disconnect an app connected over OAuth. Its next call fails with 401, its refresh token stops working, and connecting it again asks for approval again. Members may disconnect their own apps; owners and admins any app in the organization. */
+export async function connectedApps_disconnect(input: unknown = {}) {
+  return runAction("connectedApps.disconnect", input);
+}
+
 /** List the organization's outgoing webhooks (owners and admins only), newest first, each with its status, why it was turned off if it was, and its most recent delivery. Never returns signing secrets. */
 export async function webhooks_list(input: unknown = {}) {
   return runAction("webhooks.list", input);
@@ -119,7 +134,7 @@ export async function webhooks_sendTest(input: unknown = {}) {
   return runAction("webhooks.sendTest", input);
 }
 
-/** List the Google accounts connected to the caller's organization for Business Profile access, newest first. Never returns token material. configured is false when the server has no Google OAuth credentials, in which case connecting is unavailable. sampleAvailable is true only in mock mode (GOOGLE_BUSINESS_API_MODE=mock), where googleConnections.connectSample can add the sample Google account. */
+/** List the Google accounts connected to the caller's organization for Business Profile access, newest first. accessLost is true when Google removed our access (reconnect the same Google account to resume updates). Never returns token material. configured is false when the server has no Google OAuth credentials, in which case connecting is unavailable. sampleAvailable is true only in mock mode (GOOGLE_BUSINESS_API_MODE=mock), where googleConnections.connectSample can add the sample Google account. */
 export async function googleConnections_list(input: unknown = {}) {
   return runAction("googleConnections.list", input);
 }
@@ -369,7 +384,7 @@ export async function reviewReplies_check(input: unknown = {}) {
   return runAction("reviewReplies.check", input);
 }
 
-/** All reply revisions of one review, newest revision first, with each revision's status, guardrail result and what the caller may do next (can.edit/submit/approve/reject/publish). The review block says whether the caller can start a draft (canDraft: no open revision), delete the Google reply, and whether a Google reply exists. Poll this after reviewReplies.publish. */
+/** All reply revisions of one review, newest revision first, with each revision's status, guardrail result and what the caller may do next (can.edit/submit/approve/reject/publish). The review block says whether the caller can start a draft (canDraft: no open revision), delete the Google reply, and whether a Google reply exists. Check this after a person publishes a reply. */
 export async function reviewReplies_list(input: unknown = {}) {
   return runAction("reviewReplies.list", input);
 }
@@ -544,7 +559,7 @@ export async function posts_calendar(input: unknown = {}) {
   return runAction("posts.calendar", input);
 }
 
-/** Create a draft Google Business Profile post for one or more locations of a workspace. topicType STANDARD (summary, optional CTA and one image), EVENT (event title + start/end dates, times optional), OFFER (event plus optional couponCode, redeemOnlineUrl, termsConditions; Google ignores a CTA on offers) or ALERT (alertType COVID_19; Google has disabled new COVID_19 alerts). callToAction actionType BOOK, ORDER, SHOP, LEARN_MORE, SIGN_UP (all need an https url) or CALL (no url; uses the location's phone). media: one image by URL (uploads are not built yet). Do not put phone numbers in the summary. The draft is not sent anywhere: call posts.submit, which runs the guardrails. Content problems do not fail this call; posts.check shows them. language: the post's language, a BCP 47 code (en, es, fr, de, it, pt, nl, vi, zh, ko, ja, ar, hi, gu); omitted = the workspace's default post language (workspaces.list defaultPostLanguage). Sent to Google as languageCode. A bilingual post is two posts. scheduledFor (optional, ISO datetime with offset, not in the past) is the send time picked in Compose: it is only remembered on the draft and shown to the approver, nothing is sent until posts.schedule. */
+/** Create a draft Google Business Profile post for one or more locations of a workspace. topicType STANDARD (summary, optional CTA and one image), EVENT (event title + start/end dates, times optional), OFFER (event plus optional couponCode, redeemOnlineUrl, termsConditions; Google ignores a CTA on offers) or ALERT (alertType COVID_19; Google has disabled new COVID_19 alerts). callToAction actionType BOOK, ORDER, SHOP, LEARN_MORE, SIGN_UP (all need an https url) or CALL (no url; uses the location's phone). media: one image by URL (uploads are not built yet). Do not put phone numbers in the summary. The draft is not sent anywhere: call posts.submit, which runs the guardrails. Content problems do not fail this call; posts.check shows them. language: the post's language, a BCP 47 code (en, es, fr, de, it, pt, nl, vi, zh, ko, ja, ar, hi, gu); omitted = the workspace's default post language (workspaces.list defaultPostLanguage). Sent to Google as languageCode. A bilingual post is two posts. scheduledFor (optional, ISO datetime with offset, not in the past) is the send time picked in Compose: it is only remembered on the draft and shown to the approver, nothing is sent until a person schedules the post in OpenGMB. */
 export async function posts_createDraft(input: unknown = {}) {
   return runAction("posts.createDraft", input);
 }
@@ -554,7 +569,7 @@ export async function posts_bulkPreview(input: unknown = {}) {
   return runAction("posts.bulkPreview", input);
 }
 
-/** Create one DRAFT post per row of a CSV (same format and variables as posts.bulkPreview, at most 500 rows). ALL OR NOTHING: the file is re-validated here, and if the file or any row has an error nothing is created (INVALID_INPUT lists the first problems; run posts.bulkPreview and fix them). Each draft is made exactly as posts.createDraft makes it (one location, the workspace's default language, audit row per draft), so it still needs posts.submit, approval and posts.schedule: nothing is submitted, scheduled or sent. Guardrail findings do not stop a draft (posts.check shows them; submit blocks). */
+/** Create one DRAFT post per row of a CSV (same format and variables as posts.bulkPreview, at most 500 rows). ALL OR NOTHING: the file is re-validated here, and if the file or any row has an error nothing is created (INVALID_INPUT lists the first problems; run posts.bulkPreview and fix them). Each draft is made exactly as posts.createDraft makes it (one location, the workspace's default language, audit row per draft), so it still needs posts.submit and a person's approval and scheduling in OpenGMB: nothing is submitted, scheduled or sent. Guardrail findings do not stop a draft (posts.check shows them; submit blocks). */
 export async function posts_bulkCreateDrafts(input: unknown = {}) {
   return runAction("posts.bulkCreateDrafts", input);
 }
@@ -584,7 +599,7 @@ export async function posts_schedule(input: unknown = {}) {
   return runAction("posts.schedule", input);
 }
 
-/** Cancel a post that has not been sent: draft, blocked, pending_approval, approved or scheduled (a recurring series stops; posts already published stay on Google, use posts.deletePublished to remove them). A post that is being sent right now (publishing) cannot be cancelled: CONFLICT. */
+/** Cancel a post that has not been sent: draft, blocked, pending_approval, approved or scheduled (a recurring series stops; posts already published stay on Google, a person removes them in OpenGMB). A post that is being sent right now (publishing) cannot be cancelled: CONFLICT. */
 export async function posts_cancel(input: unknown = {}) {
   return runAction("posts.cancel", input);
 }
@@ -594,7 +609,7 @@ export async function posts_deletePublished(input: unknown = {}) {
   return runAction("posts.deletePublished", input);
 }
 
-/** Propose a change to a post that is already published on Google (post status published). Nothing is sent to Google until a person with approval rights approves it (posts.approveEdit); then the worker patches the live post at each location with Google's localPosts.patch, naming only the changed fields in the updateMask. Send only the fields to change: summary, cta, event, offer, media (a null or empty field is cleared on Google). The topic type and language cannot change; a different type is a new post. The guardrails run now for every location the post is live at (a block-severity violation stores nothing and returns outcome blocked; warnings need acknowledgeWarnings) and again per location right before the patch. One open edit per post. CONFLICT if the post is not published, has no live Google post, or already has an open edit. Posts made on Google outside OpenGMB cannot be edited here. Google writes stay off unless GOOGLE_BUSINESS_WRITES is live: the edit then fails per location with google_writes_disabled. */
+/** Propose a change to a post that is already published on Google (post status published). Nothing is sent to Google until a person with approval rights approves it in OpenGMB; then the worker patches the live post at each location with Google's localPosts.patch, naming only the changed fields in the updateMask. Send only the fields to change: summary, cta, event, offer, media (a null or empty field is cleared on Google). The topic type and language cannot change; a different type is a new post. The guardrails run now for every location the post is live at (a block-severity violation stores nothing and returns outcome blocked; warnings need acknowledgeWarnings) and again per location right before the patch. One open edit per post. CONFLICT if the post is not published, has no live Google post, or already has an open edit. Posts made on Google outside OpenGMB cannot be edited here. Google writes stay off unless GOOGLE_BUSINESS_WRITES is live: the edit then fails per location with google_writes_disabled. */
 export async function posts_proposeEdit(input: unknown = {}) {
   return runAction("posts.proposeEdit", input);
 }
@@ -654,7 +669,7 @@ export async function geogrid_run(input: unknown = {}) {
   return runAction("geogrid.run", input);
 }
 
-/** Quick scan of any business (for example a prospect) that is not a managed location: one keyword over a grid around centerLat/centerLng, matched by its Google place id (placeId, required; business search is not available on this server, so the id is pasted). Creates a quick-scan configuration (kind 'quick_scan', no location, schedule manual) in workspaceId and queues its first run in the same step; uses the same budget, prices and own-key rules as trackers and fails with FORBIDDEN 'BUDGET_EXCEEDED' (nothing created) when the estimate does not fit (see geogrid.preview). Re-run with geogrid.run, read with geogrid.runs.list kind 'quick_scan' and geogrid.runs.get, remove with geogrid.configs.delete. Needs geogrid:manage (owner, admin, manager). */
+/** Quick scan of any business (for example a prospect) that is not a managed location: one keyword over a grid around centerLat/centerLng, matched by its Google place id (placeId, required). centerLat/centerLng are optional: when omitted, the place's own location is read from Google Places. Creates a quick-scan configuration (kind 'quick_scan', no location, schedule manual) in workspaceId and queues its first run in the same step; uses the same budget, prices and own-key rules as trackers and fails with FORBIDDEN 'BUDGET_EXCEEDED' (nothing created) when the estimate does not fit (see geogrid.preview). Re-run with geogrid.run, read with geogrid.runs.list kind 'quick_scan' and geogrid.runs.get, remove with geogrid.configs.delete. Needs geogrid:manage (owner, admin, manager). */
 export async function geogrid_quickScans_create(input: unknown = {}) {
   return runAction("geogrid.quickScans.create", input);
 }
@@ -709,6 +724,26 @@ export async function aiVisibility_runNow(input: unknown = {}) {
   return runAction("aiVisibility.runNow", input);
 }
 
+/** Price of a keyword research search before it runs: the DataForSEO cost (providerUsd) and what the organization is charged with its markup (chargedUsd), the credit balance, this month's spend against the monthly budget, and whether the search would exceed it. A search repeated within 7 days is free (cached true, prices 0). Takes workspaceId, seed, countryIso (IN, US, AU, GB, CA, NZ, AE), an optional city (a geotarget name such as 'Austin,Texas,United States') and rows (20 to 300, default 150). Reads stored data only. Needs geogrid:cost (owner, admin, manager; hidden from client roles). */
+export async function seo_keywords_estimate(input: unknown = {}) {
+  return runAction("seo.keywords.estimate", input);
+}
+
+/** Run keyword research for a seed keyword in one country (IN, US, AU, GB, CA, NZ, AE), optionally with monthly search volume for one city (a geotarget name such as 'Austin,Texas,United States' from the city search). Returns up to 300 ideas with national keyword difficulty, intent and CPC, and the city's monthly volume. Costs DataForSEO credit, charged to the organization's credit with its markup: maxChargeUsd is required and the call is refused when the current price is higher, so pass the price you were shown. Results arrive asynchronously and are read with seo.keywords.get. A search repeated within 7 days returns the stored result at no cost. Needs geogrid:manage (owner, admin, manager). */
+export async function seo_keywords_research(input: unknown = {}) {
+  return runAction("seo.keywords.research", input);
+}
+
+/** Read keyword research. Give exactly one of runId (one search with its rows: keyword, national volume, keyword difficulty 0 to 100, intent, CPC, trend, and the city's monthly volume and CPC when a city was chosen; status queued or running means it is still working) or workspaceId (the last 20 searches of that workspace, without rows). chargedUsd is null unless the role has geogrid:cost. Reads stored data only. Needs geogrid:read. */
+export async function seo_keywords_get(input: unknown = {}) {
+  return runAction("seo.keywords.get", input);
+}
+
+/** Find city names Google Ads can report monthly search volume for, in one country (IN, US, AU, GB, CA, NZ, AE): up to 10 matches for the typed text (at least 2 characters), each with the exact geotarget name used by keyword research and its type. Free. Needs geogrid:read. */
+export async function seo_cities_search(input: unknown = {}) {
+  return runAction("seo.cities.search", input);
+}
+
 /** Whether this organization has its own DataForSEO API key (bring your own key) and the masked login. Never returns the password. With a key, geo-grid Maps-rank runs use it, are billed at cost with no markup, and do not count against the monthly resold-spend budget. Needs google:manage (owner, admin). */
 export async function geogrid_byoKey_get(input: unknown = {}) {
   return runAction("geogrid.byoKey.get", input);
@@ -724,7 +759,7 @@ export async function geogrid_byoKey_delete(input: unknown = {}) {
   return runAction("geogrid.byoKey.delete", input);
 }
 
-/** Check the stored DataForSEO key with the driver's credential check (a free DataForSEO user_data call when the server has a live rank source, otherwise an offline fixture). Returns ok or failed with a message and records the last-verified time on success. Needs google:manage (owner, admin). */
+/** Check the stored DataForSEO key with a free DataForSEO user_data call made with the organization's own login and password (it always calls DataForSEO, whether or not the server has a key of its own). Returns ok or failed with a message and records the last-verified time on success. Needs google:manage (owner, admin). */
 export async function geogrid_byoKey_verify(input: unknown = {}) {
   return runAction("geogrid.byoKey.verify", input);
 }
@@ -919,7 +954,7 @@ export async function members_resetTwoFactor(input: unknown = {}) {
   return runAction("members.resetTwoFactor", input);
 }
 
-/** Everything waiting for a person to approve, across the caller's workspaces or one workspaceId, oldest submission first: review replies, posts, profile change sets and edits of published posts with status pending_approval. Each item has a one-line title, the text, where it is for, who drafted it (provenance.createdSurface is mcp for an agent draft), a guardrail summary and can.approve / can.reject and canDiscard from the caller's role (canDiscard: act with posts.cancel, profile.cancel or posts.cancelEdit; replies have none), and locations (id, name, addressSummary) beside locationNames; act with reviewReplies.approve / reject, posts.approve / reject, profile.approve / reject, posts.approveEdit / rejectEdit (a postedit item's id is the edit id; the post stays published while its edit waits). An edit is included only while a live Google post it would patch is at an active location. counts are the totals before limit; truncated is true when limit cut the list. Replies at inactive locations are not included. A change set is included only while at least one location it changes is active, and only active locations are named. */
+/** Everything waiting for a person to approve, across the caller's workspaces or one workspaceId, oldest submission first: review replies, posts, profile change sets and edits of published posts with status pending_approval. Each item has a one-line title, the text, where it is for, who drafted it (provenance.createdSurface is mcp for an agent draft), a guardrail summary and can.approve / can.reject and canDiscard from the caller's role (canDiscard: act with posts.cancel, profile.cancel or posts.cancelEdit; replies have none), and locations (id, name, addressSummary) beside locationNames; a person acts on it in the Approvals page of OpenGMB (approve or reject; a postedit item's id is the edit id; the post stays published while its edit waits). An edit is included only while a live Google post it would patch is at an active location. counts are the totals before limit; truncated is true when limit cut the list. Replies at inactive locations are not included. A change set is included only while at least one location it changes is active, and only active locations are named. */
 export async function approvals_queue(input: unknown = {}) {
   return runAction("approvals.queue", input);
 }
@@ -939,7 +974,7 @@ export async function attention_queue(input: unknown = {}) {
   return runAction("attention.queue", input);
 }
 
-/** Whether the first-run checklist facts stored on the organization are set: healthReportSeen (someone opened a location's health report) and dismissed (an owner or admin hid the checklist). */
+/** Whether the first-run checklist facts stored on the organization are set: healthReportSeen (someone opened a location's health report) and dismissed (an owner or admin hid the checklist). firstDraft is the state of the one free first reply draft (onboarding.firstDraft): used, the review it is for (the newest one that needs a reply while unused), replyStatus (the latest reply on that review, null before the click or after a guardrail blocked it) and aiReady (an AI key is set and the account's AI switch is on). Reading it never calls the AI. */
 export async function onboarding_get(input: unknown = {}) {
   return runAction("onboarding.get", input);
 }
@@ -947,6 +982,11 @@ export async function onboarding_get(input: unknown = {}) {
 /** Keep the first-run checklist on Home honest. healthReportSeen true records that someone opened a location's health report (it stays on). dismissed true hides the checklist for the whole organization, false brings it back; dismissing needs google:manage (owner, admin). Pass only the fields to change. Writes nothing to Google. */
 export async function onboarding_update(input: unknown = {}) {
   return runAction("onboarding.update", input);
+}
+
+/** The free first reply draft, once per organization. Drafts a reply with AI to the newest review that needs one and saves it as a DRAFT: it is never submitted, approved or published, and nothing goes to Google. The platform pays; nothing is taken from the account's credit. Sends that review's text to the AI provider, so call it only when the person asks. Refused with CONFLICT when the free draft was already used, NOT_FOUND when no review needs a reply, AI_BUDGET_EXCEEDED over the monthly AI limit, NOT_CONFIGURED without an AI key. outcome 'blocked' means a guardrail stopped the draft and nothing was saved (the free draft is then used). Needs review:draft, and the person must have acknowledged the one-time AI notice (aiNotice.acknowledge) first, else CONFLICT. */
+export async function onboarding_firstDraft(input: unknown = {}) {
+  return runAction("onboarding.firstDraft", input);
 }
 
 /** Whether AI features are on for the account (an owner can switch them off for everyone), and whether the caller has seen the one-time AI notice. Writes nothing. */
@@ -999,7 +1039,7 @@ export async function profile_changes_accept(input: unknown = {}) {
   return runAction("profile.changes.accept", input);
 }
 
-/** Revert a profile change found by the nightly snapshot: creates a profile change set that restores the previous values of the changed fields (profile.changeSets.get shows it) and marks the change reverted. Nothing is written to Google here: the change set waits for approval (review:approve) and is applied by profile.apply with the usual conflict check, so if the field changed again on Google since the change was detected, that location fails with `conflict` and nothing is written. Not available for Google-suggested changes (the merchant value already equals the restored value): accept or dismiss those. A reverted change whose change set was cancelled, blocked or failed can be reverted again. */
+/** Revert a profile change found by the nightly snapshot: creates a profile change set that restores the previous values of the changed fields (profile.changeSets.get shows it) and marks the change reverted. Nothing is written to Google here: the change set waits for approval (review:approve) and is applied by a person in OpenGMB with the usual conflict check, so if the field changed again on Google since the change was detected, that location fails with `conflict` and nothing is written. Not available for Google-suggested changes (the merchant value already equals the restored value): accept or dismiss those. A reverted change whose change set was cancelled, blocked or failed can be reverted again. */
 export async function profile_changes_revert(input: unknown = {}) {
   return runAction("profile.changes.revert", input);
 }
@@ -1204,7 +1244,7 @@ export async function ai_draftServiceDescription(input: unknown = {}) {
   return runAction("ai.draftServiceDescription", input);
 }
 
-/** Suggest 5 short Google post ideas for one location with AI, drawn from its services, a general theme of its recent positive reviews (never a quote or a reviewer's name; none at all for healthcare clients) and the occasions coming up in the next 60 days for the client's market (US, AU or IN, from the client's time zone). One AI call, metered and audited like ai.draftText. status 'ok' returns ideas; status 'blocked' returns blockedRuleIds and no ideas. Pick one, then call ai.draftPost with it. Refused with AI_BUDGET_EXCEEDED over the monthly cap, NOT_CONFIGURED when this server has no AI key. Nothing is saved. Needs review:draft (owner, admin, manager). */
+/** Suggest 5 short Google post ideas for one location with AI, drawn from its services, a general theme of its recent positive reviews (never a quote or a reviewer's name; none at all for healthcare clients) and the occasions coming up in the next 60 days for the client's market (US, AU or IN, from the client's time zone). One AI call, metered and audited like ai.draftText. status 'ok' returns ideas; status 'blocked' returns blockedRuleIds and no ideas. An idea can be passed to ai.draftPost to become a draft. Refused with AI_BUDGET_EXCEEDED over the monthly cap, NOT_CONFIGURED when this server has no AI key. Nothing is saved. Needs review:draft (owner, admin, manager). */
 export async function ai_postIdeas(input: unknown = {}) {
   return runAction("ai.postIdeas", input);
 }

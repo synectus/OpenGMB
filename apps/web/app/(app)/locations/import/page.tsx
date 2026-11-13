@@ -12,7 +12,7 @@ import { googleConnections_list, workspaces_list } from "../../../_generated/act
 
 type Handler<T extends { handler: (...a: never[]) => unknown }> = Awaited<ReturnType<T["handler"]>>;
 
-export default async function ImportPage({ searchParams }: { searchParams: Promise<{ ws?: string }> }) {
+export default async function ImportPage({ searchParams }: { searchParams: Promise<{ ws?: string; guided?: string; connected?: string }> }) {
   const { userId } = await requireUser();
   const t = await getTranslations("locations");
   const { role } = await actorContextFor(userId);
@@ -39,7 +39,7 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
         <ChooseClient
           title={t("importChooseTitle")}
           text={t("chooseClientText")}
-          path="/locations/import"
+          path={sp.guided === "1" ? "/locations/import?guided=1" : "/locations/import"}
           workspaces={workspaces}
         />
       </div>
@@ -68,8 +68,14 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
           title={t("importPanelTitle")}
           description={t("importPanelDescription")}
         >
+          {sp.connected === "1" && (
+            <p role="status" className="mb-3 rounded-control bg-good-bg px-3 py-2 text-sm text-good">
+              {t("guidedConnected")}
+            </p>
+          )}
           <ImportLocations
             key={workspace.id}
+            guided={sp.guided === "1"}
             workspaceId={workspace.id}
             max={IMPORT_MAX_LOCATIONS}
             connections={(conns.data as Handler<typeof googleConnectionsList>).connections.map((c) => ({

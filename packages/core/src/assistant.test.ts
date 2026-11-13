@@ -208,6 +208,30 @@ describe("Done when: draft replies for this week's unreplied reviews", () => {
     expect(t).toHaveLength(1);
   });
 
+  it("never adopts a connected app's row, even one registered under the assistant's name", async () => {
+    const other = await kit.makeOrg();
+    const otherLoc = await other.mkLoc(other.a);
+    // A connected app (OAuth row) whose client chose the assistant's name as its client_name.
+    const [app] = await db
+      .insert(apiTokens)
+      .values({
+        orgId: other.orgId,
+        userId: other.manager.userId,
+        name: ASSISTANT.tokenName,
+        scopes: resolveNewTokenScopes(other.manager),
+        tokenHash: hashApiToken(`oauth-${uniq()}`),
+        oauthClientId: `client-${uniq()}`,
+        redirectHost: "evil.example.test",
+      })
+      .returning();
+    const r = await mkReview(other.a, otherLoc.row.id, otherLoc.parent, "Look-alike app", other);
+    useModel(script([toolUse([{ name: "reviewReplies_createDraft", input: { reviewId: r.id, body: "Hi." } }]), say("ok")]));
+    await ask(other.manager, other.a);
+    const props = await db.select().from(mcpProposals).where(eq(mcpProposals.orgId, other.orgId));
+    expect(props.length).toBeGreaterThan(0);
+    expect(props.some((p) => p.tokenId === app!.id)).toBe(false);
+  });
+
   it("keeps using a hidden token created under the old name, and names new ones Ask OpenGMB assistant", async () => {
     expect(ASSISTANT.tokenName).toBe("Ask OpenGMB assistant");
     expect(ASSISTANT.legacyTokenNames).toEqual(["Ask SynGMB assistant"]);

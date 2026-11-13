@@ -1,3 +1,5 @@
+import { locationsNotFoundAmong } from "../reviews/not-found";
+import { googleGoneReason } from "../google/errors";
 import { and, eq, inArray, isNotNull, sql } from "drizzle-orm";
 import {
   customerMediaScans,
@@ -14,6 +16,7 @@ import { clientFor } from "../reviews/reply-jobs";
 import { workerAudit } from "../reviews/reply-state";
 import { recipientsForLocation } from "../notifications";
 import { orgIsActive } from "../account-state";
+import { googleAccessKept } from "../google/access-lost";
 
 export const CUSTOMER_MEDIA_SCAN_QUEUE = "media.customer_scan";
 export const CUSTOMER_MEDIA_SCHEDULE_QUEUE = "media.customer_schedule";
@@ -63,6 +66,7 @@ export async function enqueueCustomerMediaScans(
         isNotNull(locations.googleAccountName),
         isNotNull(locations.connectionId),
         orgIsActive(locations.orgId),
+        googleAccessKept(locations.connectionId), // OPS3
       ),
     );
   // One transaction: the fan-out is all-or-nothing and a thousand locations stay one round of commits.
@@ -97,12 +101,19 @@ export async function processCustomerMediaScan(
   if (!loc || loc.status !== "active" || !loc.googleLocationId || !loc.googleAccountName) {
     return skipped;
   }
-  const client = deps.client ?? (await clientFor(db, loc.orgId, loc.connectionId));
-  if (!client) return skipped;
-  const items = await listAllCustomerMedia(
-    client,
-    `${loc.googleAccountName}/${loc.googleLocationId}`,
-  );
+  let items: Awaited<ReturnType<typeof listAllCustomerMedia>>;
+  try {
+    const client = deps.client ?? (await clientFor(db, loc.orgId, loc.connectionId));
+    if (!client) return skipped;
+    items = await listAllCustomerMedia(client, `${loc.googleAccountName}/${loc.googleLocationId}`);
+  } catch (e) {
+    // OPS3: a location Google cannot find, or access the customer removed. No scan is recorded, so no photo is ever counted as new.
+    const gone = googleGoneReason(e);
+    if (!gone) throw e;
+    if (gone === "google_location_not_found" && (await locationsNotFoundAmong(db, [loc.id])).length === 0) throw e; // the review sync has not recorded it: could be a platform-wide break
+    console.warn(`[media.customer_scan] location ${loc.id} skipped: ${gone}`);
+    return skipped;
+  }
   const names = [...new Set(items.flatMap((i) => (i.name ? [i.name] : [])))];
 
   return db.transaction(async (tx): Promise<CustomerMediaScanOutcome> => {

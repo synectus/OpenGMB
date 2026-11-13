@@ -2,45 +2,9 @@
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useId, useRef, useState } from "react";
-import {
-  posts_approve,
-  posts_approveEdit,
-  posts_cancel,
-  posts_cancelEdit,
-  posts_reject,
-  posts_rejectEdit,
-  profile_approve,
-  profile_cancel,
-  profile_reject,
-  reviewReplies_approve,
-  reviewReplies_reject,
-} from "../app/_generated/actions";
+import { decide, discard, type ApprovalType } from "./approval-decide";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./primitives/dialog";
 import { buttonClass, destructiveButtonClass, ErrorText, secondaryButtonClass } from "./ui";
-
-export type ApprovalType = "reply" | "post" | "changeset" | "postedit";
-
-export function decide(type: ApprovalType, kind: "approve" | "reject", id: string, reason: string) {
-  if (type === "reply") {
-    return kind === "approve" ? reviewReplies_approve({ id }) : reviewReplies_reject({ id, reason });
-  }
-  if (type === "post") {
-    return kind === "approve" ? posts_approve({ id }) : posts_reject({ id, reason });
-  }
-  if (type === "postedit") {
-    return kind === "approve" ? posts_approveEdit({ id }) : posts_rejectEdit({ id, reason });
-  }
-  return kind === "approve" ? profile_approve({ id }) : profile_reject({ id, reason });
-}
-
-export type DiscardType = Exclude<ApprovalType, "reply">;
-
-/** Cancels the item for good with the action that already does it. Replies have none: they are only sent back. */
-export function discard(type: DiscardType, id: string) {
-  if (type === "post") return posts_cancel({ id });
-  if (type === "postedit") return posts_cancelEdit({ id });
-  return profile_cancel({ id });
-}
 
 /**
  * Approve / send back with an always-visible reason (the Approvals page, whose S key focuses it).

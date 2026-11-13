@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  GOOGLE_ACCESS_LOST_KIND,
   GOOGLE_NOTIFICATION_KINDS,
   GEOGRID_BUDGET_EXCEEDED_KIND,
   MEDIA_CUSTOMER_PHOTO_KIND,
@@ -17,12 +18,13 @@ const CORE_KINDS = [
   PROFILE_CHANGED_KIND,
   MEDIA_CUSTOMER_PHOTO_KIND,
   GEOGRID_BUDGET_EXCEEDED_KIND,
+  GOOGLE_ACCESS_LOST_KIND,
   "approval.requested",
 ];
 
 describe("kinds", () => {
-  it("canary: the preferences table lists exactly the 9 kinds core creates", () => {
-    expect(CORE_KINDS).toHaveLength(9);
+  it("canary: the preferences table lists exactly the 10 kinds core creates", () => {
+    expect(CORE_KINDS).toHaveLength(10);
     expect(PREFERENCE_ROWS.map((r) => r.kind).sort()).toEqual([...CORE_KINDS].sort());
   });
 

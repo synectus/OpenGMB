@@ -20,7 +20,7 @@ export function MfaVerifyForm() {
     const code = String(new FormData(e.currentTarget).get("code")).trim();
     setPending(true);
     setError(null);
-    const { error } = useBackup
+    const { data, error } = useBackup
       ? await authClient.twoFactor.verifyBackupCode({ code })
       : await authClient.twoFactor.verifyTotp({ code });
     setPending(false);
@@ -29,6 +29,8 @@ export function MfaVerifyForm() {
       const left = await backupCodesLeftAction();
       if (left !== null && isLowBackupCodes(left)) return setLowLeft(left);
     }
+    // In an OAuth flow the auth client follows { redirect, url } itself (to the consent page or the app).
+    if (data && "redirect" in data && data.redirect) return;
     window.location.href = "/";
   }
 

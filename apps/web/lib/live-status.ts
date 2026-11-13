@@ -32,7 +32,13 @@ export function liveStatusForViewer(status: LiveStatus, platformAdmin: boolean):
   return platformAdmin ? status : null;
 }
 
-export function liveStatus(env: Env, emailOn: boolean, push?: PushFacts): LiveStatus {
+/**
+ * `rankLive`: the organization's own answer for rank tracking (an own DataForSEO key makes it live even when the server has none);
+ * left out, the server environment decides. `community`: the sample text points at the Rank tracking key form, because Settings > Integrations is not in that edition.
+ */
+export type LiveStatusOpts = { rankLive?: boolean; community?: boolean };
+
+export function liveStatus(env: Env, emailOn: boolean, push?: PushFacts, opts: LiveStatusOpts = {}): LiveStatus {
   // Same defaults as packages/core/src/google/factory.ts.
   const mode = env.GOOGLE_BUSINESS_API_MODE?.trim() || "mock";
   const writes = env.GOOGLE_BUSINESS_WRITES?.trim() || "off";
@@ -50,7 +56,7 @@ export function liveStatus(env: Env, emailOn: boolean, push?: PushFacts): LiveSt
   // Same rule as core's rankSource(): both DataForSEO keys set means real data; the sandbox host returns dummy data.
   const rankKeys = Boolean(env.DATAFORSEO_LOGIN?.trim() && env.DATAFORSEO_PASSWORD?.trim());
   const rankSandbox = rankKeys && env.DATAFORSEO_API_BASE?.trim() === "https://sandbox.dataforseo.com";
-  const rankLive = rankKeys && !rankSandbox;
+  const rankLive = opts.rankLive ?? (rankKeys && !rankSandbox);
 
   const rows: LiveRow[] = [
     badMode
@@ -115,7 +121,9 @@ export function liveStatus(env: Env, emailOn: boolean, push?: PushFacts): LiveSt
         ? "Heatmaps come from DataForSEO Google Maps."
         : rankSandbox
           ? "Heatmaps show DataForSEO sandbox data, which is made up, not real rankings."
-          : "Heatmaps show sample data until DataForSEO is connected in Settings > Integrations.",
+          : opts.community
+            ? "Heatmaps show sample data until a DataForSEO key is added under Rank tracking > Usage and cost, or in your .env file."
+            : "Heatmaps show sample data until DataForSEO is connected in Settings > Integrations.",
       setting: null,
     },
     {

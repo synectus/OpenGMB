@@ -5,6 +5,7 @@ import { ConnectGoogleButton } from "../connect-google-button";
 import { ConnectSampleGoogleButton } from "../connect-sample-google-button";
 import { CreateWorkspaceForm } from "../create-workspace-form";
 import { setupLine, waitingText, type Queue, type Step } from "../../lib/home";
+import { FirstScanCard } from "./first-scan";
 import { SetupProgress } from "./setup";
 import { TryAgain } from "./try-again";
 import { buttonClass, secondaryButtonClass } from "../ui";
@@ -29,7 +30,7 @@ export function NewAccount({ steps }: { steps: Step[] }) {
   );
 }
 
-export function ConnectGoogle({ steps, canConnect, sampleAvailable }: { steps: Step[]; canConnect: boolean; sampleAvailable: boolean }) {
+export function ConnectGoogle({ steps, canConnect, sampleAvailable, firstScan }: { steps: Step[]; canConnect: boolean; sampleAvailable: boolean; firstScan: { workspaceId: string } | null }) {
   const t = useTranslations("home");
   return (
     <div className="flex flex-col gap-4">
@@ -37,6 +38,7 @@ export function ConnectGoogle({ steps, canConnect, sampleAvailable }: { steps: S
         <SetupProgress steps={steps} />
         <p className="text-sm text-muted-foreground">{setupLine(steps, t)}</p>
       </div>
+      {firstScan && <FirstScanCard workspaceId={firstScan.workspaceId} />}
       <section className={`${card} sm:flex-row sm:items-start`}>
         <Link2 aria-hidden className="size-6 shrink-0 text-brand" />
         <div className="flex flex-col gap-2">
@@ -73,7 +75,7 @@ export function NoLocations({ anyInactive, steps }: { anyInactive: boolean; step
             ? t("state.noActiveText")
             : t("state.noLocationsText")}
         </p>
-        <Link href={anyInactive ? "/locations" : "/locations/import"} className={`${buttonClass} mt-2`}>
+        <Link href={anyInactive ? "/locations" : "/locations/import?guided=1"} className={`${buttonClass} mt-2`}>
           {anyInactive ? t("state.openLocations") : t("state.importLocations")}
         </Link>
       </div>
@@ -109,6 +111,28 @@ export function RelinkNotes({ relink }: { relink: Queue["relink"] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+/** OPS3: shown to people who can manage the Google connection when Google no longer lets us in. */
+export function GoogleAccessLostNote() {
+  const t = useTranslations("home");
+  return (
+    <p role="alert" className="rounded-control border border-bad-border bg-bad-bg px-3 py-2 text-sm text-bad">
+      {t("state.accessLost")}{" "}
+      <Link href="/settings/google" className="font-semibold underline">{t("state.googleConnection")}</Link>
+    </p>
+  );
+}
+
+/** Google answers "not found" for a location. Gone by itself when a later sync succeeds. The status page shows the reason per location. */
+export function LocationNotFoundNote({ name, more }: { name: string; more: number }) {
+  const t = useTranslations("home");
+  return (
+    <p role="alert" className="rounded-control border border-bad-border bg-bad-bg px-3 py-2 text-sm text-bad">
+      {t("state.locationNotFound", { name: more > 0 ? `${name} ${t("state.andMore", { n: more })}` : name })}{" "}
+      <Link href="/settings/status" className="font-semibold underline">{t("state.systemStatus")}</Link>
+    </p>
   );
 }
 

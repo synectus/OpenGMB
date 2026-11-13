@@ -1,3 +1,5 @@
+import { locationsNotFoundAmong } from "../reviews/not-found";
+import { googleGoneReason } from "../google/errors";
 import { and, eq, inArray, isNotNull, sql } from "drizzle-orm";
 import {
   googleConnections,
@@ -36,6 +38,7 @@ import {
   type DayRange,
 } from "./dates";
 import { orgIsActive } from "../account-state";
+import { googleAccessKept } from "../google/access-lost";
 
 export const PERFORMANCE_SNAPSHOT_QUEUE = "performance.snapshot";
 export const PERFORMANCE_SCHEDULE_QUEUE = "performance.schedule";
@@ -84,6 +87,7 @@ export async function enqueueNightlySnapshots(
         isNotNull(locations.connectionId),
         opts.orgIds ? inArray(locations.orgId, opts.orgIds) : undefined,
         orgIsActive(locations.orgId),
+        googleAccessKept(locations.connectionId), // OPS3
       ),
     );
   const stagger = orgStagger();
@@ -252,6 +256,13 @@ export async function processPerformanceSnapshot(
     if (isLocationAccessDenied(e)) {
       await markGoogleAccessDenied(db, loc, "performance", now);
       return { status: "skipped", reason: "google_access_denied" };
+    }
+    // OPS3: a location Google cannot find, or access the customer removed: retrying cannot fix it, and the review sync records it.
+    const gone = googleGoneReason(e);
+    if (gone === "google_location_not_found" && (await locationsNotFoundAmong(db, [loc.id])).length === 0) throw e; // the review sync has not recorded it: could be a platform-wide break
+    if (gone) {
+      console.warn(`[performance.snapshot] location ${loc.id} skipped: ${gone}`);
+      return { status: "skipped", reason: gone };
     }
     throw e;
   }

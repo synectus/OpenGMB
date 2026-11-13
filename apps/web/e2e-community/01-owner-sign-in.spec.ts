@@ -1,9 +1,9 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
-import { hydrated, newTotp, open, OWNER, OWNER_STATE, readTotpSecret, STATE_DIR, TOTP_FILE } from "./support";
+import { hydrated, newTotp, open, openMfaSetup, OWNER, OWNER_STATE, readTotpSecret, STATE_DIR, TOTP_FILE } from "./support";
 
 // The owner is created from OWNER_EMAIL / OWNER_PASSWORD on the first start. These two specs sign that person in,
-// first with two-factor set-up (the first sign-in of every account) and then with a code.
+// first with two-factor set-up (optional, so it is opened from the app) and then with a code.
 test.describe.configure({ mode: "serial" });
 
 test("the owner from the environment signs in, sets up two-factor and reaches home", async ({ page }) => {
@@ -12,7 +12,7 @@ test("the owner from the environment signs in, sets up two-factor and reaches ho
   await page.getByLabel("Password").fill(OWNER.password);
   await page.getByRole("button", { name: "Sign in" }).click();
 
-  await expect(page.getByRole("heading", { name: "Set up two-factor authentication" })).toBeVisible();
+  await openMfaSetup(page);
   await hydrated(page);
   await page.getByLabel("Confirm your password").fill(OWNER.password);
   await page.getByRole("button", { name: "Set up authenticator" }).click();

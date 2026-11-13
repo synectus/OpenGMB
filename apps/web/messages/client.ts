@@ -22,6 +22,7 @@ export const MESSAGE_SETS = {
   resetFlow: ["auth", "authFlows"], // /forgot-password, /reset-password
   mfa: ["auth", "authFlows"], // /mfa/setup, /mfa/verify
   invite: ["authFlows"], // /invite
+  oauthConsent: ["oauthConsent"], // /oauth/consent
   reportShare: ["reports"], // /r/[token]
   // Agency app
   app: SHELL,
@@ -44,6 +45,7 @@ export const MESSAGE_SETS = {
   posts: app("approvals", "posts", "reviews"),
   reports: app("reports"),
   reviews: app("agents", "reviews", "reviewTopics", "reviewsTools"),
+  seoKeywords: app("seoKeywords"), // SeoStaffMessages adds the staff-only seoKeywordsCost on top of this set
   settings: app("settings"),
   settingsStatus: app("settingsStatus"),
   settingsTeam: app("settingsTeam"),

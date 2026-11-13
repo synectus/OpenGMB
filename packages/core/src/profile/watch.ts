@@ -1,3 +1,5 @@
+import { locationsNotFoundAmong } from "../reviews/not-found";
+import { googleGoneReason } from "../google/errors";
 import { and, desc, eq, gt, isNotNull, sql } from "drizzle-orm";
 import {
   locations,
@@ -29,6 +31,7 @@ import {
   type ProfileValues,
 } from "./fields";
 import { orgIsActive } from "../account-state";
+import { googleAccessKept } from "../google/access-lost";
 
 export const PROFILE_SNAPSHOT_QUEUE = "profile.snapshot";
 export const PROFILE_SNAPSHOT_SCHEDULE_QUEUE = "profile.snapshot_schedule";
@@ -103,6 +106,7 @@ export async function enqueueNightlyProfileSnapshots(
         isNotNull(locations.googleLocationId),
         isNotNull(locations.connectionId),
         orgIsActive(locations.orgId),
+        googleAccessKept(locations.connectionId), // OPS3
       ),
     );
   // One transaction: the fan-out is all-or-nothing and a thousand locations stay one round of commits.
@@ -242,13 +246,25 @@ export async function processProfileSnapshot(
   if (!loc || loc.status !== "active" || !loc.googleLocationId) return "skipped";
   // AP3b: the auto-revert below WRITES to Google, so a suspended org's snapshot waits (re-queued) rather than running.
   if (await deferIfBlocked(db, loc.orgId, PROFILE_SNAPSHOT_QUEUE, job)) return "skipped";
-  const client = deps.client ?? (await clientFor(db, loc.orgId, loc.connectionId));
-  if (!client) return "skipped";
-  const { snapshot } = await fetchProfile(client, loc.googleLocationId);
+  let client: WatchReader | null | undefined;
+  let snapshot: Awaited<ReturnType<typeof fetchProfile>>["snapshot"];
+  let autoPlan: Awaited<ReturnType<typeof planAutoRevert>>;
+  try {
+    client = deps.client ?? (await clientFor(db, loc.orgId, loc.connectionId));
+    if (!client) return "skipped";
+    ({ snapshot } = await fetchProfile(client, loc.googleLocationId));
+    // L8: read Google (standing) before the transaction; the change itself is undone after it commits.
+    autoPlan = await planAutoRevert(db, { id: loc.id, googleLocationId: loc.googleLocationId }, client);
+  } catch (e) {
+    // OPS3: a location Google cannot find, or access the customer removed. Nothing is stored (no baseline, no change, no notice); the review sync records it.
+    const gone = googleGoneReason(e);
+    if (!gone) throw e;
+    if (gone === "google_location_not_found" && (await locationsNotFoundAmong(db, [loc.id])).length === 0) throw e; // the review sync has not recorded it: could be a platform-wide break
+    console.warn(`[profile.snapshot] location ${loc.id} skipped: ${gone}`);
+    return "skipped";
+  }
   const hash = snapshotHash(snapshot);
   const source = job.source ?? "nightly";
-  // L8: read Google (standing) before the transaction; the change itself is undone after it commits.
-  const autoPlan = await planAutoRevert(db, { id: loc.id, googleLocationId: loc.googleLocationId }, client);
   let toRevert: { changeId: string; fieldNames: string[] } | null = null;
 
   const outcome = await db.transaction(async (tx): Promise<SnapshotOutcome> => {

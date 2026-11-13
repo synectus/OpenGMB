@@ -40,6 +40,8 @@ function publicRow(r: TokenRow) {
     name: r.name,
     scopes: r.scopes,
     mode: r.mode,
+    oauthClientId: r.oauthClientId,
+    redirectHost: r.redirectHost,
     createdAt: r.createdAt,
     lastUsedAt: r.lastUsedAt,
     revokedAt: r.revokedAt,
@@ -75,9 +77,12 @@ export async function listApiTokens(tx: Tx, actor: Actor): Promise<ApiTokenView[
     .from(apiTokens)
     .innerJoin(users, eq(users.id, apiTokens.userId))
     .where(
-      all
-        ? eq(apiTokens.orgId, actor.orgId)
-        : and(eq(apiTokens.orgId, actor.orgId), eq(apiTokens.userId, actor.userId)),
+      and(
+        isNull(apiTokens.oauthClientId), // connected apps are listed by connectedApps.list
+        all
+          ? eq(apiTokens.orgId, actor.orgId)
+          : and(eq(apiTokens.orgId, actor.orgId), eq(apiTokens.userId, actor.userId)),
+      ),
     )
     .orderBy(desc(apiTokens.createdAt));
   return rows.map((r) => toView(r.token, r.email));
@@ -170,6 +175,12 @@ export async function revokeApiTokenFor(tx: Tx, actor: Actor, id: string, audit:
   ) {
     throw new AccessError("FORBIDDEN", "You can only revoke your own API tokens");
   }
+  if (found.token.oauthClientId) {
+    throw new CoreError(
+      "CONFLICT",
+      "This is a connected app, not an API token. Disconnect it under Settings, API tokens, Connected apps.",
+    );
+  }
   if (found.token.revokedAt) throw new CoreError("CONFLICT", "API token is already revoked");
   const [revoked] = await tx
     .update(apiTokens)
@@ -212,7 +223,14 @@ export async function createApiToken(
   const name = input.name?.trim() || "mcp";
   if (name.length > 100) throw new CoreError("INVALID_INPUT", "name: at most 100 characters");
   const { token, apiToken } = await db.transaction((tx) =>
-    createApiTokenFor(tx, actor, name, cliAudit(tx, actor), input.readOnly ? ["read"] : undefined, input.mode),
+    createApiTokenFor(
+      tx,
+      actor,
+      name,
+      cliAudit(tx, actor),
+      input.readOnly ? ["read"] : undefined,
+      input.mode,
+    ),
   );
   return { token, row: apiToken };
 }
@@ -242,7 +260,9 @@ export async function findActiveTokensByName(db: Db, name: string): Promise<Acti
     .from(apiTokens)
     .innerJoin(users, eq(users.id, apiTokens.userId))
     .innerJoin(organizations, eq(organizations.id, apiTokens.orgId))
-    .where(and(eq(apiTokens.name, name), isNull(apiTokens.revokedAt)))
+    .where(
+      and(eq(apiTokens.name, name), isNull(apiTokens.revokedAt), isNull(apiTokens.oauthClientId)),
+    )
     .orderBy(asc(apiTokens.createdAt));
 }
 
@@ -282,16 +302,10 @@ export async function revokeApiTokenAsCli(db: Db, match: ActiveTokenMatch) {
 }
 
 /**
- * Bearer token -> Actor for the MCP surface. Throws AuthError('UNAUTHENTICATED') for an
- * unknown or revoked token; the owner must still pass the same 2FA gate as a web session.
+ * The checks every api_token caller passes, whatever the credential (sgmb_ token or OAuth JWT): blocked org or user,
+ * the session gate, and the actor with this row's scopes and mode.
  */
-export async function verifyApiToken(db: Db, token: string): Promise<Actor> {
-  if (!token.startsWith(API_TOKEN_PREFIX)) throw new AuthError("UNAUTHENTICATED", "Invalid token");
-  const [row] = await db
-    .select()
-    .from(apiTokens)
-    .where(and(eq(apiTokens.tokenHash, hashApiToken(token)), isNull(apiTokens.revokedAt)));
-  if (!row) throw new AuthError("UNAUTHENTICATED", "Invalid token");
+export async function actorFromTokenRow(db: Db, row: TokenRow, now: Date = new Date()): Promise<Actor> {
   // AP3b: a suspended or deleted org, or a user whose sign-in is off, cannot use a token. The token is kept (suspension is
   // reversible) and nothing is written, so last_used_at shows the last real use.
   if ((await isOrgBlocked(db, row.orgId)) || (await isUserBlocked(db, row.userId))) {
@@ -302,7 +316,6 @@ export async function verifyApiToken(db: Db, token: string): Promise<Actor> {
   if (!user) throw new AuthError("UNAUTHENTICATED", "Invalid token");
   // Reuse the session gate: a token is not a session, so present a fresh synthetic one and
   // let requireAuthenticatedUser enforce what it owns (2FA enrolment).
-  const now = new Date();
   requireAuthenticatedUser({
     session: { createdAt: now, expiresAt: new Date(now.getTime() + 60_000) },
     user: { id: user.id, email: user.email, twoFactorEnabled: user.twoFactorEnabled },
@@ -321,4 +334,18 @@ export async function verifyApiToken(db: Db, token: string): Promise<Actor> {
     scopes: effectiveScopes(actor.role, row.scopes),
     tokenMode: row.mode as TokenMode,
   };
+}
+
+/**
+ * Bearer token -> Actor for the MCP surface. Throws AuthError('UNAUTHENTICATED') for an
+ * unknown or revoked token; the owner must still pass the same 2FA gate as a web session.
+ */
+export async function verifyApiToken(db: Db, token: string): Promise<Actor> {
+  if (!token.startsWith(API_TOKEN_PREFIX)) throw new AuthError("UNAUTHENTICATED", "Invalid token");
+  const [row] = await db
+    .select()
+    .from(apiTokens)
+    .where(and(eq(apiTokens.tokenHash, hashApiToken(token)), isNull(apiTokens.revokedAt)));
+  if (!row) throw new AuthError("UNAUTHENTICATED", "Invalid token");
+  return actorFromTokenRow(db, row);
 }

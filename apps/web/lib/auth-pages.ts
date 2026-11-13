@@ -64,6 +64,6 @@ export const inviteExpiry = (i: InviteFacts, tf: TimeFormat): string =>
 
 export function inviteAccessLine(i: InviteFacts): string {
   return i.workspaceName
-    ? `Accepting gives access only to ${i.workspaceName}. Two-factor authentication is required.`
-    : "Two-factor authentication is required.";
+    ? `Accepting gives access only to ${i.workspaceName}. Two-factor authentication is recommended.`
+    : "Two-factor authentication is recommended.";
 }

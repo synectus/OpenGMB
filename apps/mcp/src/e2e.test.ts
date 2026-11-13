@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { and, eq } from "drizzle-orm";
 import { generate } from "otplib";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
@@ -224,10 +224,16 @@ describe("end to end: sign-up -> UI action -> token -> MCP", () => {
     expect((await rpc(token)).status).toBe(401);
   });
 
-  it("rejects a token whose owner has no 2FA with 401", async () => {
+  it("accepts a token whose owner has no 2FA (optional), but rejects it with 401 for a platform admin without 2FA", async () => {
     const { email } = await signUp({ enrollTotp: false });
     const { token } = await createApiToken(db, { email });
-    expect((await rpc(token)).status).toBe(401);
+    expect((await rpc(token)).status).toBe(200);
+    vi.stubEnv("PLATFORM_ADMIN_EMAILS", email);
+    try {
+      expect((await rpc(token)).status).toBe(401);
+    } finally {
+      vi.unstubAllEnvs();
+    }
   });
 
   it("rejects a token whose owner lost their membership with 401", async () => {

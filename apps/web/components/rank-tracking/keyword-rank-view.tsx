@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import type { rankingsList } from "@opengmb/core";
 import { rankings_list } from "../../app/_generated/actions";
+import { seoKeywordsHref } from "../../lib/seo-keywords";
 import { Pill } from "../page-parts";
 import { EmptyState, ErrorText } from "../ui";
 import { NotLiveNote } from "./badges";
@@ -12,6 +14,7 @@ type Handler<T extends { handler: (...a: never[]) => unknown }> = Awaited<Return
 /** The Keyword rank tab: per location, each tracked keyword's local pack and organic position, daily. */
 export async function KeywordRankView({ canManage, sample }: { canManage: boolean; sample: boolean }) {
   const t = await getTranslations("geogrid");
+  const ts = await getTranslations("seoKeywords");
   const res = await rankings_list({});
   if (!res.ok) return <ErrorText message={`${res.error.code}: ${res.error.message}`} />;
   const { trackers } = res.data as Handler<typeof rankingsList>;
@@ -38,6 +41,9 @@ export async function KeywordRankView({ canManage, sample }: { canManage: boolea
             <p className="text-xs text-muted-foreground">{t("keywords.nextCheck", { date: tr.nextRunAt.slice(0, 10) })}</p>
           )}
           <KeywordRankTable configId={tr.configId} rows={tr.keywords} canManage={canManage} />
+          <Link href={seoKeywordsHref({ location: tr.locationId })} className="text-sm font-semibold text-brand-text underline underline-offset-2">
+            {ts("form.researchLocation")}
+          </Link>
           {canManage && tr.active && (
             <div className="flex flex-wrap gap-2">
               <PreviewAndRun

@@ -7,6 +7,7 @@
 
 import { isEmailVerificationRequired } from "../auth";
 import { signupMode } from "../signup";
+import { oauthStartupLines } from "../oauth/addresses";
 import { HOSTED_SECRETS, hostedWebStartupFields } from "./startup-hosted";
 import { alertEmail } from "./monitoring";
 import { DATAFORSEO_ENDPOINTS } from "./geogrid";
@@ -178,6 +179,7 @@ export function buildStartupReport(service: ServiceName, env: Env = process.env)
   } else {
     lines.push(`[startup] mcp: port=${env.MCP_PORT || 3100}`);
   }
+  if (service === "web" || service === "mcp") lines.push(...oauthStartupLines(service, env));
   if (service !== "mcp") {
     lines.push(
       `[startup] ${service}: ai=${aiIsOn(env) ? "on" : "off"} ai_monthly_budget_usd=${microToUsd(platformCapMicroUsd(env))}`,

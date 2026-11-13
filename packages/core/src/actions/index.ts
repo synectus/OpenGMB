@@ -4,6 +4,7 @@ import { aiDraftReplies, aiDraftReply } from "./aiReplies";
 import { aiDraftBusinessDescription, aiDraftServiceDescription } from "./aiDescriptions";
 import { aiDraftPost, aiDraftPostVariants, aiPostIdeas } from "./aiPosts";
 export { apiTokensCreate, apiTokensCurrent, apiTokensList, apiTokensRevoke } from "./apiTokens";
+export { connectedAppsDisconnect, connectedAppsList, connectedAppsUpdate } from "./connectedApps";
 export {
   webhooksDeliveries,
   webhooksList,
@@ -175,6 +176,7 @@ export {
   geogridSettingsUpdate,
 } from "./geogrid";
 export { aiVisibilityGet, aiVisibilityRunNow, aiVisibilityUpdate } from "./aiVisibility";
+export { seoCitiesSearch, seoKeywordsEstimate, seoKeywordsGet, seoKeywordsResearch } from "./seoKeywords";
 export { rankingsList, rankingsSetFavorite, rankingsTrack, rankingsUntrack } from "./rankings";
 export {
   geogridByoKeyDelete,
@@ -184,6 +186,7 @@ export {
   geogridUsage,
 } from "./geogridByoKey";
 import { apiTokensCreate, apiTokensCurrent, apiTokensList, apiTokensRevoke } from "./apiTokens";
+import { connectedAppsDisconnect, connectedAppsList, connectedAppsUpdate } from "./connectedApps";
 import {
   webhooksDeliveries,
   webhooksList,
@@ -198,7 +201,7 @@ import { membersList, membersRemove, membersResetTwoFactor } from "./members";
 import { approvalsCounts, approvalsQueue } from "./approvals";
 import { attentionCounts, attentionQueue } from "./attention";
 import { aiNoticeAcknowledge, aiSwitchGet, aiSwitchUpdate } from "./aiSwitch";
-import { onboardingGet, onboardingUpdate } from "./onboarding";
+import { onboardingFirstDraft, onboardingGet, onboardingUpdate } from "./onboarding";
 import { mcpProposalsApply, mcpProposalsCancel, mcpProposalsList } from "./mcpProposals";
 import { monitoringOverview } from "./monitoring";
 import { systemStatus } from "./system";
@@ -388,6 +391,7 @@ import {
   reportsShareRevoke,
 } from "./reports";
 import { aiVisibilityGet, aiVisibilityRunNow, aiVisibilityUpdate } from "./aiVisibility";
+import { seoCitiesSearch, seoKeywordsEstimate, seoKeywordsGet, seoKeywordsResearch } from "./seoKeywords";
 import {
   geogridCompetitors,
   geogridCompetitorChanges,
@@ -436,6 +440,9 @@ export const actions: readonly AnyAction[] = [
   apiTokensCreate,
   apiTokensRevoke,
   apiTokensCurrent,
+  connectedAppsList,
+  connectedAppsUpdate,
+  connectedAppsDisconnect,
   webhooksList,
   webhooksSubscribe,
   webhooksUnsubscribe,
@@ -560,6 +567,10 @@ export const actions: readonly AnyAction[] = [
   aiVisibilityGet,
   aiVisibilityUpdate,
   aiVisibilityRunNow,
+  seoKeywordsEstimate,
+  seoKeywordsResearch,
+  seoKeywordsGet,
+  seoCitiesSearch,
   geogridByoKeyGet,
   geogridByoKeySet,
   geogridByoKeyDelete,
@@ -608,6 +619,7 @@ export const actions: readonly AnyAction[] = [
   attentionQueue,
   onboardingGet,
   onboardingUpdate,
+  onboardingFirstDraft,
   aiSwitchGet,
   aiSwitchUpdate,
   aiNoticeAcknowledge,
@@ -711,7 +723,7 @@ export { googleNotificationsRegisterAll, googleNotificationsStatus } from "./goo
 export { membersList, membersRemove, membersResetTwoFactor } from "./members";
 export { approvalsCounts, approvalsQueue } from "./approvals";
 export { attentionCounts, attentionQueue } from "./attention";
-export { onboardingGet, onboardingUpdate } from "./onboarding";
+export { onboardingFirstDraft, onboardingGet, onboardingUpdate } from "./onboarding";
 export { aiNoticeAcknowledge, aiSwitchGet, aiSwitchUpdate } from "./aiSwitch";
 export { mcpProposalsApply, mcpProposalsCancel, mcpProposalsList } from "./mcpProposals";
 export { monitoringOverview } from "./monitoring";

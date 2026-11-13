@@ -13,8 +13,10 @@ export function proxy(request: NextRequest) {
   const gated = stagingGate(request);
   if (gated) return gated;
   // The MCP endpoint and the REST API (/api/v1/...) authenticate by bearer token (checked by the MCP
-  // service), not by cookie, and answer JSON: no sign-in redirect, no CSP nonce, never indexed.
-  if (request.nextUrl.pathname === "/mcp" || request.nextUrl.pathname.startsWith("/api/v1/")) {
+  // service), not by cookie, and answer JSON: no sign-in redirect, no CSP nonce, never indexed. So do the OAuth
+  // metadata documents.
+  const p = request.nextUrl.pathname;
+  if (p === "/mcp" || p.startsWith("/api/v1/") || p.startsWith("/.well-known/oauth-")) {
     const mcp = NextResponse.next();
     mcp.headers.set("X-Robots-Tag", "noindex");
     return mcp;

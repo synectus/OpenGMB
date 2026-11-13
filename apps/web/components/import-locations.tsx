@@ -2,30 +2,15 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   locations_import,
   locations_importStatus,
   locations_listAvailable,
 } from "../app/_generated/actions";
-import { importResultLabel, importResultTone, locationLabel } from "../lib/locations";
+import { firstImportPick, importResultLabel, importResultTone, locationLabel, type Available } from "../lib/locations";
 import { buttonClass, ErrorText, linkClass, secondaryButtonClass } from "./ui";
 
-type Available = {
-  accountName: string;
-  displayName: string;
-  truncated: boolean;
-  locations: {
-    locationName: string;
-    title: string;
-    phone: string | null;
-    addressSummary: string | null;
-    hasVoiceOfMerchant: boolean | null;
-    alreadyImported: boolean;
-    needsRelink: boolean;
-    importedWorkspace: { name: string } | null;
-  }[];
-}[];
 type Result = { locationName: string; result: string };
 
 const POLL_MS = 1500;
@@ -53,10 +38,13 @@ export function ImportLocations({
   workspaceId,
   connections,
   max,
+  guided = false,
 }: {
   workspaceId: string;
   connections: { id: string; email: string }[];
   max: number;
+  /** After the first Google connection: load the locations on arrival and tick the first one. */
+  guided?: boolean;
 }) {
   const t = useTranslations("locations");
   const router = useRouter();
@@ -71,6 +59,7 @@ export function ImportLocations({
   const [busy, setBusy] = useState(false);
   const [hideUnverified, setHideUnverified] = useState(false);
 
+  const count = Object.keys(picked).length;
   const fail = (e: { code: string; message: string }) => setError(`${e.code}: ${e.message}`);
   const titleOf = (name: string) => titles[name] ?? name;
 
@@ -86,9 +75,17 @@ export function ImportLocations({
     const accounts = (r.data as { accounts: Available }).accounts;
     setAvailable(accounts);
     setTitles(Object.fromEntries(accounts.flatMap((a) => a.locations.map((l) => [l.locationName, l.title]))));
-    setPicked({});
+    setPicked(guided ? firstImportPick(accounts) : {});
     setHideUnverified(false);
   }
+
+  const autoLoaded = useRef(false);
+  useEffect(() => {
+    if (!guided || autoLoaded.current || !connectionId) return;
+    autoLoaded.current = true;
+    void load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once, on arrival
+  }, []);
 
   // Only a definite false counts as unverified; unknown (null) rows are never hidden.
   const unverified = (l: { hasVoiceOfMerchant: boolean | null }) => l.hasVoiceOfMerchant === false;
@@ -151,7 +148,6 @@ export function ImportLocations({
     );
   }
 
-  const count = Object.keys(picked).length;
   const note = { text: count > max ? t("pickUpTo", { max }) : t("selectedUpTo", { count, max }), over: count > max };
   const resultKnown = ["imported", "already_imported", "relinked", "exists_inactive", "conflict", "not_found"];
   const resultText = (r: string) => (resultKnown.includes(r) ? t(`result_${r}` as "result_imported") : importResultLabel(r));
@@ -199,6 +195,12 @@ export function ImportLocations({
           ))}
           <InfoRow>{t("readingFromGoogle")}</InfoRow>
         </div>
+      )}
+
+      {guided && available && count > 0 && !results && (
+        <p role="status" className="rounded-control bg-info-bg px-3 py-2 text-sm text-info">
+          {t("guidedTicked")}
+        </p>
       )}
 
       {available && unverifiedCount > 0 && (
@@ -284,6 +286,13 @@ export function ImportLocations({
             ))}
           </ul>
           {queuedText && <p className="text-sm text-muted-foreground">{queuedText}</p>}
+          {guided && fresh.length > 0 && (
+            <div>
+              <Link href="/" className={buttonClass}>
+                {t("guidedContinue")}
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </div>

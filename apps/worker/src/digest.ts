@@ -57,6 +57,7 @@ const KIND_LABEL: Record<string, string> = {
   "profile.changed": "Profile changes",
   "media.customer_photo": "New customer photos",
   "geogrid.budget_exceeded": "Rank tracking budget reached",
+  "google.access_lost": "Google access removed",
 };
 
 export function renderDigest(

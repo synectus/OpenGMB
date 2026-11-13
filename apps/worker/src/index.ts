@@ -20,6 +20,11 @@ import {
   collectCompetitorProfiles,
   AI_VISIBILITY_CRON,
   AI_VISIBILITY_QUEUE,
+  SEO_KEYWORDS_QUEUE,
+  SEO_KEYWORDS_SWEEP_QUEUE,
+  SEO_KEYWORDS,
+  runKeywordResearch,
+  sweepStaleKeywordRuns,
   enqueueDueAiVisibilityChecks,
   runAiVisibilityCheck,
   enqueueDueCompetitorRefreshes,
@@ -70,6 +75,8 @@ import {
   enqueueScheduledReviewSyncs,
   processGridCollect,
   sweepStaleGridTasks,
+  OAUTH_CLIENT_SWEEP,
+  sweepUnusedOAuthClients,
   GRID_SWEEP_CRON,
   processGridRun,
   processCustomerMediaScan,
@@ -450,6 +457,13 @@ await boss.work(GRID_SWEEP_QUEUE, async () => {
   const r = await recordJobRun(db, "geogrid_sweep", () => sweepStaleGridTasks(db));
   console.log(`[worker] ${GRID_SWEEP_QUEUE}: ${JSON.stringify(r)}`);
 });
+// Remote MCP: delete OAuth clients that never completed consent and are older than 30 days (open registration).
+await boss.createQueue(OAUTH_CLIENT_SWEEP.queue);
+await boss.schedule(OAUTH_CLIENT_SWEEP.queue, OAUTH_CLIENT_SWEEP.cron, {}, { tz: "UTC" });
+await boss.work(OAUTH_CLIENT_SWEEP.queue, async () => {
+  const r = await sweepUnusedOAuthClients(db);
+  console.log(`[worker] ${OAUTH_CLIENT_SWEEP.queue}: ${JSON.stringify(r)}`);
+});
 // K2 part 2: competitor profiles refresh on their own schedule (daily tick, each tracker weekly by default), and their Standard-queue answers are collected every 10 minutes.
 await boss.createQueue(COMPETITOR_REFRESH_QUEUE);
 await boss.schedule(COMPETITOR_REFRESH_QUEUE, COMPETITOR_REFRESH_CRON, {}, { tz: "UTC" });
@@ -466,6 +480,21 @@ await boss.work<{ locationId?: string; force?: boolean }>(AI_VISIBILITY_QUEUE, a
     const r = locationId ? await runAiVisibilityCheck(db, locationId, { force: !!force }) : await enqueueDueAiVisibilityChecks(db);
     console.log(`[worker] ${AI_VISIBILITY_QUEUE}: ${JSON.stringify(r)}`);
   }
+});
+// SEO1: keyword research. One job per paid search; the job settles the charge when DataForSEO has answered.
+await boss.createQueue(SEO_KEYWORDS_QUEUE);
+await boss.work<{ runId: string }>(SEO_KEYWORDS_QUEUE, async (jobs) => {
+  for (const job of jobs) {
+    const r = await runKeywordResearch(db, job.data.runId);
+    console.log(`[worker] ${SEO_KEYWORDS_QUEUE}: ${job.data.runId} ${r.outcome}`);
+  }
+});
+// A search the job never settled (worker restart, queue gave up) is failed with no charge, which frees its reserved credit.
+await boss.createQueue(SEO_KEYWORDS_SWEEP_QUEUE);
+await boss.schedule(SEO_KEYWORDS_SWEEP_QUEUE, SEO_KEYWORDS.sweepCron, {}, { tz: "UTC" });
+await boss.work(SEO_KEYWORDS_SWEEP_QUEUE, async () => {
+  const r = await sweepStaleKeywordRuns(db);
+  console.log(`[worker] ${SEO_KEYWORDS_SWEEP_QUEUE}: ${JSON.stringify(r)}`);
 });
 await boss.createQueue(COMPETITOR_COLLECT_QUEUE);
 await boss.schedule(COMPETITOR_COLLECT_QUEUE, COMPETITOR_COLLECT_CRON, {}, { tz: "UTC" });

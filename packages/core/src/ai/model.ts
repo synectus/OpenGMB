@@ -31,9 +31,22 @@ export function aiEnv(): Env {
 export function getAiModel(env: Env = aiEnv()): AiModel | null {
   if (override.model) return override.model;
   const key = env.ANTHROPIC_API_KEY?.trim();
-  if (!key) return null;
+  if (!key) return mockModelAllowed(env) ? mockModel : null;
   return (req) => callAnthropic(key, req);
 }
+
+/**
+ * ON2, e2e only: canned text for the first-draft click. Needs AI_API_MODE=mock AND the Google mock, and never
+ * outside a non-production NODE_ENV. Production runs live Google, so this can never be active there.
+ */
+function mockModelAllowed(env: Env): boolean {
+  return env.AI_API_MODE === "mock" && env.GOOGLE_BUSINESS_API_MODE === "mock" && env.NODE_ENV !== "production";
+}
+const mockModel: AiModel = async () => ({
+  text: "Thank you for your review. We are glad you visited and hope to see you again.",
+  inputTokens: 100,
+  outputTokens: 30,
+});
 
 export function aiIsOn(env: Env = aiEnv()): boolean {
   return Boolean(env.ANTHROPIC_API_KEY?.trim());

@@ -32,6 +32,8 @@ export const monitoringOverview = defineAction({
         firstSeenAt: z.string(),
         lastSeenAt: z.string(),
         lastAlertedAt: z.string().nullable(),
+        /** OPS3: ids of the records the newest failed job was about (`locationId=<uuid>`). Platform administrators only, like the whole list. */
+        context: z.string().nullable(),
       }),
     ),
     google: z.object({
@@ -70,6 +72,7 @@ export const monitoringOverview = defineAction({
         firstSeenAt: e.firstSeenAt.toISOString(),
         lastSeenAt: e.lastSeenAt.toISOString(),
         lastAlertedAt: e.lastAlertedAt?.toISOString() ?? null,
+        context: e.lastContext,
       })),
       google: await googleUsage(tx, now),
     };

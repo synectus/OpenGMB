@@ -32,6 +32,9 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
+    "@better-auth/core": "1.7.7",
+    "@better-auth/oauth-provider": "1.7.7",
+    "@better-auth/utils": "0.4.2",
     "@opengmb/db": "workspace:*",
     "better-auth": "^1.7.7",
     "cron-parser": "^5.10.2",

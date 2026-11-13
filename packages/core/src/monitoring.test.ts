@@ -11,6 +11,7 @@ import {
   collectFailedJobs,
   fingerprintOf,
   googleUsage,
+  jobContext,
   recordError,
   recordGoogleCall,
   recordHeartbeat,
@@ -145,6 +146,44 @@ describe("collectFailedJobs", () => {
     expect(row!.source).toBe("worker");
     expect(row!.message).toContain(`job:${queue}`);
     expect(sent).toHaveLength(1);
+    await sql`delete from pgboss.job where name = ${queue}`;
+  });
+});
+
+describe("job context (OPS3)", () => {
+  const A = "11111111-2222-4333-8444-555555555555";
+  const B = "66666666-7777-4888-8999-aaaaaaaaaaaa";
+  it("keeps only top-level keys ending in Id whose value is a uuid", () => {
+    expect(jobContext({ syncId: A, locationId: B, note: "back pain after the accident", email: "a@b.co", userId: "u-123", orgid: A, nested: { postId: A }, ids: [A] })).toBe(
+      `syncId=${A}, locationId=${B}`,
+    );
+    // key shape: a lowercase-first word then Id, letters only, at most 40 before Id
+    expect(jobContext({ Id: A, LocationId: A, location_Id: A, "a b Id": A, ["x".repeat(42) + "Id"]: A, userID: A, okId: A })).toBe(`okId=${A}`);
+    expect(jobContext({ note: "x" })).toBeNull();
+    expect(jobContext(null)).toBeNull();
+    expect(jobContext([A])).toBeNull();
+    expect(jobContext({ aId: A, bId: A, cId: A, dId: A, eId: A, fId: A, gId: A, hId: A, iId: A })!.length).toBeLessThanOrEqual(300);
+  });
+
+  it("a failed job's ids become the error row's latest context without changing the fingerprint or count", async () => {
+    const boss = new PgBoss(process.env.DATABASE_URL_TEST!);
+    await boss.start();
+    const queue = "ops3-test-fail";
+    await boss.createQueue(queue, { retryLimit: 0 });
+    await sql`delete from pgboss.job where name = ${queue}`;
+    expect(await collectFailedJobs(db, new Date(Date.now() - 1000))).toBe(0);
+    for (const loc of [A, B]) {
+      const id = await boss.send(queue, { locationId: loc, secret: "patient said back pain", reviewId: "not-a-uuid" }, { retryLimit: 0 });
+      await boss.fetch(queue);
+      await boss.fail(queue, id!, { message: "google exploded" });
+    }
+    await boss.stop();
+    expect(await collectFailedJobs(db)).toBe(2);
+    const rows = await db.select().from(errorEvents);
+    expect(rows).toHaveLength(1); // same fingerprint for both
+    expect(rows[0]!.count).toBe(2);
+    expect(rows[0]!.lastContext).toMatch(/^locationId=[0-9a-f-]{36}$/);
+    expect(JSON.stringify(rows[0])).not.toContain("patient");
     await sql`delete from pgboss.job where name = ${queue}`;
   });
 });

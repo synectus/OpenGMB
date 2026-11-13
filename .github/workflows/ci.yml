@@ -12,7 +12,7 @@ permissions:
 env:
   DATABASE_URL: postgres://syngmb:syngmb@localhost:54329/syngmb
   DATABASE_URL_TEST: postgres://syngmb:syngmb@localhost:54329/syngmb_test
-  BETTER_AUTH_SECRET: ci-only-secret
+  BETTER_AUTH_SECRET: ci-only-not-a-secret-0123456789abcdef
   BETTER_AUTH_URL: http://localhost:3000
   ENCRYPTION_KEY: Y2ktb25seS1rZXktMzItYnl0ZXMtbG9uZy1wYWRkZWQ=
   AUDIT_CHECKPOINT_KEY: Y2ktb25seS1hdWRpdC1jaGVja3BvaW50LWtleS0zMmJ5dGVz
@@ -78,5 +78,8 @@ jobs:
           packages/core/src/privacy/engine.test.ts
           packages/core/src/reportSummary.test.ts
           packages/core/src/reviewRequests.test.ts
+          packages/core/src/oauth/flow.test.ts
+          packages/core/src/oauth/connections.test.ts
+          packages/core/src/geogridByoKeyNoEnv.test.ts
           apps/web/lib/public-paths.test.ts
           apps/web/lib/rank-live-badge.test.ts

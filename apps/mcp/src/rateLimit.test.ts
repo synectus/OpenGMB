@@ -91,10 +91,16 @@ describe("MCP endpoint rate limits", () => {
     expect((await post("sgmb_wrong", ip, "9.9.9.9")).status).toBe(429);
   });
 
-  it("a missing token counts as a failure too", async () => {
+  it("a missing token on /mcp is not a failure: six in a row are all 401", async () => {
     const ip = "198.51.100.3";
-    for (let i = 0; i < 3; i++) expect((await post(undefined, ip)).status).toBe(401);
-    expect((await post(undefined, ip)).status).toBe(429);
+    for (let i = 0; i < 6; i++) expect((await post(undefined, ip)).status).toBe(401);
+  });
+
+  it("a missing token on /v1 still counts", async () => {
+    const ip = "198.51.100.5";
+    const rest = () => fetch(`http://127.0.0.1:${server.port}/v1/actions`, { headers: { "x-forwarded-for": ip } });
+    for (let i = 0; i < 3; i++) expect((await rest()).status).toBe(401);
+    expect((await rest()).status).toBe(429);
   });
 
   it("one token gets 5 requests a minute here, then 429, and another token is unaffected", async () => {

@@ -4,7 +4,7 @@ import { commandNavFor, isActive, isNavItemActive, navFor } from "./nav";
 const hrefs = (groups: ReturnType<typeof navFor>) => groups.flatMap((g) => g.items.map((i) => i.href));
 
 describe("navFor", () => {
-  it("shows every item to a role with every permission (denominator 10)", () => {
+  it("shows every item to a role with every permission (denominator 11)", () => {
     expect(hrefs(navFor(() => true))).toEqual([
       "/",
       "/approvals",
@@ -14,6 +14,7 @@ describe("navFor", () => {
       "/performance",
       "/geogrid",
       "/reports",
+      "/seo/keywords",
       "/agents",
       "/settings",
     ]);
@@ -27,9 +28,16 @@ describe("navFor", () => {
     expect(hrefs(navFor(() => true)).slice(0, 3)).toEqual(["/", "/approvals", "/reviews"]);
   });
 
-  it("puts AI agents right after Reports, before any settings item", () => {
+  it("puts AI agents right after the SEO group, before any settings item", () => {
     const h = hrefs(navFor(() => true));
-    expect(h[h.indexOf("/reports") + 1]).toBe("/agents");
+    expect(h[h.indexOf("/seo/keywords") + 1]).toBe("/agents");
+  });
+
+  it("shows Keyword research under an SEO group to anyone who can read rank tracking", () => {
+    const groups = navFor((p) => p === "geogrid:read" || p === "notification:own");
+    const seo = groups.find((g) => g.label === "SEO");
+    expect(seo?.items.map((i) => [i.href, i.label])).toEqual([["/seo/keywords", "Keyword research"]]);
+    expect(hrefs(navFor((p) => p !== "geogrid:read"))).not.toContain("/seo/keywords");
   });
 
   it("hides AI agents from a role without api_token:manage_own", () => {

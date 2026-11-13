@@ -38,6 +38,7 @@ export async function draftForReview(
   ctx: { tx: Tx; actor: Actor; audit: ActionContext["audit"] },
   review: ReviewRow,
   language: string | undefined,
+  opts?: { waiveCharge?: boolean },
 ): Promise<DraftResult> {
   const { tx } = ctx;
   const rating = review.starRating;
@@ -90,6 +91,7 @@ export async function draftForReview(
     system,
     user,
     sourceChars: text.length,
+    ...(opts?.waiveCharge ? { waiveCharge: true } : {}),
     // The context the reply flow itself uses on submit: staff names, H4 phone, and the location's recent
     // replies, so R6.duplicate fires on a draft exactly as it would on a typed reply.
     async buildContext(body) {
@@ -110,7 +112,7 @@ export async function draftForReview(
   });
 }
 
-async function loadReview(tx: Tx, actor: Actor, id: string): Promise<ReviewRow> {
+export async function loadReview(tx: Tx, actor: Actor, id: string): Promise<ReviewRow> {
   const review = await getReviewRow(tx, actor, id);
   if (!review) throw new AccessError("NOT_FOUND", "Review not found");
   authorize(actor, "review:draft", { workspaceId: review.workspaceId });

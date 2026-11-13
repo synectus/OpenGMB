@@ -86,14 +86,14 @@ function addressText(title: string | null | undefined, a: unknown): string {
 }
 
 /** Google Places (New): Place Details for a place id, else Text Search on the address. No key, no request. */
-export function livePlacesCenter(opts: { key?: () => Promise<string | null | undefined>; fetch?: typeof fetch } = {}): PlacesLookup {
+export function livePlacesCenter(opts: { key?: () => Promise<string | null | undefined>; fetch?: typeof fetch; timeoutMs?: number } = {}): PlacesLookup {
   const cfg = LOCATION_CENTER.places;
   const doFetch = opts.fetch ?? globalThis.fetch;
   const key = opts.key ?? (() => getIntegrationFresh("GOOGLE_PLACES_SERVER_KEY"));
   return async ({ placeId, query }) => {
     const k = (await key())?.trim();
     if (!k) return null;
-    const signal = AbortSignal.timeout(LOCATION_CENTER.timeoutMs);
+    const signal = AbortSignal.timeout(opts.timeoutMs ?? LOCATION_CENTER.timeoutMs);
     if (placeId) {
       const res = await doFetch(`${cfg.host}${cfg.detailsPath}${encodeURIComponent(placeId)}`, {
         headers: { "x-goog-api-key": k, "x-goog-fieldmask": cfg.detailsFieldMask },

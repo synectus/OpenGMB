@@ -186,3 +186,28 @@ export function setStatusMessage(r: Result): string | null {
   if (o === "not_found") return "NOT_FOUND: Location not found";
   return o.raw;
 }
+
+export type Available = {
+  accountName: string;
+  displayName: string;
+  truncated: boolean;
+  locations: {
+    locationName: string;
+    title: string;
+    phone: string | null;
+    addressSummary: string | null;
+    hasVoiceOfMerchant: boolean | null;
+    alreadyImported: boolean;
+    needsRelink: boolean;
+    importedWorkspace: { name: string } | null;
+  }[];
+}[];
+
+/** Guided import: tick the first location that can be imported and is not known to be unverified. Returns { locationName: accountName }. */
+export function firstImportPick(accounts: Available): Record<string, string> {
+  for (const a of accounts) {
+    const l = a.locations.find((x) => (!x.alreadyImported || x.needsRelink) && x.hasVoiceOfMerchant !== false);
+    if (l) return { [l.locationName]: a.accountName };
+  }
+  return {};
+}

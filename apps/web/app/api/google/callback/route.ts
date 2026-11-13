@@ -8,6 +8,7 @@ import {
   requireAuthenticatedUser,
 } from "@opengmb/core";
 import { getAuth, getDb, refuseWhileViewing } from "../../../../lib/auth";
+import { afterConnectPath } from "../../../../lib/google-connection";
 
 // BETTER_AUTH_URL is the public origin; request.url may be an internal host behind a proxy.
 const to = (path: string, request: NextRequest) =>
@@ -39,14 +40,14 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const { connectionId } = await completeGoogleConnection(getDb(), {
+    const { connectionId, created } = await completeGoogleConnection(getDb(), {
       stateId: state,
       code,
       sessionUserId: userId,
     });
     // Point this Google account's notifications at our Pub/Sub topic (a worker job; no-op without PUBSUB_TOPIC).
     await enqueueNotificationRegistration(getDb(), { connectionId, scope: "all" });
-    return to("/settings/google?connected=1", request);
+    return to(afterConnectPath(created), request);
   } catch (e) {
     if (e instanceof GoogleOAuthError) return failed(e.reason, request);
     if (e instanceof CoreError) return failed(e.code.toLowerCase(), request);

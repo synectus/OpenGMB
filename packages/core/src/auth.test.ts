@@ -40,7 +40,15 @@ describe("requireAuthenticatedUser", () => {
     const s = make({ createdAt: hours(-1).toISOString(), expiresAt: hours(1).toISOString() });
     expect(requireAuthenticatedUser(s, now).userId).toBe("u1");
   });
-  it("MFA_REQUIRED when two-factor is not enabled", () => {
-    expect(code(() => requireAuthenticatedUser(make({}, false), now))).toBe("MFA_REQUIRED");
+  // Two-factor is optional (decision 2026-10-30) except for platform admins (PLATFORM_ADMIN_EMAILS).
+  it("a non-admin without two-factor passes (canary: threw MFA_REQUIRED before 2026-10-30)", () => {
+    expect(requireAuthenticatedUser(make({}, false), now, "boss@b.test")).toEqual({ userId: "u1", email: "a@b.test" });
+    expect(requireAuthenticatedUser(make({}, false), now, undefined)).toEqual({ userId: "u1", email: "a@b.test" });
+  });
+  it("a platform admin with two-factor passes", () => {
+    expect(requireAuthenticatedUser(make({}, true), now, "a@b.test").userId).toBe("u1");
+  });
+  it("an expired session is still UNAUTHENTICATED for a non-admin without two-factor", () => {
+    expect(code(() => requireAuthenticatedUser(make({ expiresAt: hours(-1) }, false), now, undefined))).toBe("UNAUTHENTICATED");
   });
 });

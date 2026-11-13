@@ -134,6 +134,7 @@ type Pool = {
   invitationId: string;
   gridConfigId: string;
   gridRunId: string;
+  seoRunId: string;
   reportDefId: string;
   reportRunId: string;
   batchId: string;
@@ -219,6 +220,7 @@ async function seedTenant(opts: {
   for (const r of HOSTED_POOL_ROWS) hosted[r.key] = idOf(await seed(db, tbl(r.table), { ...c3, ...r.ctx(user.id) }, r.over));
   const gridConfig = await seed(db, tbl("gridConfigs"), c3, { gridSize: 3 });
   const gridRun = await seed(db, tbl("gridRuns"), { ...c3, config_id: idOf(gridConfig) });
+  const seoRun = await seed(db, tbl("seoKeywordResearchRuns"), c3);
   const reportDef = await seed(db, tbl("reportDefinitions"), c3);
   const reportRun = await seed(db, tbl("reportRuns"), { ...c3, definition_id: idOf(reportDef) });
   const share = await seed(db, tbl("reportShareLinks"), {
@@ -276,6 +278,7 @@ async function seedTenant(opts: {
     invitationId: hosted.invitationId ?? "",
     gridConfigId: idOf(gridConfig),
     gridRunId: idOf(gridRun),
+    seoRunId: idOf(seoRun),
     reportDefId: idOf(reportDef),
     reportRunId: idOf(reportRun),
     batchId,
@@ -296,6 +299,7 @@ async function seedTenant(opts: {
 /** `id` fields mean different entities per action family. First matching prefix wins. */
 const ID_KIND: [prefix: string, key: keyof Pool][] = [
   ["apiTokens.", "apiTokenId"],
+  ["connectedApps.", "apiTokenId"],
   ["webhooks.", "webhookId"],
   ["googleConnections.", "connectionId"],
   ["reviewReplies.", "replyId"],
@@ -363,7 +367,7 @@ function poolValue(action: string, field: string, p: Pool): unknown {
     case "opId":
       return p.opId;
     case "runId":
-      return action.startsWith("geogrid.") ? p.gridRunId : p.reportRunId;
+      return action.startsWith("geogrid.") ? p.gridRunId : action.startsWith("seo.") ? p.seoRunId : p.reportRunId;
     case "id": {
       const hit = ID_KIND.find(([prefix]) => action.startsWith(prefix));
       return hit ? p[hit[1]] : undefined;
@@ -392,13 +396,16 @@ const NO_TENANT_INPUT: Record<string, string> = {
   "workspaces.list": "lists the caller's own workspaces",
   "workspaces.create": "creates in the caller's own org",
   "onboarding.get": "the caller's own org first-run flags",
+  "seo.cities.search": "reads the platform DataForSEO geotarget list; no tenant data",
   "onboarding.update": "the caller's own org first-run flags",
+  "onboarding.firstDraft": "drafts for the newest review in the caller's own scope; no id in the input",
   "aiSwitch.get": "the caller's own org AI switch and own notice flag",
   "aiSwitch.update": "the caller's own org AI switch",
   "aiNotice.acknowledge": "the caller's own notice flag",
   "audit.verify": "the caller's own org audit chain",
   "audit.export": "the caller's own org audit log",
   "apiTokens.list": "the caller's own tokens",
+  "connectedApps.list": "the caller's own connected apps",
   "apiTokens.current": "describes the caller's own org, user and token",
   "webhooks.list": "the caller's own org webhooks",
   "apiTokens.create": "creates for the caller",
@@ -437,6 +444,8 @@ function buildInput(action: (typeof actions)[number], p: Pool): Record<string, u
   // Both runId and configId are mapped; the action wants exactly one.
   if (action.name === "geogrid.competitors")
     return { ...input, runId: p.gridRunId, configId: undefined };
+  // seo.keywords.get wants exactly one of runId or workspaceId.
+  if (action.name === "seo.keywords.get") return { ...input, runId: p.seoRunId, workspaceId: undefined };
   return input;
 }
 

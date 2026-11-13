@@ -123,7 +123,7 @@ export const geogridByoKeyDelete = defineAction({
 export const geogridByoKeyVerify = defineAction({
   name: "geogrid.byoKey.verify",
   description:
-    "Check the stored DataForSEO key with the driver's credential check (a free DataForSEO user_data call when the server has a live rank source, otherwise an offline fixture). Returns ok or failed with a message and records the last-verified time on success. Needs google:manage (owner, admin).",
+    "Check the stored DataForSEO key with a free DataForSEO user_data call made with the organization's own login and password (it always calls DataForSEO, whether or not the server has a key of its own). Returns ok or failed with a message and records the last-verified time on success. Needs google:manage (owner, admin).",
   input: z.object({}),
   output: z.object({ ok: z.boolean(), message: z.string(), lastVerifiedAt: z.string().nullable() }),
   permission: PERMISSION,

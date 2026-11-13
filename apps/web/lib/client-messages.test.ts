@@ -10,7 +10,7 @@ const root = join(__dirname, "..");
 // Namespaces that are deliberately in no message set. The one entry is rendered only inside
 // StaffMessages (components/rank-tracking/staff-messages.tsx), which the geogrid page mounts for
 // roles with geogrid:cost; a client viewer never receives it.
-const STAFF_ONLY = ["geogridCost", "aiCost"];
+const STAFF_ONLY = ["geogridCost", "aiCost", "seoKeywordsCost"];
 const MONEY = [/markup/i, /budget/i, /\bCharged\b/];
 
 function flat(o: unknown, p = ""): [string, string][] {

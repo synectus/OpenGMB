@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
-import { MCP_CONFIG, type apiTokensList } from "@opengmb/core";
+import { MCP_CONFIG, oauthAddresses, type apiTokensList } from "@opengmb/core";
 import { apiTokens_list } from "../../app/_generated/actions";
-import { claudeDesktopConfig, mcpCommand, mcpUrlFrom } from "../../lib/mcp-connect";
+import { claudeDesktopConfig, mcpCommand } from "../../lib/mcp-connect";
 import { getTimeFormat } from "../../lib/time-format-server";
 import { CreateTokenForm } from "../create-token-form";
 import { Pill, TableWrap, tdClass, thClass } from "../page-parts";
@@ -42,7 +42,7 @@ export async function ConnectView({
 }) {
   const t = await getTranslations("agents");
   const tc = (key: string, values?: Record<string, string | number>) => t(`connect.${key}`, values);
-  const url = mcpUrlFrom(process.env);
+  const url = oauthAddresses(process.env)?.resource ?? null;
   const res = await apiTokens_list();
   const mine = res.ok ? (res.data as Listed).tokens.filter((tk) => tk.ownerUserId === userId) : [];
   const tf = await getTimeFormat();
@@ -50,6 +50,20 @@ export async function ConnectView({
 
   return (
     <>
+      {url ? (
+        <Panel title={tc("urlTitle")}>
+          <p className="text-sm text-foreground">{tc("urlIntro")}</p>
+          <pre
+            aria-label={tc("urlAddress")}
+            className="m-0 whitespace-pre-wrap break-all rounded-control border border-border bg-muted px-4 py-3 font-mono text-[13px] leading-5"
+          >
+            {url}
+          </pre>
+          <div>
+            <CopyButton text={url} label={tc("copyAddress")} />
+          </div>
+        </Panel>
+      ) : null}
       <Panel title={tc("stepsTitle")}>
         <ol className="flex flex-col gap-3">
           <Step n={1} title={tc("step1")}>

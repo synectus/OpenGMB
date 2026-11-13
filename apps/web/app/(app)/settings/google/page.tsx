@@ -74,6 +74,15 @@ export default async function GoogleSettingsPage({
           })}
         </p>
       )}
+      {data?.connections
+        .filter((c) => c.accessLost)
+        .map((c) => (
+          <div key={c.id} role="alert" className="flex flex-col items-start gap-3 rounded-panel border border-bad-border bg-bad-bg px-4 py-3 text-sm text-bad">
+            <p className="font-semibold">{t("google.lostTitle")}</p>
+            <p>{t("google.lostBody", { email: c.email })}</p>
+            {!canManage ? <p>{t("google.lostAskAdmin")}</p> : data.configured && (mainHost || !mainOrigin) ? <ConnectGoogleButton reconnect /> : null}
+          </div>
+        ))}
       {!data ? (
         <ErrorText message={result.ok ? null : `${result.error.code}: ${result.error.message}`} />
       ) : (
@@ -98,7 +107,10 @@ export default async function GoogleSettingsPage({
                   <tbody className="divide-y divide-border">
                     {data.connections.map((c) => (
                       <tr key={c.id}>
-                        <td className={`${tdClass} font-semibold`}>{c.email}</td>
+                        <td className={`${tdClass} font-semibold`}>
+                          {c.email}
+                          {c.accessLost && <p className="text-xs font-semibold text-bad">{t("google.lostBadge")}</p>}
+                        </td>
                         <td className={tdClass}>{c.connectedBy}</td>
                         <td className={`${tdClass} whitespace-nowrap`}>{tf.dateTime(c.createdAt)}</td>
                         <td className={`${tdClass} whitespace-nowrap`}>{tf.dateTime(c.updatedAt)}</td>

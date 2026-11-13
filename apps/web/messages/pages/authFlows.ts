@@ -26,7 +26,7 @@ export default namespace({
       requestNew: "Ask for a new link",
       failed: "We could not change your password. Try again.",
       done: "Your password has been changed. Sign in with the new password.",
-      mfaNote: "You will still be asked for your two-factor code.",
+      mfaNote: "If two-factor is on for your account, you will still be asked for your code.",
       signIn: "Go to sign in",
     },
     invite: {
@@ -54,7 +54,9 @@ export default namespace({
     },
     setup: {
       title: "Set up two-factor authentication",
-      note: "Two-factor authentication is required for every OpenGMB account.",
+      note: "Two-factor authentication asks for a code from an authenticator app each time you sign in. It is optional, and you can set it up later in Settings.",
+      noteRequired: "Two-factor authentication is required for platform administrators.",
+      skip: "Not now",
       steps: "Steps",
       step: {
         confirm: "Confirm it is you",
@@ -122,7 +124,7 @@ export default namespace({
       requestNew: "नया लिंक माँगें",
       failed: "हम आपका पासवर्ड नहीं बदल सके। फिर कोशिश करें।",
       done: "आपका पासवर्ड बदल दिया गया है। नए पासवर्ड से साइन इन करें।",
-      mfaNote: "आपसे अब भी आपका दो-चरणीय कोड माँगा जाएगा।",
+      mfaNote: "यदि आपके खाते में दो-चरणीय चालू है, तो आपसे अब भी आपका कोड माँगा जाएगा।",
       signIn: "साइन इन पर जाएँ",
     },
     invite: {
@@ -150,7 +152,9 @@ export default namespace({
     },
     setup: {
       title: "दो-चरणीय सत्यापन सेट करें",
-      note: "हर OpenGMB खाते के लिए दो-चरणीय सत्यापन ज़रूरी है।",
+      note: "दो-चरणीय सत्यापन में हर बार साइन इन करते समय ऑथेंटिकेटर ऐप का कोड माँगा जाता है। यह वैकल्पिक है, और आप इसे बाद में सेटिंग में सेट कर सकते हैं।",
+      noteRequired: "प्लेटफ़ॉर्म एडमिन के लिए दो-चरणीय सत्यापन ज़रूरी है।",
+      skip: "अभी नहीं",
       steps: "चरण",
       step: {
         confirm: "पुष्टि करें कि यह आप हैं",
@@ -218,7 +222,7 @@ export default namespace({
       requestNew: "Pedir un enlace nuevo",
       failed: "No pudimos cambiar tu contraseña. Inténtalo de nuevo.",
       done: "Tu contraseña ha cambiado. Inicia sesión con la nueva contraseña.",
-      mfaNote: "Se te seguirá pidiendo tu código de dos factores.",
+      mfaNote: "Si tienes activada la verificación en dos pasos, se te seguirá pidiendo tu código.",
       signIn: "Ir a iniciar sesión",
     },
     invite: {
@@ -246,7 +250,9 @@ export default namespace({
     },
     setup: {
       title: "Configura la verificación en dos pasos",
-      note: "La verificación en dos pasos es obligatoria en todas las cuentas de OpenGMB.",
+      note: "La verificación en dos pasos pide un código de una app de autenticación cada vez que inicias sesión. Es opcional y puedes configurarla más tarde en Ajustes.",
+      noteRequired: "La verificación en dos pasos es obligatoria para los administradores de la plataforma.",
+      skip: "Ahora no",
       steps: "Pasos",
       step: {
         confirm: "Confirma que eres tú",

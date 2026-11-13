@@ -63,6 +63,10 @@ const NAV: { label: string | null; items: Def[] }[] = [
     ],
   },
   {
+    label: "SEO",
+    items: [{ href: "/seo/keywords", label: "Keyword research", icon: "chart", permission: "geogrid:read" }],
+  },
+  {
     label: null,
     items: [{ href: "/agents", label: "AI agents", icon: "bot", permission: "api_token:manage_own" }],
   },

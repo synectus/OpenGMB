@@ -33,6 +33,14 @@ export const BAND_CLASS: Record<Band, string> = {
   pending: "bg-card text-muted-foreground",
 };
 
+/** ON2: the same search on Google Maps centred on a grid point, so a person can check the pin by hand. */
+export function pinMapsUrl(p: { lat: number; lng: number }, keyword: string, zoom: number): string {
+  return `https://www.google.com/maps/search/${encodeURIComponent(keyword)}/@${p.lat.toFixed(4)},${p.lng.toFixed(4)},${zoom}z`;
+}
+
+/** The link's accessible name: the cell's rank text first (so a screen reader still hears the rank), then the Maps hint. */
+export const pinLinkName = (rankText: string, hint: string): string => `${rankText}. ${hint}`;
+
 export function pinLabel(rank: number | null, pending: boolean): string {
   if (pending) return "…";
   if (rank === null || rank > 20) return "20+";

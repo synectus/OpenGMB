@@ -71,5 +71,5 @@ export async function actorContextFor(userId: string) {
   return getActorContext(instance().db, await sessionActor(userId));
 }
 
-/** Unused backup codes for a signed-in user. Only the number leaves the server. */
-export const backupCodesLeft = (userId: string) => countBackupCodes(instance().auth, userId);
+/** Unused backup codes for a signed-in user, or null when they have no two-factor. Only the number leaves the server. */
+export const backupCodesLeft = (userId: string) => countBackupCodes(instance().db, instance().auth, userId);

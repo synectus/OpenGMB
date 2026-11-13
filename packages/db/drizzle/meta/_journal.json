@@ -15,6 +15,27 @@
       "when": 1792899235690,
       "tag": "0001_audit_log_append_only",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794307643460,
+      "tag": "0002_yellow_logan",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794526723026,
+      "tag": "0003_fixed_richard_fisk",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794531276082,
+      "tag": "0004_silly_obadiah_stane",
+      "breakpoints": true
     }
   ]
 }

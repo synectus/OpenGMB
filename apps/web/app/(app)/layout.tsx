@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import {
   AccessError,
   OrgSelectionRequiredError,
+  billingMode,
+  orgRankSource,
   emailConfigured,
   isPlatformAdmin,
   roleHasPermission,
@@ -78,8 +80,11 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   const css = brandCss(branding);
   // The "what is live" badge lists setting names and server internals: platform admins only, decided
   // here so the rows never reach the RSC payload of anyone else. The banner has plain words only.
-  const status = liveStatus(integrationEnv(), emailConfigured(), await pushFacts());
-  const adminStatus = liveStatusForViewer(status, await isPlatformAdmin(getDb(), userId));
+  const platformAdmin = await isPlatformAdmin(getDb(), userId);
+  // Only a platform admin sees these rows, so everyone else's page load does no extra query.
+  const rankLive = platformAdmin && ctx ? (await orgRankSource(getDb(), ctx.organization.id, integrationEnv())) === "live" : undefined;
+  const status = liveStatus(integrationEnv(), emailConfigured(), await pushFacts(), { rankLive, community: billingMode() === "off" });
+  const adminStatus = liveStatusForViewer(status, platformAdmin);
   // AP4: a platform admin looking at a customer's account read-only. Always null in the community edition.
   const viewing = await currentViewAs();
 

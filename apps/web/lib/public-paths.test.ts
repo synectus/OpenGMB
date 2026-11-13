@@ -24,6 +24,14 @@ describe("isPublicPath", () => {
     expect(isPublicPath(`/m/${token.toUpperCase()}`)).toBe(false);
     expect(isPublicPath("/m")).toBe(false);
   });
+  it("the OAuth metadata documents are public; the consent page is not", () => {
+    for (const p of ["/.well-known/oauth-authorization-server", "/.well-known/oauth-protected-resource", "/.well-known/oauth-protected-resource/mcp"]) {
+      expect(isPublicPath(p), p).toBe(true);
+    }
+    for (const p of ["/oauth/consent", "/.well-known/oauth-protected-resource/other", "/.well-known/openid-configuration"]) {
+      expect(isPublicPath(p), p).toBe(false);
+    }
+  });
   it("nothing else", () => {
     for (const p of ["/", "/r", `/r/${T}/other`, `/r/${T}/pdf/x`, "/reviews", "/reports", "/api/healthz", "/sign-in/x", "/reset-password/x", "/forgot-password/x", "/mfa/setup", "/api/reports/x/download"]) {
       expect(isPublicPath(p), p).toBe(false);

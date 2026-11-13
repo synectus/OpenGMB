@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import type { Page } from "@playwright/test";
+import { expect, type Page } from "@playwright/test";
 import { generate } from "otplib";
 import { serverEnv } from "../playwright.config";
 
@@ -24,6 +24,16 @@ export async function hydrated(page: Page) {
 export async function open(page: Page, url: string) {
   await page.goto(url);
   await hydrated(page);
+}
+
+/**
+ * Two-factor is optional (2026-10-30), so sign-up and sign-in land in the app, not on the setup page. Wait for that,
+ * then open the setup page the way the Home card's link does (on the same host as the page, so agency hosts work).
+ */
+export async function openMfaSetup(page: Page) {
+  await page.waitForURL((u) => !/^\/(sign-up|sign-in)/.test(u.pathname));
+  await open(page, new URL("/mfa/setup", page.url()).toString());
+  await expect(page.getByRole("heading", { name: "Set up two-factor authentication" })).toBeVisible();
 }
 
 export const CLIENT = "Rivermoor Dental";

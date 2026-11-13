@@ -271,12 +271,12 @@ describe("members.resetTwoFactor: the real Better-Auth path", () => {
     expect(await a.session()).toBeNull();
     expect(await b.session()).toBeNull();
 
-    // Next sign-in: no TOTP challenge (the flag is off), and the gate sends U to setup.
+    // Next sign-in: no TOTP challenge (the flag is off), and a non-admin U is not locked out (two-factor is optional).
     const c = new Client();
     const again = await c.post("/sign-in/email", { email, password });
     expect(again.res.status).toBe(200);
     expect(again.json?.twoFactorRedirect).toBeUndefined();
-    expect(gate(await c.session())).toBe("MFA_REQUIRED");
+    expect(gate(await c.session())).toBe("ok");
 
     // The old authenticator and backup codes are gone; a fresh enrolment works.
     const fresh = await c.post("/two-factor/enable", { password });

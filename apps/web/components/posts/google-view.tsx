@@ -64,7 +64,7 @@ export async function GoogleView({
       <form method="get" className="flex flex-wrap items-end gap-3">
         <input type="hidden" name="view" value="google" />
         {carry && <input type="hidden" name="ws" value={carry} />}
-        <label className="flex flex-col gap-1 text-xs font-semibold text-muted-foreground">
+        <label className="flex max-w-full flex-col gap-1 text-xs font-semibold text-muted-foreground">
           {t("ggl.location")}
           <select name="loc" defaultValue={current.id} className={filterFieldClass}>
             {locations.map((l) => (

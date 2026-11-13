@@ -340,6 +340,18 @@ describe("google connect flow", () => {
     expect(JSON.stringify(upd)).not.toContain("SECOND");
   });
 
+  it("reconnecting the same Google account clears a lost-access flag (OPS3)", async () => {
+    resetFake();
+    useFake();
+    const orgId = await makeOrg(db);
+    const owner = await makeMember(db, orgId, "owner");
+    const first = await connectOnce(owner);
+    await db.update(googleConnections).set({ accessLostAt: new Date() }).where(eq(googleConnections.id, first.connectionId));
+    await connectOnce(owner);
+    const [row] = await db.select().from(googleConnections).where(eq(googleConnections.id, first.connectionId));
+    expect(row!.accessLostAt).toBeNull();
+  });
+
   it("a different Google account in the same org gets its own row", async () => {
     resetFake();
     useFake();

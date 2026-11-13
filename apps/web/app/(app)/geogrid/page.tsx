@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { roleHasPermission, type locationsList, type geogridSettingsGet, integrationEnv } from "@opengmb/core";
+import { billingMode, orgRankSource, roleHasPermission, type locationsList, type geogridSettingsGet, integrationEnv } from "@opengmb/core";
 import { BudgetPanel } from "../../../components/rank-tracking/budget-panel";
 import { TrackerSetupForm } from "../../../components/rank-tracking/tracker-setup-form";
 import { StaffMessages } from "../../../components/rank-tracking/staff-messages";
@@ -11,14 +11,14 @@ import { UsageAndKeyView } from "../../../components/rank-tracking/usage-and-key
 import { TabLinks } from "../../../components/page-parts";
 import { PageHeader } from "../../../components/ui";
 import { locationLabel } from "../../../lib/locations";
-import { actorContextFor } from "../../../lib/auth";
+import { SampleKeyHelpProvider } from "../../../components/rank-tracking/sample-key-help";
+import { actorContextFor, getDb } from "../../../lib/auth";
 import { requireUser } from "../../../lib/guard";
 import {
   geogridHref,
   isUuid,
   mapsBrowserKey,
   parseView,
-  rankDataIsSample,
   VIEWS,
 } from "../../../lib/rank-tracking";
 import { geogrid_settings_get, locations_list } from "../../_generated/actions";
@@ -29,7 +29,7 @@ type Search = { view?: string; config?: string; run?: string; keyword?: string }
 export default async function GeogridPage({ searchParams }: { searchParams: Promise<Search> }) {
   const t = await getTranslations("geogrid");
   const { userId } = await requireUser();
-  const { role } = await actorContextFor(userId);
+  const { role, organization } = await actorContextFor(userId);
   const sp = await searchParams;
   const canManage = roleHasPermission(role, "geogrid:manage");
   const canAdmin = roleHasPermission(role, "google:manage");
@@ -37,6 +37,8 @@ export default async function GeogridPage({ searchParams }: { searchParams: Prom
   const canCost = roleHasPermission(role, "geogrid:cost");
   const requested = parseView(sp.view);
   const view = (requested === "new" && !canManage) || (requested === "usage" && !canCost) ? "trackers" : requested;
+  // Sample data unless the server has a key or this organization saved its own (an own key is live even with no server key).
+  const sample = (await orgRankSource(getDb(), organization.id, integrationEnv())) !== "live";
   const missingKeyHint = canAdmin ? t("page.mapMissingAdmin") : t("page.mapMissingOther");
   const tabs = VIEWS.filter((v) => (v.key !== "new" || canManage) && (v.key !== "usage" || canCost));
 
@@ -50,10 +52,10 @@ export default async function GeogridPage({ searchParams }: { searchParams: Prom
           canCost={canCost}
           apiKey={mapsBrowserKey(integrationEnv())}
           missingKeyHint={missingKeyHint}
-          sample={rankDataIsSample(integrationEnv())}
+          sample={sample}
         />
       )}
-      {view === "keywords" && <KeywordRankView canManage={canManage} sample={rankDataIsSample(integrationEnv())} />}
+      {view === "keywords" && <KeywordRankView canManage={canManage} sample={sample} />}
       {view === "competitors" && (
         <CompetitorsView configParam={isUuid(sp.config) ? sp.config : undefined} keywordParam={sp.keyword} />
       )}
@@ -64,10 +66,10 @@ export default async function GeogridPage({ searchParams }: { searchParams: Prom
           canManage={canManage}
           apiKey={mapsBrowserKey(integrationEnv())}
           missingKeyHint={missingKeyHint}
-          sample={rankDataIsSample(integrationEnv())}
+          sample={sample}
         />
       )}
-      {view === "new" && <NewTrackerView canAdmin={canAdmin} sample={rankDataIsSample(integrationEnv())} />}
+      {view === "new" && <NewTrackerView canAdmin={canAdmin} sample={sample} />}
       {view === "usage" && <UsageAndKeyView canAdmin={canAdmin} />}
     </>
   );
@@ -84,7 +86,9 @@ export default async function GeogridPage({ searchParams }: { searchParams: Prom
       />
       {/* Everything below that can show budget, markup or charged text sits inside StaffMessages for
           roles with geogrid:cost (the same roles as geogrid:manage); clients never receive those strings. */}
-      {canCost ? <StaffMessages>{views}</StaffMessages> : views}
+      <SampleKeyHelpProvider value={canAdmin && sample ? { env: billingMode() === "off" } : null}>
+        {canCost ? <StaffMessages>{views}</StaffMessages> : views}
+      </SampleKeyHelpProvider>
     </div>
   );
 }

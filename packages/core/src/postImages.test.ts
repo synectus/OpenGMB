@@ -152,9 +152,12 @@ describe("POST /api/post-images handler", () => {
   const call = (r: Request, s: ReturnType<typeof session> | null) =>
     handlePostImageUpload(r, { db, getSession: async () => s });
 
-  it("401 without a session, 403 without MFA, 201 with the image, 400 on a GIF or no file", async () => {
+  it("401 without a session, 403 for a platform admin without MFA, 201 with the image, 400 on a GIF or no file", async () => {
     expect((await call(req(png(800, 600)), null)).status).toBe(401);
+    // Two-factor is optional except for platform admins (PLATFORM_ADMIN_EMAILS).
+    vi.stubEnv("PLATFORM_ADMIN_EMAILS", session(org.ownerId, false).user.email);
     expect((await call(req(png(800, 600)), session(org.ownerId, false))).status).toBe(403);
+    vi.unstubAllEnvs();
     const ok = await call(req(png(800, 600)), session(org.ownerId, true));
     expect(ok.status).toBe(201);
     const body = (await ok.json()) as { ok: boolean; image: { id: string; url: string } };

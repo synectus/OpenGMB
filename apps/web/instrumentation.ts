@@ -46,9 +46,14 @@ export async function register() {
 }
 
 // Next calls this for every unhandled error while rendering or handling a request.
-export async function onRequestError(err: unknown) {
+export async function onRequestError(
+  err: unknown,
+  request?: { headers?: Record<string, string | string[] | undefined> },
+) {
   if (process.env.NEXT_RUNTIME !== "nodejs") return;
   try {
+    const { isServerActionProbe } = await import("./lib/bot-probe");
+    if (isServerActionProbe(err, request)) return;
     const { recordError, toErrorInfo } = await import("@opengmb/core");
     const { getDb } = await import("./lib/auth");
     await recordError(getDb(), "web", toErrorInfo(err));

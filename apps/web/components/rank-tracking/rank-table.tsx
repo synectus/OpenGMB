@@ -5,6 +5,8 @@ import {
   heatRows,
   legendFor,
   pinLabel,
+  pinLinkName,
+  pinMapsUrl,
   pinTitle,
   type MapPoint,
 } from "../../lib/rank-map";
@@ -40,11 +42,16 @@ export function RankTable({
   points,
   size,
   targetName,
+  keyword,
+  zoom,
   open,
 }: {
   points: MapPoint[];
   size: number;
   targetName: string;
+  /** The searched keyword and the Maps zoom the scan used: each cell links to the same search on Google Maps. */
+  keyword: string;
+  zoom: number;
   open: boolean;
 }) {
   const t = useTranslations("geogrid");
@@ -63,7 +70,15 @@ export function RankTable({
                   title={pinTitle(p, size, targetName, t)}
                   className={`size-9 rounded text-center text-xs font-bold tabular-nums ${BAND_CLASS[bandOf(p.rank, p.pending)]} ${p.pending ? "border border-dashed border-input" : ""}`}
                 >
-                  {pinLabel(p.rank, p.pending)}
+                  <a
+                    href={pinMapsUrl(p, keyword, zoom)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={pinLinkName(pinTitle(p, size, targetName, t), t("table.checkPin", { row: p.row + 1, col: p.col + 1 }))}
+                    className="flex size-9 items-center justify-center rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  >
+                    {pinLabel(p.rank, p.pending)}
+                  </a>
                 </td>
               ))}
             </tr>

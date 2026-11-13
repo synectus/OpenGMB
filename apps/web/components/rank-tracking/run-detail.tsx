@@ -1,3 +1,4 @@
+import { GEOGRID_DEFAULTS } from "@opengmb/core";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -156,7 +157,7 @@ export function RunDetail({
             sample={sampleRun}
           />
           <RankLegend points={detail.points} />
-          <RankTable points={detail.points} size={detail.gridSize} targetName={config.targetName} open={apiKey === null} />
+          <RankTable points={detail.points} size={detail.gridSize} targetName={config.targetName} keyword={run.keyword} zoom={GEOGRID_DEFAULTS.mapsZoom} open={apiKey === null} />
           <p className="text-xs text-muted-foreground">
             {t("run.averageNote")}
           </p>

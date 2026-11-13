@@ -446,7 +446,7 @@ export async function insertDraft(
 export const postsCreateDraft = defineAction({
   name: "posts.createDraft",
   description:
-    "Create a draft Google Business Profile post for one or more locations of a workspace. topicType STANDARD (summary, optional CTA and one image), EVENT (event title + start/end dates, times optional), OFFER (event plus optional couponCode, redeemOnlineUrl, termsConditions; Google ignores a CTA on offers) or ALERT (alertType COVID_19; Google has disabled new COVID_19 alerts). callToAction actionType BOOK, ORDER, SHOP, LEARN_MORE, SIGN_UP (all need an https url) or CALL (no url; uses the location's phone). media: one image by URL (uploads are not built yet). Do not put phone numbers in the summary. The draft is not sent anywhere: call posts.submit, which runs the guardrails. Content problems do not fail this call; posts.check shows them. language: the post's language, a BCP 47 code (en, es, fr, de, it, pt, nl, vi, zh, ko, ja, ar, hi, gu); omitted = the workspace's default post language (workspaces.list defaultPostLanguage). Sent to Google as languageCode. A bilingual post is two posts. scheduledFor (optional, ISO datetime with offset, not in the past) is the send time picked in Compose: it is only remembered on the draft and shown to the approver, nothing is sent until posts.schedule.",
+    "Create a draft Google Business Profile post for one or more locations of a workspace. topicType STANDARD (summary, optional CTA and one image), EVENT (event title + start/end dates, times optional), OFFER (event plus optional couponCode, redeemOnlineUrl, termsConditions; Google ignores a CTA on offers) or ALERT (alertType COVID_19; Google has disabled new COVID_19 alerts). callToAction actionType BOOK, ORDER, SHOP, LEARN_MORE, SIGN_UP (all need an https url) or CALL (no url; uses the location's phone). media: one image by URL (uploads are not built yet). Do not put phone numbers in the summary. The draft is not sent anywhere: call posts.submit, which runs the guardrails. Content problems do not fail this call; posts.check shows them. language: the post's language, a BCP 47 code (en, es, fr, de, it, pt, nl, vi, zh, ko, ja, ar, hi, gu); omitted = the workspace's default post language (workspaces.list defaultPostLanguage). Sent to Google as languageCode. A bilingual post is two posts. scheduledFor (optional, ISO datetime with offset, not in the past) is the send time picked in Compose: it is only remembered on the draft and shown to the approver, nothing is sent until a person schedules the post in OpenGMB.",
   input: createDraftInput,
   output: z.object({ post: postOut }),
   permission: "review:draft",
@@ -783,7 +783,7 @@ export const postsSchedule = defineAction({
 export const postsCancel = defineAction({
   name: "posts.cancel",
   description:
-    "Cancel a post that has not been sent: draft, blocked, pending_approval, approved or scheduled (a recurring series stops; posts already published stay on Google, use posts.deletePublished to remove them). A post that is being sent right now (publishing) cannot be cancelled: CONFLICT.",
+    "Cancel a post that has not been sent: draft, blocked, pending_approval, approved or scheduled (a recurring series stops; posts already published stay on Google, a person removes them in OpenGMB). A post that is being sent right now (publishing) cannot be cancelled: CONFLICT.",
   input: z.object({ id: z.uuid() }),
   output: z.object({ post: postOut }),
   permission: "review:publish",

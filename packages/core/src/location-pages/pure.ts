@@ -15,33 +15,75 @@ const DAY_LABEL: Record<string, string> = {
 };
 
 type Tod = { hours?: number; minutes?: number } | undefined;
-function clock(t: Tod): string {
-  const h = t?.hours ?? 0;
-  const m = t?.minutes ?? 0;
+type Period = { openDay: string; openTime?: Tod; closeDay?: string; closeTime?: Tod };
+const DAY_MIN = 1440;
+/** Google omits zero fields, so `{}` is 00:00 and `{ hours: 24 }` is 24:00. */
+const minutes = (t: Tod) => (t?.hours ?? 0) * 60 + (t?.minutes ?? 0);
+function clock(m: number): string {
+  const h = Math.floor((m % DAY_MIN) / 60);
   const h12 = h % 12 === 0 ? 12 : h % 12;
-  return `${h12}:${String(m).padStart(2, "0")} ${h % 24 >= 12 ? "PM" : "AM"}`;
+  return `${h12}:${String(m % 60).padStart(2, "0")} ${h >= 12 ? "PM" : "AM"}`;
+}
+
+/** One opening window on a day. `end` counts minutes from that day's midnight and runs past 1440 when it ends on a later day. */
+type Win = { start: number; end: number; all?: boolean };
+const isAllDay = (w: Win) => w.all === true;
+
+/**
+ * Opening windows per day (index 0 = Monday). Google splits an overnight shift at midnight, so a window that
+ * ends at midnight and one that starts at 00:00 the next day (Sunday wraps to Monday) become one window on the first day.
+ */
+function weekWindows(regularHours: unknown): Win[][] {
+  const periods = ((regularHours as { periods?: Period[] } | null)?.periods ?? []);
+  const week = GOOGLE_DAYS.filter((d) => d in DAY_LABEL) as string[];
+  const days: Win[][] = week.map(() => []);
+  for (const p of periods) {
+    const i = week.indexOf(p.openDay);
+    if (i < 0) continue;
+    const start = minutes(p.openTime);
+    const gap = p.closeDay && week.includes(p.closeDay) ? (week.indexOf(p.closeDay) - i + 7) % 7 : 0;
+    let end = minutes(p.closeTime) + DAY_MIN * gap;
+    if (end === start) {
+      days[i]!.push({ start: 0, end: DAY_MIN, all: true });
+      continue;
+    }
+    if (end < start) end += DAY_MIN;
+    // A period that runs past midnight is cut into one piece per day; the merge pass below joins the pieces that continue a shift.
+    for (let cur = start, n = 0; cur < end && n < 8; n++) {
+      const d = Math.floor(cur / DAY_MIN);
+      const pieceEnd = Math.min(end, (d + 1) * DAY_MIN);
+      const w: Win = { start: cur - d * DAY_MIN, end: pieceEnd - d * DAY_MIN };
+      if (w.start === 0 && w.end === DAY_MIN) w.all = true;
+      days[(i + d) % 7]!.push(w);
+      cur = pieceEnd;
+    }
+  }
+  for (let i = 0; i < 7; i++) {
+    for (const w of days[i]!) {
+      if (isAllDay(w) || w.end % DAY_MIN !== 0) continue;
+      const next = (i + w.end / DAY_MIN) % 7;
+      const j = days[next]!.findIndex((n) => n !== w && n.start === 0 && !isAllDay(n) && n.end <= DAY_MIN && w.end + n.end - w.start < DAY_MIN);
+      if (j < 0) continue;
+      w.end += days[next]![j]!.end;
+      days[next]!.splice(j, 1);
+    }
+  }
+  for (const d of days) d.sort((a, b) => a.start - b.start);
+  return days;
 }
 
 /** Monday to Sunday, one row each. A day without a period reads "Closed"; a 24-hour day reads "Open 24 hours". */
 export function hoursRows(regularHours: unknown): HoursRow[] {
-  const periods = ((regularHours as { periods?: unknown[] } | null)?.periods ?? []) as {
-    openDay: string; openTime?: Tod; closeDay: string; closeTime?: Tod;
-  }[];
+  const periods = ((regularHours as { periods?: unknown[] } | null)?.periods ?? []);
   if (periods.length === 0) return [];
   const week = GOOGLE_DAYS.filter((d) => d in DAY_LABEL);
-  return week.map((d) => {
-    const mine = periods.filter((p) => p.openDay === d);
-    const text = mine.length === 0
+  const days = weekWindows(regularHours);
+  return week.map((d, i) => ({
+    day: DAY_LABEL[d]!,
+    text: days[i]!.length === 0
       ? "Closed"
-      : mine
-          .map((p) => {
-            const o = clock(p.openTime);
-            const c = clock(p.closeTime);
-            return o === c ? "Open 24 hours" : `${o} to ${c}`;
-          })
-          .join(", ");
-    return { day: DAY_LABEL[d]!, text };
-  });
+      : days[i]!.map((w) => (isAllDay(w) ? "Open 24 hours" : `${clock(w.start)} to ${clock(w.end)}`)).join(", "),
+  }));
 }
 
 /** `categories/gcid:physical_therapist` becomes "Physical therapist". Anything else is shown as given. */
@@ -87,23 +129,23 @@ export type PageData = {
 };
 
 const DAY_SCHEMA: Record<string, string> = Object.fromEntries(Object.entries(DAY_LABEL).map(([k, v]) => [k, `https://schema.org/${v}`]));
-const hhmm = (t: Tod) => `${String(t?.hours ?? 0).padStart(2, "0")}:${String(t?.minutes ?? 0).padStart(2, "0")}`;
+const hhmm = (m: number) => {
+  const t = m === DAY_MIN ? m : m % DAY_MIN;
+  return `${String(Math.floor(t / 60)).padStart(2, "0")}:${String(t % 60).padStart(2, "0")}`;
+};
 
 /** schema.org LocalBusiness for the page. Only fields we hold; empty ones are left out. */
 export function localBusinessJsonLd(d: PageData, pageUrl: string, regularHours: unknown): Record<string, unknown> {
-  const periods = ((regularHours as { periods?: unknown[] } | null)?.periods ?? []) as {
-    openDay: string; openTime?: Tod; closeTime?: Tod;
-  }[];
+  const week = weekWindows(regularHours);
   const out: Record<string, unknown> = { "@context": "https://schema.org", "@type": "LocalBusiness", "@id": `${pageUrl}#business`, name: d.name, url: pageUrl };
   if (d.description) out.description = d.description;
   if (d.address) out.address = d.address;
   if (d.phone) out.telephone = d.phone;
   if (d.website) out.sameAs = [d.website];
-  if (periods.length) {
-    out.openingHoursSpecification = periods
-      .filter((p) => DAY_SCHEMA[p.openDay])
-      .map((p) => ({ "@type": "OpeningHoursSpecification", dayOfWeek: DAY_SCHEMA[p.openDay], opens: hhmm(p.openTime), closes: hhmm(p.closeTime) }));
-  }
+  const specs = GOOGLE_DAYS.flatMap((day, i) =>
+    DAY_SCHEMA[day] ? week[i]!.map((w) => ({ "@type": "OpeningHoursSpecification", dayOfWeek: DAY_SCHEMA[day], opens: hhmm(w.start), closes: hhmm(w.end) })) : [],
+  );
+  if (specs.length) out.openingHoursSpecification = specs;
   if (d.rating !== null && d.reviewCount > 0) {
     out.aggregateRating = { "@type": "AggregateRating", ratingValue: d.rating, reviewCount: d.reviewCount, bestRating: 5, worstRating: 1 };
   }
